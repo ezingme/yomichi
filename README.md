@@ -6,7 +6,7 @@
 
 ## What works
 
-- Ichiran engine: Ichiran's scoring, segmentation, suffix grammar, counters, kana hints, errata and romanization, ported to TypeScript. It runs over an Ichiran-model dataset that `npm run import:ichiran` builds from JMdict (with optional KANJIDIC2), or that `npm run import:ichiran-db` copies from an Ichiran database. Alternatively, `ICHIRAN_DATABASE_URL` points it at an existing Ichiran PostgreSQL database read in place. Ichiran's own JSON is available under `/v1/ichiran/*`.
+- Ichiran engine: Ichiran's scoring, segmentation, suffix grammar, counters, kana hints, errata and romanization, ported to TypeScript. It reads an Ichiran PostgreSQL database directly (`ICHIRAN_DATABASE_URL`), or a dataset that `npm run import:ichiran-db` copies from one or that `npm run import:ichiran` builds from JMdict (with optional KANJIDIC2). Ichiran's own JSON is available under `/v1/ichiran/*`.
 - Dictionary-driven segmentation with up to five ranked paths; reading/entry alternatives per token.
 - Original UTF-16 offsets, whitespace preservation, forced boundaries and explicit unknown text.
 - Modern productive verb/adjective/copula paradigms (23 POS labels), secondary conjugations, bounded auxiliary chains and contractions, with nested components.
@@ -21,7 +21,9 @@
 
 ## Quick start
 
-Requires **Node.js 22.9+** and PostgreSQL 16+ (Docker is convenient). A dictionary must be imported before sentence analysis works. No Python, Lisp or Rust service is required.
+Requires **Node.js 22.9+** and **PostgreSQL 16+** (Docker is convenient). No Python, Lisp or Rust service is required. The recommended setup connects Yomichi to an Ichiran PostgreSQL database, so no dictionary build is needed.
+
+### 1. Install and start PostgreSQL
 
 ```sh
 git clone https://github.com/ezingme/yomichi.git
@@ -30,38 +32,70 @@ npm ci
 cp .env.example .env
 docker compose up -d db
 npm run db:migrate
+```
+
+### 2. Connect an Ichiran database (recommended)
+
+Download Ichiran's release database. The dump is about 200 MB and about 3.7 GB once restored. Restore it as a second database on the same server:
+
+```sh
 mkdir -p data
+curl -L -o data/ichiran-260118.pgdump \
+  https://github.com/tshatrov/ichiran/releases/download/ichiran-260118/ichiran-260118.pgdump
+sha256sum data/ichiran-260118.pgdump
+# 98a44e2cc88a65677da8b1f7124e7d6c904253eb1aae0ef16d2c7cc1dacdba82
+docker compose exec -T db createdb -U yomichi ichiran
+docker compose exec -T db psql -U yomichi -d ichiran -c 'DROP SCHEMA public'
+docker compose exec -T db pg_restore -U yomichi --no-owner --no-acl -d ichiran < data/ichiran-260118.pgdump
 ```
 
-Obtain JMdict from [EDRDG](https://www.edrdg.org/jmdict/j_jmdict.html), review its data licence and save the XML/gzip file under `data/`. For English glosses the upstream file is `https://www.edrdg.org/pub/Nihongo/JMdict_e.gz`. The multilingual `JMdict.gz` can be imported instead; available gloss languages depend on the source, not the interface language.
+Dropping the empty `public` schema first avoids a conflict with the schema in the dump. `--no-owner --no-acl` skips the `ichiran` role, which does not exist here. Then set in `.env`:
 
 ```sh
-# Ichiran engine (about 1.5 minutes and 4.3 GB of RAM to build; about 6.8 GB in PostgreSQL)
-npm run import:ichiran -- data/JMdict_e.gz 2026-10-19 --kanjidic data/kanjidic2.xml.gz
-# Word search, entry and kanji endpoints, and the legacy engine
-npm run import:jmdict -- data/JMdict_e.gz 2026-10-19
-# Optional: download KANJIDIC2 from EDRDG, then:
-npm run import:kanji -- data/kanjidic2.xml.gz 2026-10-19
+ICHIRAN_DATABASE_URL=postgresql://yomichi:yomichi-local@localhost:5432/ichiran
+ICHIRAN_DATABASE_VERSION=ichiran-260118
+```
+
+If you already run Ichiran, point `ICHIRAN_DATABASE_URL` at its database instead.
+
+How Yomichi uses this database:
+
+- It is read in place over read-only connections.
+- `DATABASE_URL` is still needed: it holds Yomichi's own schema and the optional datasets below.
+- Equal-score results are ordered by the database's physical row order, as in Ichiran. Do not run `VACUUM FULL`, `CLUSTER` or updates on it.
+- The release database is the one used for the [recorded comparison](docs/ICHIRAN-PORT.md) with live Ichiran.
+- Its dictionary content comes from EDRDG's JMdict and KANJIDIC and remains under [EDRDG terms](https://www.edrdg.org/edrdg/licence.html).
+
+### 3. Start
+
+```sh
 npm run dev
-```
-
-With an `ichiran` dataset active, `/v1/analyze` uses the Ichiran engine. Otherwise it uses the legacy engine over the `import:jmdict` dataset.
-
-You can also use an existing Ichiran database (for example a restored [release dump](https://github.com/tshatrov/ichiran/releases)) without importing it:
-
-```sh
-ICHIRAN_DATABASE_URL=postgresql://user:pass@host/ichiran ICHIRAN_DATABASE_VERSION=ichiran-260118 npm run dev
-```
-
-In this mode the Ichiran engine reads that database in place, over read-only connections, and takes precedence over any imported `ichiran` dataset. `DATABASE_URL` is still required for the other endpoints. Ties between equal-score results follow the database's physical row order, as in Ichiran, so do not run `VACUUM FULL`, `CLUSTER` or updates on it. Switching databases is a configuration change, not an atomic activation; use `import:ichiran-db` when you need versioned snapshots and rollback.
-
-In another terminal:
-
-```sh
+# in another terminal
 npm run playground
+curl http://localhost:3000/readyz
 ```
 
-Open **http://localhost:5173**. API docs: **http://localhost:3000/docs**. The dev frontend proxies API requests to port 3000. `.env` is loaded by the root scripts; change the example database password before exposing any service.
+Open **http://localhost:5173**. API docs are at **http://localhost:3000/docs**. The dev frontend proxies API requests to port 3000. The root scripts load `.env`. Change the example database password before exposing any service.
+
+### Other ways to provide data
+
+All of these use the PostgreSQL database configured by `DATABASE_URL`. Imports run in a transaction and activate atomically; old versions remain available for rollback.
+
+| Goal                                                                                | Command                                                                                                               |
+| ----------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| Copy an Ichiran database into Yomichi, with versioning and rollback (about 6.75 GB) | `npm run import:ichiran-db -- postgres://…/ichiran ichiran-260118`                                                    |
+| Build the Ichiran model from a newer JMdict (about 1.5 minutes and 4.3 GB of RAM)   | `npm run import:ichiran -- data/JMdict_e.gz 2026-10-19 --kanjidic data/kanjidic2.xml.gz`                              |
+| Word search, `/v1/words/*` and `/v1/kanji/*` endpoints, legacy engine               | `npm run import:jmdict -- data/JMdict_e.gz 2026-10-19` and `npm run import:kanji -- data/kanjidic2.xml.gz 2026-10-19` |
+
+Obtain JMdict and KANJIDIC2 from [EDRDG](https://www.edrdg.org/jmdict/j_jmdict.html) and review their data licence. For English glosses, use `https://www.edrdg.org/pub/Nihongo/JMdict_e.gz`. The multilingual `JMdict.gz` also works; which gloss languages you get depends on the source file, not on the interface language.
+
+Engine selection:
+
+1. `ICHIRAN_DATABASE_URL`, if set.
+2. Otherwise the active imported `ichiran` dataset.
+3. Otherwise the legacy engine over the `import:jmdict` dataset.
+
+`"engine": "legacy"` in a request forces the legacy engine.
 
 ## API
 
@@ -71,17 +105,17 @@ curl http://localhost:3000/v1/analyze \
   --data '{"text":"猫は魚を食べました。","limit":3,"romanization":"hepburn"}'
 ```
 
-| Endpoint                             | Description                                                                                                   |
-| ------------------------------------ | ------------------------------------------------------------------------------------------------------------- |
-| `POST /v1/analyze`                   | Dictionary analysis; `limit` 1–5, `romanization`, `includeGlosses`, `includeConjugation`, `segmentationHints`, `engine` (`auto`, `ichiran`, `legacy`) |
-| `POST /v1/reading`                   | Reading extraction; `mode: "kana"` converts katakana only without dictionary analysis                         |
-| `POST /v1/romanize`                  | Kana conversion or full analysis; `romanization: "hepburn"` or `"kunrei"`                                     |
-| `GET /v1/words/search?q=食&limit=20` | Prefix search of dictionary spellings/readings, max 50                                                        |
-| `GET /v1/words/:seq`                 | JMdict entry with original restrictions and gloss language tags                                               |
-| `GET /v1/kanji/:char`                | KANJIDIC2 details, requires separate import                                                                   |
-| `POST /v1/ichiran/segment`, `/romanize`, `/match-readings`; `GET /v1/ichiran/word`, `/kanji/:char` | Ichiran's `romanize*`, `romanize`, `match-readings-json`, `find-word-info-json` and `kanji-info-json` output |
-| `GET /healthz`, `GET /readyz`        | Process liveness and dictionary readiness                                                                     |
-| `GET /openapi.json`, `GET /docs`     | API schema and interactive documentation                                                                      |
+| Endpoint                                                                                           | Description                                                                                                                                           |
+| -------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `POST /v1/analyze`                                                                                 | Dictionary analysis; `limit` 1–5, `romanization`, `includeGlosses`, `includeConjugation`, `segmentationHints`, `engine` (`auto`, `ichiran`, `legacy`) |
+| `POST /v1/reading`                                                                                 | Reading extraction; `mode: "kana"` converts katakana only without dictionary analysis                                                                 |
+| `POST /v1/romanize`                                                                                | Kana conversion or full analysis; `romanization: "hepburn"` or `"kunrei"`                                                                             |
+| `GET /v1/words/search?q=食&limit=20`                                                               | Prefix search of dictionary spellings/readings, max 50                                                                                                |
+| `GET /v1/words/:seq`                                                                               | JMdict entry with original restrictions and gloss language tags                                                                                       |
+| `GET /v1/kanji/:char`                                                                              | KANJIDIC2 details, requires separate import                                                                                                           |
+| `POST /v1/ichiran/segment`, `/romanize`, `/match-readings`; `GET /v1/ichiran/word`, `/kanji/:char` | Ichiran's `romanize*`, `romanize`, `match-readings-json`, `find-word-info-json` and `kanji-info-json` output                                          |
+| `GET /healthz`, `GET /readyz`                                                                      | Process liveness and dictionary readiness                                                                                                             |
+| `GET /openapi.json`, `GET /docs`                                                                   | API schema and interactive documentation                                                                                                              |
 
 Maximum sentence length: 500 Unicode code points. Offsets/hints are **UTF-16 code units** into the unmodified input: `input.slice(token.start, token.end)` reconstructs every token. Hints may include text start/end but cannot split a surrogate pair. Scores are heuristic ranks, **not probabilities**. Top-K refers to segmentation paths; lexical alternatives are attached to each word. Unknown readings are `null`, never guessed. `components` contains recursive grammatical components where a productive rule was used. Grammar-only components have no invented dictionary ID or gloss; fused counter readings may have `null` component readings. Search is bounded (three compound layers, finite candidate beam), so arbitrary-depth or exact global scoring parity is not promised. Conjugation labels are English in this alpha.
 
@@ -116,7 +150,7 @@ const result = await api.analyze({ text: "猫は魚を食べました。", limit
 
 `npm run build` emits each package under `packages/*/dist` and the static site under `apps/playground/dist`. Serve the frontend on a static host. Set `VITE_API_BASE_URL=https://your-api.example` **at frontend build time**, and add that frontend origin to backend `CORS_ORIGINS`. With a reverse proxy on the same origin, leave `VITE_API_BASE_URL` unset and route `/v1`, `/readyz`, `/docs`, `/openapi.json` to the API. SPA fallback to `index.html` is only needed if you add client-side routes.
 
-`docker compose up --build api` runs the API after the database. Initialize schema/import from the host as above, or run the corresponding root script in the built image. Database data persists in the Compose volume; source dictionaries are a read-only mount. The image includes import tooling, so it is a functional baseline rather than a size-optimized runtime image.
+`docker compose up --build api` runs the API after the database. Inside Compose the database host is `db`, so set `ICHIRAN_DATABASE_URL=postgresql://yomichi:…@db:5432/ichiran` for the `api` service. Initialize schema/import from the host as above, or run the corresponding root script in the built image. Database data persists in the Compose volume; source dictionaries are a read-only mount. The image includes import tooling, so it is a functional baseline rather than a size-optimized runtime image.
 
 Use a reverse proxy for TLS and deployment-level request limits. Bindings in Compose are localhost-only. `API_KEY` protects `/v1/*`; **never embed a private key in `VITE_*` or frontend JavaScript**. A public Playground needs a rate-limited public endpoint or a server-side proxy with its own quotas. Default IP rate limiting trusts the socket address, not arbitrary forwarding headers; configure your trusted edge deliberately. Input text is not logged by the application.
 
@@ -139,7 +173,7 @@ npm run parity:jmdict  # data/JMdict_e.gz; streams the full source, retains only
 npm run parity -- --database  # evaluates an actually imported PostgreSQL snapshot
 ```
 
-The full-source evaluator writes `data/parity-full.jsonl` and reports checksums, scan counts and segmentation metrics. `--reuse-index` verifies source/morphology/corpus fingerprints before reuse. Published upstream expectations are distinct from a live Ichiran oracle; no original Lisp runtime was executed here. Full PostgreSQL ingestion, operational performance and dictionary-size claims require separate measurements.
+The full-source evaluator writes `data/parity-full.jsonl` and reports checksums, scan counts and segmentation metrics. `--reuse-index` verifies source/morphology/corpus fingerprints before reuse. These scripts evaluate the legacy engine against published upstream expectations. Comparisons of the Ichiran engine against live Ichiran output, with their setup and reproduction commands, are in [ICHIRAN-PORT.md](docs/ICHIRAN-PORT.md).
 
 ## Validation and limitations
 
@@ -153,7 +187,7 @@ node --env-file-if-exists=.env --import tsx scripts/compare.ts path/to/corpus.js
 
 Tests exercise the actual parser, importer, SQL repository, core and HTTP handlers. The Ichiran engine tests use verbatim JMdict and KANJIDIC2 subsets (`tests/fixtures/*-ichiran-subset.xml`) and check results recorded with the complete dictionary. Portable SQL integration uses PGlite (PostgreSQL WASM), not a mock database. PostgreSQL deployment/load testing remains distinct. Benchmark output identifies dictionary version, Node version, CPU time, RSS and sequential latency. It excludes database CPU/RSS and is not a throughput claim.
 
-Comparison corpus format: `[{"text":"猫は魚。","tokens":["猫","は","魚","。"],"source":"human-reviewed"}]`. Supply independently captured Ichiran/Himotoki/human references. The comparison reports boundaries; it cannot establish reading/gloss accuracy or decide which side of a mismatch is correct. No upstream engine was run as part of the initial build.
+Comparison corpus format: `[{"text":"猫は魚。","tokens":["猫","は","魚","。"],"source":"human-reviewed"}]`. Supply independently captured Ichiran/Himotoki/human references. The comparison reports boundaries; it cannot establish reading/gloss accuracy or decide which side of a mismatch is correct.
 
 See [Ichiran port and recorded comparisons](docs/ICHIRAN-PORT.md), [verification notes](docs/VERIFICATION.md), [parity roadmap](docs/ROADMAP.md) and [source/data notices](NOTICE.md).
 
