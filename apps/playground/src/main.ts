@@ -65,7 +65,12 @@ function translate() {
     $("tab-" + m).setAttribute("aria-selected", String(mode === m));
   }
   $("tool").hidden = mode !== "tools";
-  $("scheme").hidden = mode !== "analyze" && mode !== "tools";
+  $("scheme").hidden =
+    mode !== "analyze" &&
+    !(mode === "tools" && $<HTMLSelectElement>("tool").value === "romanize");
+  $("annotation").hidden = mode !== "analyze";
+  $("hint").hidden = mode === "tools";
+  document.querySelector<HTMLElement>(".examples")!.hidden = mode === "tools";
   $("scheme-label").hidden = $("scheme").hidden;
   $("scheme-label").textContent = t().scheme;
   [t().romanizeTool, t().kanaTool, t().numberTool, t().characterTool].forEach(
@@ -425,6 +430,10 @@ $("input").addEventListener("keydown", (e) => {
     $<HTMLFormElement>("form").requestSubmit();
 });
 $("annotation").addEventListener("change", renderAnalysis);
+$("tool").addEventListener("change", () => {
+  reset();
+  translate();
+});
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") $("close").click();
 });

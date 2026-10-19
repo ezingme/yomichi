@@ -209,7 +209,21 @@ for (const c of cases) {
     ...metrics,
   });
 }
+const analyzerHash = createHash("sha256");
+for (const path of [
+  ...new Set([
+    ...morphologyFiles,
+    ...(await readdir("packages/core/src"))
+      .filter((f) => f.endsWith(".ts"))
+      .sort()
+      .map((f) => "packages/core/src/" + f),
+  ]),
+].sort()) {
+  analyzerHash.update(path);
+  analyzerHash.update(await readFile(path));
+}
 const summary = {
+  analyzerSha256: analyzerHash.digest("hex"),
   type: "summary",
   capturedAt: new Date().toISOString(),
   engineSha256: createHash("sha256")

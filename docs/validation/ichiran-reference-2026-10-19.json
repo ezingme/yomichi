@@ -1,6 +1,7 @@
 {
+  "analyzerSha256": "2550ffa274c4bdb464ea73a8680fed1f6c25aba8946a4ed895d22a218960d4ae",
   "type": "summary",
-  "capturedAt": "2026-10-19T10:33:15.781Z",
+  "capturedAt": "2026-10-19T10:35:15.621Z",
   "engineSha256": "b67300ac1121bb6f0d9e93505cc1b6a7c616a5fb627459ca0d9854592354578b",
   "grammarSha256": "34c285a74ff649d7ca6903e319e7a40b5a162ddf6675e8902a691d9653128941",
   "mode": "Full JMdict source scanned; query-index subset in memory; NOT PostgreSQL import/deployment validation",
@@ -36,8 +37,8 @@
   "boundaryPrecision": 0.8339285714285715,
   "boundaryRecall": 0.8017167381974248,
   "boundaryF1": 0.8175054704595186,
-  "evaluationMs": 1670.6888179999987,
+  "evaluationMs": 1424.262139,
   "node": "v24.19.0",
-  "rssBytes": 424075264,
+  "rssBytes": 272805888,
   "notes": "Published Ichiran expectations, not live oracle outputs. No reading/sense/scoring equivalence claim. No upstream custom dictionary overlays were imported. Mismatches need review; current data and upstream data may differ."
 }

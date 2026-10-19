@@ -73,11 +73,11 @@ Large downloads and runtime installation were not attempted during this audit. T
 
 `node --import tsx scripts/evaluate-jmdict.ts > data/parity-full-summary.json` streams the actual `data/JMdict_e.gz`, parses every entry, generates its forms with the production morphology function, and retains only forms requested by the reference corpus. The requested set includes every original/normalized substring and virtual prefixes ending in て/で for contraction lookup. The repository adapter rejects any unindexed lookup request, rather than silently treating it as an absent word. This is a **full-source dictionary scan with a bounded query-specific in-memory index**, not a full PostgreSQL import or deployment/load benchmark. No synthetic dictionary or upstream custom overlay is used.
 
-The retained cache (`data/parity-query-index.json`) permits `node --import tsx scripts/evaluate-jmdict.ts --reuse-index > data/parity-full-summary.json` after engine/grammar-only changes. Reuse verifies the compressed dictionary, corpus and morphology hashes; morphology or dictionary changes require a new scan. `data/parity-full.jsonl` contains all compared cases and the summary, including engine/grammar hashes, timestamp, timings and exclusions. The local data/report files are ignored by git; this document retains the measured result and source identity.
+The retained cache (`data/parity-query-index.json`) permits `node --import tsx scripts/evaluate-jmdict.ts --reuse-index > data/parity-full-summary.json` after engine/grammar-only changes. Reuse verifies the compressed dictionary, corpus and morphology hashes; morphology or dictionary changes require a new scan. `data/parity-full.jsonl` contains all compared cases and the summary, including the complete analyzer source fingerprint and engine/grammar hashes, timestamp, timings and exclusions. The local data/report files are ignored by git; this document retains the measured result and source identity.
 
 <!-- BEGIN RECORDED EVALUATION -->
 
-Captured at `2026-10-19T10:33:15.781Z` with engine SHA-256 `b67300ac1121bb6f0d9e93505cc1b6a7c616a5fb627459ca0d9854592354578b` and grammar SHA-256 `34c285a74ff649d7ca6903e319e7a40b5a162ddf6675e8902a691d9653128941`. The compact recorded summary is [`ichiran-reference-2026-10-19.json`](validation/ichiran-reference-2026-10-19.json).
+Captured at `2026-10-19T10:35:15.621Z` with engine SHA-256 `b67300ac1121bb6f0d9e93505cc1b6a7c616a5fb627459ca0d9854592354578b` and grammar SHA-256 `34c285a74ff649d7ca6903e319e7a40b5a162ddf6675e8902a691d9653128941`. The compact recorded summary is [`ichiran-reference-2026-10-19.json`](validation/ichiran-reference-2026-10-19.json).
 
 | Measurement                           |             Result |
 | ------------------------------------- | -----------------: |
@@ -91,7 +91,7 @@ Captured at `2026-10-19T10:33:15.781Z` with engine SHA-256 `b67300ac1121bb6f0d9e
 | Internal-boundary recall              |             80.17% |
 | Internal-boundary F1                  |             81.75% |
 | Full scan time                        |            17.09 s |
-| Evaluation time                       |             1.67 s |
+| Evaluation time                       |             1.42 s |
 
 Uncompressed source SHA-256: `15e8374e2cd63803dd72f86b7809a2a247e784aa3e12e2dc8b6f700eb31d4ad4`. Compressed file SHA-256: `e84b7515b481485fe17f79939144bfbbd545638676899849512c99959ec03c1e`. Four gap-placeholder and two numeric cases are excluded from this boundary evaluation. These figures measure agreement with published assertions and explicitly do **not** demonstrate live Ichiran equivalence, reading/sense correctness, memory savings, server throughput, or PostgreSQL performance. This corpus was used during development, so it is not an unbiased held-out quality estimate.
 <!-- END RECORDED EVALUATION -->
