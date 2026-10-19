@@ -2,10 +2,11 @@
 
 **Japanese, word by word.** An open-source TypeScript Japanese text analysis engine, PostgreSQL-backed HTTP API, lightweight SDK, CLI, and independent multilingual Playground.
 
-> **0.1 alpha — coverage expansion in progress.** Major Ichiran capability families are implemented, but **complete Ichiran equivalence is not established**. The [capability audit](docs/ICHIRAN-COVERAGE.md) records implemented surfaces, remaining gaps and a reproducible comparison against published upstream expectations using real JMdict. This is a development corpus, not a held-out accuracy benchmark.
+> **0.1 alpha.** Yomichi includes a TypeScript port of the [Ichiran](https://github.com/tshatrov/ichiran) analyzer and of its JMdict database build ([details](docs/ICHIRAN-PORT.md)). Reading the Ichiran release database, the port matched live Ichiran on all 5,000 sentences of a deterministic Tatoeba sample: every path, score and gloss/conjugation JSON field. A model built from JMdict in TypeScript matched the top segmentation on 4,998 of those sentences with the built-in conjugation rules, and on all 5,000 with JMdictDB's rules. These are recorded comparisons on that corpus, not a guarantee for every input. The earlier engine is kept as `engine: "legacy"`; its [capability audit](docs/ICHIRAN-COVERAGE.md) is unchanged.
 
 ## What works
 
+- Ichiran engine: Ichiran's scoring, segmentation, suffix grammar, counters, kana hints, errata and romanization, ported to TypeScript. It runs over an Ichiran-model dataset that `npm run import:ichiran` builds from JMdict (with optional KANJIDIC2), or that `npm run import:ichiran-db` copies from an Ichiran database. Ichiran's own JSON is available under `/v1/ichiran/*`.
 - Dictionary-driven segmentation with up to five ranked paths; reading/entry alternatives per token.
 - Original UTF-16 offsets, whitespace preservation, forced boundaries and explicit unknown text.
 - Modern productive verb/adjective/copula paradigms (23 POS labels), secondary conjugations, bounded auxiliary chains and contractions, with nested components.
@@ -35,11 +36,16 @@ mkdir -p data
 Obtain JMdict from [EDRDG](https://www.edrdg.org/jmdict/j_jmdict.html), review its data licence and save the XML/gzip file under `data/`. For English glosses the upstream file is `https://www.edrdg.org/pub/Nihongo/JMdict_e.gz`. The multilingual `JMdict.gz` can be imported instead; available gloss languages depend on the source, not the interface language.
 
 ```sh
+# Ichiran engine (about 1.5 minutes and 4.3 GB of RAM to build; about 6.8 GB in PostgreSQL)
+npm run import:ichiran -- data/JMdict_e.gz 2026-10-19 --kanjidic data/kanjidic2.xml.gz
+# Word search, entry and kanji endpoints, and the legacy engine
 npm run import:jmdict -- data/JMdict_e.gz 2026-10-19
 # Optional: download KANJIDIC2 from EDRDG, then:
 npm run import:kanji -- data/kanjidic2.xml.gz 2026-10-19
 npm run dev
 ```
+
+With an `ichiran` dataset active, `/v1/analyze` uses the Ichiran engine. Otherwise it uses the legacy engine over the `import:jmdict` dataset.
 
 In another terminal:
 
@@ -59,12 +65,13 @@ curl http://localhost:3000/v1/analyze \
 
 | Endpoint                             | Description                                                                                                   |
 | ------------------------------------ | ------------------------------------------------------------------------------------------------------------- |
-| `POST /v1/analyze`                   | Dictionary analysis; `limit` 1–5, `romanization`, `includeGlosses`, `includeConjugation`, `segmentationHints` |
+| `POST /v1/analyze`                   | Dictionary analysis; `limit` 1–5, `romanization`, `includeGlosses`, `includeConjugation`, `segmentationHints`, `engine` (`auto`, `ichiran`, `legacy`) |
 | `POST /v1/reading`                   | Reading extraction; `mode: "kana"` converts katakana only without dictionary analysis                         |
 | `POST /v1/romanize`                  | Kana conversion or full analysis; `romanization: "hepburn"` or `"kunrei"`                                     |
 | `GET /v1/words/search?q=食&limit=20` | Prefix search of dictionary spellings/readings, max 50                                                        |
 | `GET /v1/words/:seq`                 | JMdict entry with original restrictions and gloss language tags                                               |
 | `GET /v1/kanji/:char`                | KANJIDIC2 details, requires separate import                                                                   |
+| `POST /v1/ichiran/segment`, `/romanize`, `/match-readings`; `GET /v1/ichiran/word`, `/kanji/:char` | Ichiran's `romanize*`, `romanize`, `match-readings-json`, `find-word-info-json` and `kanji-info-json` output |
 | `GET /healthz`, `GET /readyz`        | Process liveness and dictionary readiness                                                                     |
 | `GET /openapi.json`, `GET /docs`     | API schema and interactive documentation                                                                      |
 
@@ -136,11 +143,11 @@ npm run bench  # requires your loaded PostgreSQL database
 node --env-file-if-exists=.env --import tsx scripts/compare.ts path/to/corpus.json
 ```
 
-Tests exercise the actual parser, importer, SQL repository, core and HTTP handlers. Portable SQL integration uses PGlite (PostgreSQL WASM), not a mock database. PostgreSQL deployment/load testing remains distinct. Benchmark output identifies dictionary version, Node version, CPU time, RSS and sequential latency. It excludes database CPU/RSS and is not a throughput claim.
+Tests exercise the actual parser, importer, SQL repository, core and HTTP handlers. The Ichiran engine tests use verbatim JMdict and KANJIDIC2 subsets (`tests/fixtures/*-ichiran-subset.xml`) and check results recorded with the complete dictionary. Portable SQL integration uses PGlite (PostgreSQL WASM), not a mock database. PostgreSQL deployment/load testing remains distinct. Benchmark output identifies dictionary version, Node version, CPU time, RSS and sequential latency. It excludes database CPU/RSS and is not a throughput claim.
 
 Comparison corpus format: `[{"text":"猫は魚。","tokens":["猫","は","魚","。"],"source":"human-reviewed"}]`. Supply independently captured Ichiran/Himotoki/human references. The comparison reports boundaries; it cannot establish reading/gloss accuracy or decide which side of a mismatch is correct. No upstream engine was run as part of the initial build.
 
-See [verification notes](docs/VERIFICATION.md), [parity roadmap](docs/ROADMAP.md) and [source/data notices](NOTICE.md).
+See [Ichiran port and recorded comparisons](docs/ICHIRAN-PORT.md), [verification notes](docs/VERIFICATION.md), [parity roadmap](docs/ROADMAP.md) and [source/data notices](NOTICE.md).
 
 ## Licence
 

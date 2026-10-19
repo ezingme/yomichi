@@ -1,0 +1,35 @@
+{
+ "type": "ichiran-live-oracle-comparison",
+ "capturedAt": "2026-10-19",
+ "yomichiParentRevision": "330470c15bf99d297e7d9dc0cb46183c8915fee6",
+ "oracle": {
+  "ichiran": "002a695b3c86a9524e49354f04b7a915beb71270",
+  "sbcl": "2.2.9",
+  "database": "ichiran-260118.pgdump",
+  "databaseSha256": "98a44e2cc88a65677da8b1f7124e7d6c904253eb1aae0ef16d2c7cc1dacdba82",
+  "jmdictdb": "c9c82328d0ba5b15c496c4a32116da105be29e4c",
+  "postgres": "16.15",
+  "upstreamTests": "782/782 passed"
+ },
+ "corpus": {
+  "source": "Tatoeba jpn_sentences.tsv.bz2 export 2026-10-19",
+  "sha256": "9b2f0c18f58a5633a0dfba22b6a5f7a2bbbd55f649aeafcc31107d1be5cc5c2b",
+  "sentences": 248939,
+  "selection": "5000 lowest SHA-256(id), scripts/oracle/sample-tatoeba.ts",
+  "limit": 5
+ },
+ "data": "port reading the oracle database (PgIchiranSource, heap order)",
+ "result": {
+  "cases": 5000,
+  "oracleErrors": 0,
+  "topTextEqual": 5000,
+  "topEqual": 5000,
+  "allEqual": 5000,
+  "scoreEqual": 5000,
+  "fullCases": 5000,
+  "fullEqual": 5000,
+  "infoEqual": 5000,
+  "ms": 294909,
+  "mismatchLevels": {}
+ }
+}

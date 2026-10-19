@@ -13,3 +13,10 @@ Local environment: Node 24.19.0. Initial work: 2026-10-19.
 Not yet performed: full dictionary PostgreSQL ingestion/load benchmarks, reference Lisp/Python engine runs, language-expert corpus review, production container deployment, public-site deployment or npm publication. The 63-entry subset cannot establish full-dictionary speed, memory use or accuracy. Full requirements remain in ROADMAP.md.
 
 Real-data sentence checks also exposed missing polite-volitional forms and entry-wide priority leaking into an uncommon spelling. Regression tests now cover 会いましょう / 食べましょう and spelling/reading-specific priority. Priority ranking remains a heuristic, not contextual disambiguation.
+
+## Ichiran port verification (2026-10-19)
+
+- A live Ichiran oracle was built: SBCL 2.2.9, Ichiran `002a695`, release database `ichiran-260118` and JMdictDB `c9c8232`. The upstream test suite passed 782 of 782 assertions. Comparisons and the reproduction commands are in [ICHIRAN-PORT.md](ICHIRAN-PORT.md).
+- 5,000 Tatoeba sentences: the port over the oracle's database gave identical paths, scores, `romanize*` JSON and `romanize` info. A TypeScript build from the same JMdict matched the top segmentation on 4,998 sentences with built-in rules and on all 5,000 with JMdictDB rules.
+- A complete JMdict 2026-10-19 build was imported into PostgreSQL 16 (6.75 GB) and served through the API. Results were identical to the in-memory build.
+- `npm run typecheck`, `npm test` (66 tests, including PGlite import and API tests on verbatim dictionary subsets) and `npm run build` passed.

@@ -90,7 +90,6 @@ const body = {
   additionalProperties: false,
   properties: fields,
 };
-type Engine = "auto" | "ichiran" | "legacy";
 const ichiranNotReady = () =>
   new YomichiError(
     "ICHIRAN_NOT_READY",
@@ -194,7 +193,7 @@ export async function buildApp(options: ServerOptions) {
     }
   }
   /** The Ichiran engine analyzes when its dataset is active ("auto"). */
-  async function run(input: AnalyzeOptions & { engine?: Engine }) {
+  async function run(input: AnalyzeOptions) {
     const { engine: choice = "auto", ...rest } = input;
     const repo = options.repository();
     const engine = choice === "legacy" ? null : ((await repo.ichiran?.()) ?? null);
@@ -217,14 +216,14 @@ export async function buildApp(options: ServerOptions) {
       .send({ ready, dictionary: d, ...(ichiran ? { ichiran } : {}) });
   });
   app.get("/openapi.json", async () => app.swagger());
-  app.post<{ Body: AnalyzeOptions & { engine?: Engine } }>(
+  app.post<{ Body: AnalyzeOptions }>(
     "/v1/analyze",
     { schema: { body, summary: "Analyze Japanese text", tags: ["analysis"] } },
     async (req) => run(req.body),
   );
   for (const route of ["reading", "romanize"] as const) {
     app.post<{
-      Body: AnalyzeOptions & { mode?: "analyze" | "kana"; engine?: Engine };
+      Body: AnalyzeOptions & { mode?: "analyze" | "kana" };
     }>(
       "/v1/" + route,
       {

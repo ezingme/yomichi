@@ -57,6 +57,8 @@ export interface AnalyzeOptions {
   includeGlosses?: boolean;
   includeConjugation?: boolean;
   segmentationHints?: number[];
+  /** Server engine selection: Ichiran when its dataset is active ("auto"). */
+  engine?: "auto" | "ichiran" | "legacy";
 }
 export interface Token {
   surface: string;

@@ -125,4 +125,26 @@ export class YomichiClient {
       includeNanori,
     });
   }
+  /** Ichiran romanize* JSON (requires an Ichiran-model dataset). */
+  ichiranSegment(text: string, options: { method?: string; limit?: number } = {}) {
+    return this.request<{ result: unknown }>("/v1/ichiran/segment", { text, ...options });
+  }
+  ichiranRomanize(text: string, options: { method?: string; info?: boolean } = {}) {
+    return this.request<{ romanization: string; info?: { word: string; gloss: string }[] }>(
+      "/v1/ichiran/romanize",
+      { text, ...options },
+    );
+  }
+  ichiranWord(text: string, options: { reading?: string; root?: boolean } = {}) {
+    const q = new URLSearchParams({ text });
+    if (options.reading !== undefined) q.set("reading", options.reading);
+    if (options.root !== undefined) q.set("root", String(options.root));
+    return this.request<{ items: unknown[] }>(`/v1/ichiran/word?${q}`);
+  }
+  ichiranKanji(char: string) {
+    return this.request<Record<string, unknown>>(`/v1/ichiran/kanji/${encodeURIComponent(char)}`);
+  }
+  ichiranMatchReadings(word: string, reading: string) {
+    return this.request<{ items: unknown[] }>("/v1/ichiran/match-readings", { word, reading });
+  }
 }

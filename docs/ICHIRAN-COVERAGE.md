@@ -2,6 +2,8 @@
 
 Audit source: Ichiran `002a695b3c86a9524e49354f04b7a915beb71270`, Himotoki `eb4faf962fc0e5baf0bab22179ece1fc67fd1647`. This is a source inventory and executable comparison harness, **not a certification of parity**. The implementation evidence below reflects branch source and focused tests; implemented capabilities remain distinct from verified upstream equivalence.
 
+> **Scope:** this audit covers the legacy engine (`packages/core/src/engine.ts`) and the published-test harness. The TypeScript port of Ichiran itself (`packages/core/src/ichiran`) and its comparisons against live Ichiran are documented in [ICHIRAN-PORT.md](ICHIRAN-PORT.md). The “Original Ichiran live oracle” section below describes the state before that oracle was built.
+
 ## Evidence types
 
 - `tests/fixtures/upstream/ichiran-tests.json`: **published test expectations**, extracted from the pinned `tests.lisp`; source SHA-256, commit, source line and MIT notice accompany the cases. Original Ichiran was not executed to obtain them.
