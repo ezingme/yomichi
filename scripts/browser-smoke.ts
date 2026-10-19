@@ -90,6 +90,29 @@ try {
   await page.locator("#input").fill("食");
   await page.locator("#run").click();
   await page.locator(".word-card").first().waitFor();
+  await page.locator("#tab-tools").click();
+  await page.locator("#tool").selectOption("numbers");
+  await page.locator("#input").fill("三百");
+  await page.locator("#run").click();
+  await page.locator("#lookup").filter({ hasText: "さんびゃく" }).waitFor();
+  await page.locator("#tool").selectOption("deromanize");
+  await page.locator("#input").fill("shimbashi");
+  await page.locator("#run").click();
+  await page.locator("#lookup").filter({ hasText: "しんばし" }).waitFor();
+  await page.screenshot({
+    path: "docs/screenshots/playground-tools-mobile.png",
+    fullPage: true,
+    animations: "disabled",
+  });
+  await page.locator("#tab-analyze").click();
+  await page.locator("#input").fill("食べてみました");
+  await page.locator("#run").click();
+  await page.locator(".token").filter({ hasText: "食べてみました" }).click();
+  await page
+    .locator("#detail-content")
+    .filter({ hasText: "组成部分" })
+    .waitFor();
+  await page.locator("#close").click();
   await page.locator("#tab-kanji").click();
   await page.locator("#input").fill("猫");
   await page.locator("#run").click();

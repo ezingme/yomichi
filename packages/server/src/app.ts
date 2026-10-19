@@ -1,3 +1,4 @@
+import { alignKanjiReadings } from "../../dictionary/src/alignment.js";
 import Fastify from "fastify";
 import cors from "@fastify/cors";
 import rateLimit from "@fastify/rate-limit";
@@ -9,12 +10,35 @@ import {
   ENGINE_VERSION,
   validateOptions,
 } from "../../core/src/engine.js";
-import { romanizeKana, toHiragana } from "../../core/src/kana.js";
+import {
+  deromanize,
+  partialSuggestions,
+  romanizeKana,
+  toHiragana,
+} from "../../core/src/kana.js";
 import {
   YomichiError,
   type AnalyzeOptions,
   type DictionaryRepository,
 } from "../../core/src/types.js";
+import {
+  basicSplit,
+  normalizeJapanese,
+  moraLength,
+  kanjiMask,
+} from "../../core/src/characters.js";
+import {
+  numberToKana,
+  numberToKanji,
+  parseJapaneseNumber,
+} from "../../core/src/numbers.js";
+import { matchKanjiReading } from "../../dictionary/src/kanji.js";
+import type { KanjiWordStatistics } from "../../dictionary/src/repository.js";
+import type { Entry } from "../../core/src/types.js";
+type ExtendedRepository = DictionaryRepository & {
+  kanjiWords?: (character: string, limit?: number) => Promise<Entry[]>;
+  kanjiStats?: (character: string) => Promise<KanjiWordStatistics>;
+};
 export interface ServerOptions {
   repository: () => DictionaryRepository;
   apiKey?: string;
@@ -25,7 +49,19 @@ const text = { type: "string", minLength: 1, maxLength: 1000 };
 const fields = {
   text,
   limit: { type: "integer", minimum: 1, maximum: 5 },
-  romanization: { type: "string", enum: ["hepburn", "kunrei"] },
+  romanization: {
+    type: "string",
+    enum: [
+      "hepburn",
+      "kunrei",
+      "hepburn-basic",
+      "hepburn-simple",
+      "hepburn-passport",
+      "hepburn-traditional",
+      "hepburn-modified",
+      "kunrei-shiki",
+    ],
+  },
   includeGlosses: { type: "boolean" },
   includeConjugation: { type: "boolean" },
   segmentationHints: {
@@ -82,26 +118,24 @@ export async function buildApp(options: ServerOptions) {
         : error.validation
           ? 400
           : (error.statusCode ?? 500);
-    reply
-      .status(status)
-      .send({
-        error: {
-          code:
-            error instanceof YomichiError
-              ? error.code
-              : status === 400
-                ? "INVALID_REQUEST"
-                : status === 429
-                  ? "RATE_LIMITED"
-                  : status >= 500
-                    ? "INTERNAL_ERROR"
-                    : "REQUEST_ERROR",
-          message:
-            status >= 500 && !(error instanceof YomichiError)
-              ? "Service unavailable. Check server configuration."
-              : error.message,
-        },
-      });
+    reply.status(status).send({
+      error: {
+        code:
+          error instanceof YomichiError
+            ? error.code
+            : status === 400
+              ? "INVALID_REQUEST"
+              : status === 429
+                ? "RATE_LIMITED"
+                : status >= 500
+                  ? "INTERNAL_ERROR"
+                  : "REQUEST_ERROR",
+        message:
+          status >= 500 && !(error instanceof YomichiError)
+            ? "Service unavailable. Check server configuration."
+            : error.message,
+      },
+    });
   });
   app.addHook("onRequest", async (req) => {
     if (
@@ -232,7 +266,9 @@ export async function buildApp(options: ServerOptions) {
         params: {
           type: "object",
           required: ["seq"],
-          properties: { seq: { type: "string", pattern: "^[0-9]{1,12}$" } },
+          properties: {
+            seq: { type: "string", pattern: "^[A-Za-z0-9_-]{1,128}$" },
+          },
         },
         tags: ["dictionary"],
       },
@@ -280,5 +316,238 @@ export async function buildApp(options: ServerOptions) {
       return k;
     },
   );
+  const conversionBody = (
+    properties: Record<string, unknown>,
+    required = ["text"],
+  ) => ({
+    type: "object",
+    additionalProperties: false,
+    required,
+    properties,
+  });
+  const shortText = { type: "string", minLength: 1, maxLength: 100 };
+  app.post<{ Body: { text: string } }>(
+    "/v1/deromanize",
+    {
+      schema: {
+        body: conversionBody({ text: shortText }),
+        tags: ["conversion"],
+      },
+    },
+    async (req) => {
+      const result = deromanize(req.body.text);
+      if (!result)
+        throw new YomichiError(
+          "INVALID_ROMAJI",
+          "Supply complete Latin romanized syllables.",
+        );
+      return result;
+    },
+  );
+  app.post<{ Body: { text: string; limit?: number } }>(
+    "/v1/suggest",
+    {
+      schema: {
+        body: conversionBody({
+          text: shortText,
+          limit: { type: "integer", minimum: 1, maximum: 50 },
+        }),
+        tags: ["dictionary"],
+      },
+    },
+    async (req) => {
+      const representation =
+        deromanize(req.body.text) ?? partialSuggestions(req.body.text);
+      if (!representation)
+        throw new YomichiError(
+          "INVALID_ROMAJI",
+          "Supply complete Latin romanized syllables.",
+        );
+      const repo = options.repository();
+      if (!(await repo.metadata())?.entryCount)
+        throw new YomichiError(
+          "DICTIONARY_NOT_READY",
+          "Import JMdict first.",
+          503,
+        );
+      const limit = req.body.limit ?? 20;
+      const found = new Map<string, Entry>();
+      // Sequential, bounded dictionary queries; returned suggestions are real entries.
+      for (const kana of [
+        ...representation.hiragana,
+        ...representation.katakana,
+      ]) {
+        for (const item of await repo.search(kana, limit))
+          if (!found.has(item.id)) found.set(item.id, item);
+        if (found.size >= limit) break;
+      }
+      return { representation, items: [...found.values()].slice(0, limit) };
+    },
+  );
+  app.post<{ Body: { text: string; legal?: boolean } }>(
+    "/v1/numbers",
+    {
+      schema: {
+        body: conversionBody({
+          text: { ...shortText, maxLength: 32 },
+          legal: { type: "boolean" },
+        }),
+        tags: ["conversion"],
+      },
+    },
+    async (req) => {
+      const value = parseJapaneseNumber(req.body.text);
+      if (value === null || value >= 10n ** 20n)
+        throw new YomichiError(
+          "INVALID_NUMBER",
+          "Supply a nonnegative Japanese integer smaller than 10^20.",
+        );
+      return {
+        value: value.toString(),
+        kanji: numberToKanji(value, { legal: req.body.legal }),
+        reading: numberToKana(value),
+      };
+    },
+  );
+  app.post<{ Body: { text: string } }>(
+    "/v1/characters",
+    {
+      schema: { body: conversionBody({ text }), tags: ["conversion"] },
+    },
+    async (req) => ({
+      normalized: normalizeJapanese(req.body.text),
+      moraLength: moraLength(req.body.text),
+      kanjiMask: kanjiMask(req.body.text),
+      offsetUnit: "utf16",
+      segments: basicSplit(req.body.text),
+    }),
+  );
+  app.post<{
+    Body: { word: string; reading: string; includeNanori?: boolean };
+  }>(
+    "/v1/kanji/align",
+    {
+      schema: {
+        body: conversionBody(
+          {
+            word: shortText,
+            reading: shortText,
+            includeNanori: { type: "boolean" },
+          },
+          ["word", "reading"],
+        ),
+        tags: ["dictionary"],
+      },
+    },
+    async (req) => {
+      const repo = options.repository();
+      if (!(await repo.metadata())?.capabilities.includes("kanji"))
+        throw new YomichiError(
+          "KANJI_NOT_READY",
+          "Import KANJIDIC2 first.",
+          503,
+        );
+      const characters = [
+        ...new Set(
+          [...req.body.word].filter((c) => /^\p{Script=Han}$/u.test(c)),
+        ),
+      ];
+      const records = await Promise.all(
+        characters.map(
+          async (character) =>
+            [character, await repo.kanji(character)] as const,
+        ),
+      );
+      const dictionary = new Map(
+        records.filter(
+          (pair): pair is readonly [string, NonNullable<(typeof pair)[1]>] =>
+            pair[1] !== null,
+        ),
+      );
+      return alignKanjiReadings(req.body.word, req.body.reading, dictionary, {
+        maxWordLength: 100,
+        maxReadingLength: 100,
+        maxStates: 20000,
+        includeNanori: req.body.includeNanori,
+      });
+    },
+  );
+  for (const operation of ["words", "stats", "readings"] as const) {
+    app.get<{
+      Params: { char: string };
+      Querystring: { limit?: string; reading?: string };
+    }>(
+      `/v1/kanji/:char/${operation}`,
+      {
+        schema: {
+          params: {
+            type: "object",
+            required: ["char"],
+            properties: {
+              char: { type: "string", minLength: 1, maxLength: 2 },
+            },
+          },
+          querystring: {
+            type: "object",
+            additionalProperties: false,
+            ...(operation === "readings" ? { required: ["reading"] } : {}),
+            properties:
+              operation === "words"
+                ? {
+                    limit: {
+                      type: "string",
+                      pattern: "^(?:[1-9]|[1-4][0-9]|50)$",
+                    },
+                  }
+                : operation === "readings"
+                  ? { reading: shortText }
+                  : {},
+          },
+          tags: ["dictionary"],
+        },
+      },
+      async (req) => {
+        if (!/^\p{Script=Han}$/u.test(req.params.char))
+          throw new YomichiError(
+            "INVALID_KANJI",
+            "Supply one kanji character.",
+          );
+        const repo = options.repository() as ExtendedRepository;
+        const metadata = await repo.metadata();
+        if (operation === "readings") {
+          if (!metadata?.capabilities.includes("kanji"))
+            throw new YomichiError(
+              "KANJI_NOT_READY",
+              "Import KANJIDIC2 first.",
+              503,
+            );
+          const kanji = await repo.kanji(req.params.char);
+          if (!kanji)
+            throw new YomichiError("NOT_FOUND", "Kanji not found.", 404);
+          return { items: matchKanjiReading(kanji, req.query.reading!) };
+        }
+        if (!metadata?.entryCount)
+          throw new YomichiError(
+            "DICTIONARY_NOT_READY",
+            "Import JMdict first.",
+            503,
+          );
+        if (operation === "words" && repo.kanjiWords)
+          return {
+            items: await repo.kanjiWords(
+              req.params.char,
+              Number(req.query.limit ?? 20),
+            ),
+          };
+        if (operation === "stats" && repo.kanjiStats)
+          return repo.kanjiStats(req.params.char);
+        throw new YomichiError(
+          "CAPABILITY_UNAVAILABLE",
+          "This repository does not support kanji word statistics.",
+          501,
+        );
+      },
+    );
+  }
   return app;
 }

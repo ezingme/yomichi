@@ -1,0 +1,238 @@
+{
+  "commit": "002a695b3c86a9524e49354f04b7a915beb71270",
+  "note": "Source inventory, not implemented-equivalence claim",
+  "packages": [
+    {
+      "file": "package.lisp",
+      "package": ":ichiran/characters",
+      "exports": [
+        ":*sokuon-characters*",
+        ":*iteration-characters*",
+        ":*modifier-characters*",
+        ":*kana-characters*",
+        ":*all-characters*",
+        ":*char-class-hash*",
+        ":get-char-class",
+        ":long-vowel-modifier-p",
+        ":*katakana-regex*",
+        ":*hiragana-regex*",
+        ":*kanji-regex*",
+        ":test-word",
+        ":hash-from-list",
+        ":voice-char",
+        ":simplify-ngrams",
+        ":normalize",
+        ":split-by-regex",
+        ":basic-split",
+        ":mora-length",
+        ":count-char-class",
+        ":as-hiragana",
+        ":as-katakana",
+        ":sequential-kanji-positions",
+        ":*undakuten-hash*",
+        ":*dakuten-hash*",
+        ":*handakuten-hash*",
+        ":kanji-prefix",
+        ":kanji-mask",
+        ":kanji-regex",
+        ":kanji-match",
+        ":kanji-cross-match",
+        ":unrendaku",
+        ":rendaku",
+        ":destem",
+        ":geminate",
+        ":collect-char-class",
+        ":*kanji-char-regex*",
+        ":consecutive-char-groups",
+        ":match-diff",
+        ":safe-subseq",
+        ":join"
+      ],
+      "reexports": []
+    },
+    {
+      "file": "package.lisp",
+      "package": ":ichiran/numbers",
+      "exports": [
+        "#:*digit-kanji-default*",
+        "#:*digit-kanji-legal*",
+        "#:*power-kanji*",
+        "#:number-to-kanji",
+        "#:parse-number",
+        "#:number-to-kana",
+        "#:not-a-number"
+      ],
+      "reexports": []
+    },
+    {
+      "file": "package.lisp",
+      "package": ":ichiran/conn",
+      "exports": [
+        ":get-spec",
+        ":with-db",
+        ":let-db",
+        ":*connection*",
+        ":*connections*",
+        ":*connection-env-var*",
+        ":def-conn-var",
+        ":switch-conn-vars",
+        ":load-settings",
+        ":with-log",
+        ":load-connection-from-env",
+        ":cache",
+        ":defcache",
+        ":all-caches",
+        ":init-all-caches",
+        ":get-cache",
+        ":init-cache",
+        ":reset-cache",
+        ":ensure",
+        ":*debug*",
+        ":dp"
+      ],
+      "reexports": []
+    },
+    {
+      "file": "package.lisp",
+      "package": ":ichiran/dict",
+      "exports": [
+        ":simple-segment",
+        ":dict-segment",
+        ":word-info-from-text",
+        ":word-info",
+        ":word-info-type",
+        ":word-info-text",
+        ":word-info-kana",
+        ":word-info-score",
+        ":map-word-info-kana",
+        ":word-info-str",
+        ":word-info-components",
+        ":word-info-alternative",
+        ":word-info-start",
+        ":word-info-end",
+        ":word-info-counter",
+        ":word-info-skipped",
+        ":word-info-json",
+        ":word-info-gloss-json",
+        ":init-suffixes",
+        ":init-suffixes-running-p",
+        ":node-text",
+        ":get-kanji-words",
+        ":find-word-info",
+        ":find-word-info-json",
+        ":simple-word-info",
+        ":process-hints",
+        ":strip-hints",
+        ":find-kanji-for-pattern",
+        ":match-glosses",
+        ":*original-text-reading-only*"
+      ],
+      "reexports": []
+    },
+    {
+      "file": "package.lisp",
+      "package": ":ichiran/custom",
+      "exports": [
+        ":load-custom-data",
+        ":get-custom-data",
+        ":slurp"
+      ],
+      "reexports": []
+    },
+    {
+      "file": "package.lisp",
+      "package": ":ichiran",
+      "exports": [
+        ":romanize",
+        ":romanize*",
+        ":romanize-word-info",
+        ":romanize-word",
+        ":romanize-word-geo",
+        ":generic-romanization",
+        ":generic-hepburn",
+        ":kana-table",
+        ":simplified-hepburn",
+        ":simplifications",
+        ":*hepburn-basic*",
+        ":*hepburn-simple*",
+        ":*hepburn-passport*",
+        ":*hepburn-traditional*",
+        ":*hepburn-modified*",
+        ":kunrei-siki",
+        ":*kunrei-siki*",
+        ":*default-romanization-method*",
+        ":romaji-kana",
+        ":romaji-suggest"
+      ],
+      "reexports": []
+    },
+    {
+      "file": "package.lisp",
+      "package": ":ichiran/kanji",
+      "exports": [
+        ":kanji-info-json",
+        ":match-readings",
+        ":kanji-word-stats",
+        ":get-readings",
+        ":get-normal-readings",
+        ":match-readings-json",
+        ":query-kanji-json"
+      ],
+      "reexports": []
+    },
+    {
+      "file": "package.lisp",
+      "package": ":ichiran/all",
+      "exports": [],
+      "reexports": [
+        ":ichiran/characters",
+        ":ichiran/numbers",
+        ":ichiran/conn",
+        ":ichiran/dict",
+        ":ichiran",
+        ":ichiran/kanji"
+      ]
+    },
+    {
+      "file": "package.lisp",
+      "package": ":ichiran/test",
+      "exports": [
+        ":run-all-tests",
+        ":*test-thread-count*",
+        ":run-parallel-tests"
+      ],
+      "reexports": []
+    },
+    {
+      "file": "ichiran.lisp",
+      "package": ":ichiran/maintenance",
+      "exports": [
+        "#:with-db",
+        "#:full-init",
+        "#:load-jmdict",
+        "#:load-best-readings",
+        "#:load-kanjidic",
+        "#:load-kanji-stats",
+        "#:add-errata",
+        "#:recalc-entry-stats",
+        "#:custom-init",
+        "#:compare-queries",
+        "#:display-seq-set",
+        "#:switch-connection",
+        "#:diff-content",
+        "#:show-missing-constants",
+        "#:get-seq-changes",
+        "#:show-diffs"
+      ],
+      "reexports": []
+    },
+    {
+      "file": "cli.lisp",
+      "package": ":ichiran/cli",
+      "exports": [
+        ":build"
+      ],
+      "reexports": []
+    }
+  ]
+}

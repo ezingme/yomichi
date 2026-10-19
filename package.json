@@ -20,7 +20,10 @@
     "import:jmdict": "node --env-file-if-exists=.env --import tsx packages/dictionary/src/import-cli.ts jmdict",
     "import:kanji": "node --env-file-if-exists=.env --import tsx packages/dictionary/src/import-cli.ts kanji",
     "db:migrate": "node --env-file-if-exists=.env --import tsx packages/dictionary/src/migrate.ts",
-    "bench": "node --env-file-if-exists=.env --import tsx scripts/bench.ts"
+    "bench": "node --env-file-if-exists=.env --import tsx scripts/bench.ts",
+    "db:manage": "node --env-file-if-exists=.env --import tsx packages/dictionary/src/manage-cli.ts",
+    "parity": "node --env-file-if-exists=.env --import tsx scripts/parity.ts",
+    "parity:jmdict": "node --import tsx scripts/evaluate-jmdict.ts"
   },
   "dependencies": {
     "@fastify/cors": "^11.0.0",

@@ -1,5 +1,14 @@
 export const messages = {
   en: {
+    tools: "Language tools",
+    toolPlaceholder: "Enter kana, romaji, or a Japanese number",
+    components: "Components",
+    scheme: "Romanization scheme",
+    numberTool: "Number conversion",
+    kanaTool: "Romaji → kana",
+    romanizeTool: "Kana → romaji",
+    characterTool: "Character analysis",
+
     eyebrow: "OPEN SOURCE · JAPANESE TEXT ANALYSIS",
     title: "Every word, a way in.",
     intro: "Find the reading, meaning, and structure inside Japanese.",
@@ -56,6 +65,15 @@ export const messages = {
     retry: "Try again",
   },
   zh: {
+    tools: "语言工具",
+    toolPlaceholder: "输入假名、罗马字或日语数字",
+    components: "组成部分",
+    scheme: "罗马字方案",
+    numberTool: "数字转换",
+    kanaTool: "罗马字 → 假名",
+    romanizeTool: "假名 → 罗马字",
+    characterTool: "字符分析",
+
     eyebrow: "开源 · 日语文本分析",
     title: "从每个词，读懂日语。",
     intro: "探索日语句子中的读音、词义与语法结构。",
@@ -111,6 +129,15 @@ export const messages = {
     retry: "重试",
   },
   ja: {
+    tools: "言語ツール",
+    toolPlaceholder: "かな、ローマ字、または数値を入力",
+    components: "構成要素",
+    scheme: "ローマ字方式",
+    numberTool: "数字の変換",
+    kanaTool: "ローマ字 → かな",
+    romanizeTool: "かな → ローマ字",
+    characterTool: "文字の分析",
+
     eyebrow: "オープンソース · 日本語テキスト解析",
     title: "ひとつの言葉から、理解へ。",
     intro: "日本語の読み方、意味、文の仕組みを探りましょう。",

@@ -1,4 +1,4 @@
-export type Romanization = "hepburn" | "kunrei";
+export type Romanization = import("./kana.js").RomanizationScheme;
 export interface Sense {
   pos: string[];
   glosses: { language: string; text: string }[];

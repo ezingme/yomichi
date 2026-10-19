@@ -1,3 +1,8 @@
+import type { KanjiAlignment } from "../../dictionary/src/alignment.js";
+import type { KanaRepresentation } from "../../core/src/kana.js";
+import type { TextSegment } from "../../core/src/characters.js";
+import type { KanjiReadingMatch } from "../../dictionary/src/kanji.js";
+import type { KanjiWordStatistics } from "../../dictionary/src/repository.js";
 import type {
   Analysis,
   AnalyzeOptions,
@@ -72,6 +77,52 @@ export class YomichiClient {
       text,
       romanization,
       mode,
+    });
+  }
+  deromanize(text: string) {
+    return this.request<KanaRepresentation>("/v1/deromanize", { text });
+  }
+  suggest(text: string, limit = 20) {
+    return this.request<{ representation: KanaRepresentation; items: Entry[] }>(
+      "/v1/suggest",
+      { text, limit },
+    );
+  }
+  numbers(text: string, legal = false) {
+    return this.request<{ value: string; kanji: string; reading: string }>(
+      "/v1/numbers",
+      { text, legal },
+    );
+  }
+  characters(text: string) {
+    return this.request<{
+      normalized: string;
+      moraLength: number;
+      kanjiMask: string;
+      offsetUnit: "utf16";
+      segments: TextSegment[];
+    }>("/v1/characters", { text });
+  }
+  kanjiWords(char: string, limit = 20) {
+    return this.request<{ items: Entry[] }>(
+      `/v1/kanji/${encodeURIComponent(char)}/words?limit=${limit}`,
+    );
+  }
+  kanjiStats(char: string) {
+    return this.request<KanjiWordStatistics>(
+      `/v1/kanji/${encodeURIComponent(char)}/stats`,
+    );
+  }
+  kanjiReadings(char: string, reading: string) {
+    return this.request<{ items: KanjiReadingMatch[] }>(
+      `/v1/kanji/${encodeURIComponent(char)}/readings?reading=${encodeURIComponent(reading)}`,
+    );
+  }
+  alignKanji(word: string, reading: string, includeNanori = true) {
+    return this.request<KanjiAlignment>("/v1/kanji/align", {
+      word,
+      reading,
+      includeNanori,
     });
   }
 }

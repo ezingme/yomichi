@@ -747,3 +747,35 @@ footer a {
     }
   }
 }
+.tool-settings {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 12px 0;
+}
+.tool-settings label {
+  font-size: 12px;
+  color: var(--muted);
+  margin: 0;
+}
+.tool-settings select {
+  max-width: 100%;
+}
+.word-card pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 12px;
+}
+@media (max-width: 760px) {
+  .tabs {
+    flex-wrap: wrap;
+  }
+  .tabs button {
+    font-size: 12px;
+    padding: 10px;
+  }
+  .tool-settings {
+    gap: 8px;
+  }
+}

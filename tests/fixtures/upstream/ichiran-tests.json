@@ -1,0 +1,8078 @@
+{
+  "provenance": {
+    "kind": "published-test-expectations",
+    "engineExecuted": false,
+    "repository": "https://github.com/tshatrov/ichiran",
+    "commit": "002a695b3c86a9524e49354f04b7a915beb71270",
+    "path": "tests.lisp",
+    "sha256": "80e6ee3f8482cf5d9cda70f96e420aada85ddca02a5e93f860fc6d90f96ca78c",
+    "license": "MIT",
+    "copyright": "Copyright (c) 2014 Timofei Shatrov"
+  },
+  "cases": [
+    {
+      "id": "segment-1",
+      "kind": "segmentation",
+      "text": "ご注文はうさぎですか",
+      "tokens": [
+        "ご注文",
+        "は",
+        "うさぎ",
+        "です",
+        "か"
+      ],
+      "line": 40
+    },
+    {
+      "id": "segment-2",
+      "kind": "segmentation",
+      "text": "しませんか",
+      "tokens": [
+        "しません",
+        "か"
+      ],
+      "line": 41
+    },
+    {
+      "id": "segment-3",
+      "kind": "segmentation",
+      "text": "ドンマイ",
+      "tokens": [
+        "ドンマイ"
+      ],
+      "line": 42
+    },
+    {
+      "id": "segment-4",
+      "kind": "segmentation",
+      "text": "みんな土足でおいで",
+      "tokens": [
+        "みんな",
+        "土足で",
+        "おいで"
+      ],
+      "line": 43
+    },
+    {
+      "id": "segment-5",
+      "kind": "segmentation",
+      "text": "おもわぬオチ提供中",
+      "tokens": [
+        "おもわぬ",
+        "オチ",
+        "提供",
+        "中"
+      ],
+      "line": 44
+    },
+    {
+      "id": "segment-6",
+      "kind": "segmentation",
+      "text": "わたし",
+      "tokens": [
+        "わたし"
+      ],
+      "line": 45
+    },
+    {
+      "id": "segment-7",
+      "kind": "segmentation",
+      "text": "お姉ちゃんにまかせて地球まるごと",
+      "tokens": [
+        "お姉ちゃん",
+        "に",
+        "まかせて",
+        "地球",
+        "まるごと"
+      ],
+      "line": 46
+    },
+    {
+      "id": "segment-8",
+      "kind": "segmentation",
+      "text": "名人になってるはず",
+      "tokens": [
+        "名人",
+        "に",
+        "なってる",
+        "はず"
+      ],
+      "line": 48
+    },
+    {
+      "id": "segment-9",
+      "kind": "segmentation",
+      "text": "いいとこ",
+      "tokens": [
+        "いいとこ"
+      ],
+      "line": 50
+    },
+    {
+      "id": "segment-10",
+      "kind": "segmentation",
+      "text": "そういうお隣どうし",
+      "tokens": [
+        "そういう",
+        "お",
+        "隣どうし"
+      ],
+      "line": 51
+    },
+    {
+      "id": "segment-11",
+      "kind": "segmentation",
+      "text": "はしゃいじゃう",
+      "tokens": [
+        "はしゃいじゃう"
+      ],
+      "line": 53
+    },
+    {
+      "id": "segment-12",
+      "kind": "segmentation",
+      "text": "分かっちゃうのよ",
+      "tokens": [
+        "分かっちゃう",
+        "の",
+        "よ"
+      ],
+      "line": 54
+    },
+    {
+      "id": "segment-13",
+      "kind": "segmentation",
+      "text": "懐かしく新しいまだそしてまた",
+      "tokens": [
+        "懐かしく",
+        "新しい",
+        "まだ",
+        "そして",
+        "また"
+      ],
+      "line": 55
+    },
+    {
+      "id": "segment-14",
+      "kind": "segmentation",
+      "text": "あたりまえみたいに思い出いっぱい",
+      "tokens": [
+        "あたりまえ",
+        "みたい",
+        "に",
+        "思い出",
+        "いっぱい"
+      ],
+      "line": 57
+    },
+    {
+      "id": "segment-15",
+      "kind": "segmentation",
+      "text": "何でもない日々とっておきのメモリアル",
+      "tokens": [
+        "何でもない",
+        "日々",
+        "とっておき",
+        "の",
+        "メモリアル"
+      ],
+      "line": 59
+    },
+    {
+      "id": "segment-16",
+      "kind": "segmentation",
+      "text": "しつれいしなければならないんです",
+      "tokens": [
+        "しつれいし",
+        "なければならない",
+        "ん",
+        "です"
+      ],
+      "line": 61
+    },
+    {
+      "id": "segment-17",
+      "kind": "segmentation",
+      "text": "だけど気付けば馴染んじゃってる",
+      "tokens": [
+        "だけど",
+        "気付けば",
+        "馴染んじゃってる"
+      ],
+      "line": 63
+    },
+    {
+      "id": "segment-18",
+      "kind": "segmentation",
+      "text": "飲んで笑っちゃえば",
+      "tokens": [
+        "飲んで",
+        "笑っちゃえば"
+      ],
+      "line": 65
+    },
+    {
+      "id": "segment-19",
+      "kind": "segmentation",
+      "text": "なんで",
+      "tokens": [
+        "なんで"
+      ],
+      "line": 67
+    },
+    {
+      "id": "segment-20",
+      "kind": "segmentation",
+      "text": "遠慮しないでね",
+      "tokens": [
+        "遠慮しないで",
+        "ね"
+      ],
+      "line": 68
+    },
+    {
+      "id": "segment-21",
+      "kind": "segmentation",
+      "text": "出かけるまえに",
+      "tokens": [
+        "出かける",
+        "まえ",
+        "に"
+      ],
+      "line": 69
+    },
+    {
+      "id": "segment-22",
+      "kind": "segmentation",
+      "text": "感じたいでしょ",
+      "tokens": [
+        "感じたい",
+        "でしょ"
+      ],
+      "line": 70
+    },
+    {
+      "id": "segment-23",
+      "kind": "segmentation",
+      "text": "まじで",
+      "tokens": [
+        "まじ",
+        "で"
+      ],
+      "line": 71
+    },
+    {
+      "id": "segment-24",
+      "kind": "segmentation",
+      "text": "その山を越えたとき",
+      "tokens": [
+        "その",
+        "山",
+        "を",
+        "越えた",
+        "とき"
+      ],
+      "line": 72
+    },
+    {
+      "id": "segment-25",
+      "kind": "segmentation",
+      "text": "遊びたいのに",
+      "tokens": [
+        "遊びたい",
+        "のに"
+      ],
+      "line": 73
+    },
+    {
+      "id": "segment-26",
+      "kind": "segmentation",
+      "text": "しながき",
+      "tokens": [
+        "しながき"
+      ],
+      "line": 74
+    },
+    {
+      "id": "segment-27",
+      "kind": "segmentation",
+      "text": "楽しさ求めて",
+      "tokens": [
+        "楽しさ",
+        "求めて"
+      ],
+      "line": 75
+    },
+    {
+      "id": "segment-28",
+      "kind": "segmentation",
+      "text": "日常のなかにも",
+      "tokens": [
+        "日常",
+        "の",
+        "なかにも"
+      ],
+      "line": 76
+    },
+    {
+      "id": "segment-29",
+      "kind": "segmentation",
+      "text": "ほんとは好きなんだと",
+      "tokens": [
+        "ほんと",
+        "は",
+        "好き",
+        "な",
+        "ん",
+        "だ",
+        "と"
+      ],
+      "line": 77
+    },
+    {
+      "id": "segment-30",
+      "kind": "segmentation",
+      "text": "内緒なの",
+      "tokens": [
+        "内緒",
+        "なの"
+      ],
+      "line": 78
+    },
+    {
+      "id": "segment-31",
+      "kind": "segmentation",
+      "text": "魚が好きじゃない",
+      "tokens": [
+        "魚",
+        "が",
+        "好き",
+        "じゃない"
+      ],
+      "line": 79
+    },
+    {
+      "id": "segment-32",
+      "kind": "segmentation",
+      "text": "物語になってく",
+      "tokens": [
+        "物語",
+        "に",
+        "なってく"
+      ],
+      "line": 80
+    },
+    {
+      "id": "segment-33",
+      "kind": "segmentation",
+      "text": "書いてきてくださった",
+      "tokens": [
+        "書いてきて",
+        "くださった"
+      ],
+      "line": 81
+    },
+    {
+      "id": "segment-34",
+      "kind": "segmentation",
+      "text": "今日は何の日",
+      "tokens": [
+        "今日",
+        "は",
+        "何の",
+        "日"
+      ],
+      "line": 82
+    },
+    {
+      "id": "segment-35",
+      "kind": "segmentation",
+      "text": "何から話そうか",
+      "tokens": [
+        "何",
+        "から",
+        "話そう",
+        "か"
+      ],
+      "line": 83
+    },
+    {
+      "id": "segment-36",
+      "kind": "segmentation",
+      "text": "話したくなる",
+      "tokens": [
+        "話したくなる"
+      ],
+      "line": 84
+    },
+    {
+      "id": "segment-37",
+      "kind": "segmentation",
+      "text": "進化してく友情",
+      "tokens": [
+        "進化してく",
+        "友情"
+      ],
+      "line": 85
+    },
+    {
+      "id": "segment-38",
+      "kind": "segmentation",
+      "text": "私に任せてくれ",
+      "tokens": [
+        "私",
+        "に",
+        "任せてくれ"
+      ],
+      "line": 86
+    },
+    {
+      "id": "segment-39",
+      "kind": "segmentation",
+      "text": "時までに帰ってくると約束してくれるのなら外出してよろしい",
+      "tokens": [
+        "時",
+        "まで",
+        "に",
+        "帰ってくる",
+        "と",
+        "約束してくれる",
+        "の",
+        "なら",
+        "外出して",
+        "よろしい"
+      ],
+      "line": 87
+    },
+    {
+      "id": "segment-40",
+      "kind": "segmentation",
+      "text": "雪が降りそうな気がします",
+      "tokens": [
+        "雪",
+        "が",
+        "降りそう",
+        "な",
+        "気がします"
+      ],
+      "line": 90
+    },
+    {
+      "id": "segment-41",
+      "kind": "segmentation",
+      "text": "新しそうだ",
+      "tokens": [
+        "新しそう",
+        "だ"
+      ],
+      "line": 91
+    },
+    {
+      "id": "segment-42",
+      "kind": "segmentation",
+      "text": "本を読んだりテレビを見たりします",
+      "tokens": [
+        "本",
+        "を",
+        "読んだり",
+        "テレビ",
+        "を",
+        "見たり",
+        "します"
+      ],
+      "line": 92
+    },
+    {
+      "id": "segment-43",
+      "kind": "segmentation",
+      "text": "今日母はたぶんうちにいるでしょう",
+      "tokens": [
+        "今日",
+        "母",
+        "は",
+        "たぶん",
+        "うち",
+        "に",
+        "いる",
+        "でしょう"
+      ],
+      "line": 94
+    },
+    {
+      "id": "segment-44",
+      "kind": "segmentation",
+      "text": "赤かったろうです",
+      "tokens": [
+        "赤かったろう",
+        "です"
+      ],
+      "line": 96
+    },
+    {
+      "id": "segment-45",
+      "kind": "segmentation",
+      "text": "そう呼んでくれていい",
+      "tokens": [
+        "そう",
+        "呼んでくれていい"
+      ],
+      "line": 97
+    },
+    {
+      "id": "segment-46",
+      "kind": "segmentation",
+      "text": "払わなくてもいい",
+      "tokens": [
+        "払わなくてもいい"
+      ],
+      "line": 98
+    },
+    {
+      "id": "segment-47",
+      "kind": "segmentation",
+      "text": "体に悪いと知りながらタバコをやめることはできない",
+      "tokens": [
+        "体に悪い",
+        "と",
+        "知り",
+        "ながら",
+        "タバコをやめる",
+        "こと",
+        "は",
+        "できない"
+      ],
+      "line": 99
+    },
+    {
+      "id": "segment-48",
+      "kind": "segmentation",
+      "text": "微笑みはまぶしすぎる",
+      "tokens": [
+        "微笑み",
+        "は",
+        "まぶしすぎる"
+      ],
+      "line": 101
+    },
+    {
+      "id": "segment-49",
+      "kind": "segmentation",
+      "text": "なにをしていますか",
+      "tokens": [
+        "なに",
+        "を",
+        "しています",
+        "か"
+      ],
+      "line": 102
+    },
+    {
+      "id": "segment-50",
+      "kind": "segmentation",
+      "text": "優しすぎそのうえカッコいいの",
+      "tokens": [
+        "優しすぎ",
+        "そのうえ",
+        "カッコいい",
+        "の"
+      ],
+      "line": 103
+    },
+    {
+      "id": "segment-51",
+      "kind": "segmentation",
+      "text": "この本は複雑すぎるから",
+      "tokens": [
+        "この",
+        "本",
+        "は",
+        "複雑",
+        "すぎる",
+        "から"
+      ],
+      "line": 104
+    },
+    {
+      "id": "segment-52",
+      "kind": "segmentation",
+      "text": "かわいいです",
+      "tokens": [
+        "かわいいです"
+      ],
+      "line": 105
+    },
+    {
+      "id": "segment-53",
+      "kind": "segmentation",
+      "text": "学生なんだ",
+      "tokens": [
+        "学生",
+        "な",
+        "ん",
+        "だ"
+      ],
+      "line": 106
+    },
+    {
+      "id": "segment-54",
+      "kind": "segmentation",
+      "text": "なんだから",
+      "tokens": [
+        "な",
+        "ん",
+        "だから"
+      ],
+      "line": 107
+    },
+    {
+      "id": "segment-55",
+      "kind": "segmentation",
+      "text": "名付けたい",
+      "tokens": [
+        "名付けたい"
+      ],
+      "line": 108
+    },
+    {
+      "id": "segment-56",
+      "kind": "segmentation",
+      "text": "切なくなってしまう",
+      "tokens": [
+        "切なくなってしまう"
+      ],
+      "line": 109
+    },
+    {
+      "id": "segment-57",
+      "kind": "segmentation",
+      "text": "らいかな",
+      "tokens": [
+        "らい",
+        "かな"
+      ],
+      "line": 110
+    },
+    {
+      "id": "segment-58",
+      "kind": "segmentation",
+      "text": "誰かいなくなった",
+      "tokens": [
+        "誰か",
+        "いなくなった"
+      ],
+      "line": 111
+    },
+    {
+      "id": "segment-59",
+      "kind": "segmentation",
+      "text": "思い出すな",
+      "tokens": [
+        "思い出す",
+        "な"
+      ],
+      "line": 112
+    },
+    {
+      "id": "segment-60",
+      "kind": "segmentation",
+      "text": "かなって思ったら",
+      "tokens": [
+        "かなって",
+        "思ったら"
+      ],
+      "line": 113
+    },
+    {
+      "id": "segment-61",
+      "kind": "segmentation",
+      "text": "法律にかなっているさま",
+      "tokens": [
+        "法律",
+        "に",
+        "かなっている",
+        "さま"
+      ],
+      "line": 114
+    },
+    {
+      "id": "segment-62",
+      "kind": "segmentation",
+      "text": "ことすら難しい",
+      "tokens": [
+        "こと",
+        "すら",
+        "難しい"
+      ],
+      "line": 115
+    },
+    {
+      "id": "segment-63",
+      "kind": "segmentation",
+      "text": "投下しました",
+      "tokens": [
+        "投下しました"
+      ],
+      "line": 116
+    },
+    {
+      "id": "segment-64",
+      "kind": "segmentation",
+      "text": "車止める",
+      "tokens": [
+        "車",
+        "止める"
+      ],
+      "line": 117
+    },
+    {
+      "id": "segment-65",
+      "kind": "segmentation",
+      "text": "円盤はただの",
+      "tokens": [
+        "円盤",
+        "は",
+        "ただ",
+        "の"
+      ],
+      "line": 118
+    },
+    {
+      "id": "segment-66",
+      "kind": "segmentation",
+      "text": "ズボンからすねをむき出しにする",
+      "tokens": [
+        "ズボン",
+        "から",
+        "すね",
+        "を",
+        "むき",
+        "出しにする"
+      ],
+      "line": 120
+    },
+    {
+      "id": "segment-67",
+      "kind": "segmentation",
+      "text": "駅の前で会いましょう",
+      "tokens": [
+        "駅",
+        "の",
+        "前",
+        "で",
+        "会いましょう"
+      ],
+      "line": 122
+    },
+    {
+      "id": "segment-68",
+      "kind": "segmentation",
+      "text": "あなたの質問は答えにくい",
+      "tokens": [
+        "あなた",
+        "の",
+        "質問",
+        "は",
+        "答えにくい"
+      ],
+      "line": 124
+    },
+    {
+      "id": "segment-69",
+      "kind": "segmentation",
+      "text": "とかそういう",
+      "tokens": [
+        "とか",
+        "そういう"
+      ],
+      "line": 126
+    },
+    {
+      "id": "segment-70",
+      "kind": "segmentation",
+      "text": "好評のうちに",
+      "tokens": [
+        "好評",
+        "の",
+        "うち",
+        "に"
+      ],
+      "line": 127
+    },
+    {
+      "id": "segment-71",
+      "kind": "segmentation",
+      "text": "映像もすごくよかったです",
+      "tokens": [
+        "映像",
+        "も",
+        "すごく",
+        "よかったです"
+      ],
+      "line": 128
+    },
+    {
+      "id": "segment-72",
+      "kind": "segmentation",
+      "text": "情けねえ",
+      "tokens": [
+        "情けねえ"
+      ],
+      "line": 129
+    },
+    {
+      "id": "segment-73",
+      "kind": "segmentation",
+      "text": "春ですねえ",
+      "tokens": [
+        "春",
+        "です",
+        "ねえ"
+      ],
+      "line": 130
+    },
+    {
+      "id": "segment-74",
+      "kind": "segmentation",
+      "text": "春ですねぇ",
+      "tokens": [
+        "春",
+        "です",
+        "ねぇ"
+      ],
+      "line": 131
+    },
+    {
+      "id": "segment-75",
+      "kind": "segmentation",
+      "text": "きつねじゃなかった",
+      "tokens": [
+        "きつね",
+        "じゃなかった"
+      ],
+      "line": 132
+    },
+    {
+      "id": "segment-76",
+      "kind": "segmentation",
+      "text": "ワシじゃなくて和紙じゃよ",
+      "tokens": [
+        "ワシ",
+        "じゃなくて",
+        "和紙",
+        "じゃ",
+        "よ"
+      ],
+      "line": 133
+    },
+    {
+      "id": "segment-77",
+      "kind": "segmentation",
+      "text": "ほうがいいよ",
+      "tokens": [
+        "ほうがいい",
+        "よ"
+      ],
+      "line": 134
+    },
+    {
+      "id": "segment-78",
+      "kind": "segmentation",
+      "text": "痛さはどれくらいですか",
+      "tokens": [
+        "痛さ",
+        "は",
+        "どれくらい",
+        "です",
+        "か"
+      ],
+      "line": 135
+    },
+    {
+      "id": "segment-79",
+      "kind": "segmentation",
+      "text": "見てくれたかな",
+      "tokens": [
+        "見てくれた",
+        "かな"
+      ],
+      "line": 136
+    },
+    {
+      "id": "segment-80",
+      "kind": "segmentation",
+      "text": "とても良かった",
+      "tokens": [
+        "とても",
+        "良かった"
+      ],
+      "line": 137
+    },
+    {
+      "id": "segment-81",
+      "kind": "segmentation",
+      "text": "戻りたいかと言われる",
+      "tokens": [
+        "戻りたい",
+        "か",
+        "と",
+        "言われる"
+      ],
+      "line": 138
+    },
+    {
+      "id": "segment-82",
+      "kind": "segmentation",
+      "text": "こういうのでいいんだよ",
+      "tokens": [
+        "こういう",
+        "の",
+        "でいい",
+        "ん",
+        "だ",
+        "よ"
+      ],
+      "line": 139
+    },
+    {
+      "id": "segment-83",
+      "kind": "segmentation",
+      "text": "そんなのでいいと思ってるの",
+      "tokens": [
+        "そんな",
+        "の",
+        "でいい",
+        "と",
+        "思ってる",
+        "の"
+      ],
+      "line": 140
+    },
+    {
+      "id": "segment-84",
+      "kind": "segmentation",
+      "text": "だけが墓参りしてた",
+      "tokens": [
+        "だけ",
+        "が",
+        "墓参りしてた"
+      ],
+      "line": 141
+    },
+    {
+      "id": "segment-85",
+      "kind": "segmentation",
+      "text": "はいいんだけどな",
+      "tokens": [
+        "は",
+        "いい",
+        "ん",
+        "だけど",
+        "な"
+      ],
+      "line": 142
+    },
+    {
+      "id": "segment-86",
+      "kind": "segmentation",
+      "text": "なりつつあるんだが",
+      "tokens": [
+        "なりつつある",
+        "ん",
+        "だが"
+      ],
+      "line": 143
+    },
+    {
+      "id": "segment-87",
+      "kind": "segmentation",
+      "text": "反論は認めません",
+      "tokens": [
+        "反論",
+        "は",
+        "認めません"
+      ],
+      "line": 144
+    },
+    {
+      "id": "segment-88",
+      "kind": "segmentation",
+      "text": "見たような気がする",
+      "tokens": [
+        "見た",
+        "ような気がする"
+      ],
+      "line": 145
+    },
+    {
+      "id": "segment-89",
+      "kind": "segmentation",
+      "text": "幽霊を見たような顔つきをしていた",
+      "tokens": [
+        "幽霊",
+        "を",
+        "見た",
+        "ような",
+        "顔つき",
+        "を",
+        "していた"
+      ],
+      "line": 146
+    },
+    {
+      "id": "segment-90",
+      "kind": "segmentation",
+      "text": "元気になる",
+      "tokens": [
+        "元気",
+        "に",
+        "なる"
+      ],
+      "line": 147
+    },
+    {
+      "id": "segment-91",
+      "kind": "segmentation",
+      "text": "半端なかった",
+      "tokens": [
+        "半端なかった"
+      ],
+      "line": 148
+    },
+    {
+      "id": "segment-92",
+      "kind": "segmentation",
+      "text": "一人ですね",
+      "tokens": [
+        "一人",
+        "です",
+        "ね"
+      ],
+      "line": 149
+    },
+    {
+      "id": "segment-93",
+      "kind": "segmentation",
+      "text": "行事がある",
+      "tokens": [
+        "行事",
+        "が",
+        "ある"
+      ],
+      "line": 150
+    },
+    {
+      "id": "segment-94",
+      "kind": "segmentation",
+      "text": "当てられたものになる",
+      "tokens": [
+        "当てられた",
+        "ものになる"
+      ],
+      "line": 151
+    },
+    {
+      "id": "segment-95",
+      "kind": "segmentation",
+      "text": "獲得しうる",
+      "tokens": [
+        "獲得しうる"
+      ],
+      "line": 152
+    },
+    {
+      "id": "segment-96",
+      "kind": "segmentation",
+      "text": "ことができず",
+      "tokens": [
+        "ことができず"
+      ],
+      "line": 153
+    },
+    {
+      "id": "segment-97",
+      "kind": "segmentation",
+      "text": "一生一度だけの忘られぬ約束",
+      "tokens": [
+        "一生一度",
+        "だけ",
+        "の",
+        "忘られぬ",
+        "約束"
+      ],
+      "line": 154
+    },
+    {
+      "id": "segment-98",
+      "kind": "segmentation",
+      "text": "やらずにこの路線でよかったのに",
+      "tokens": [
+        "やらず",
+        "に",
+        "この",
+        "路線",
+        "で",
+        "よかった",
+        "のに"
+      ],
+      "line": 155
+    },
+    {
+      "id": "segment-99",
+      "kind": "segmentation",
+      "text": "歌ってしまいそう",
+      "tokens": [
+        "歌ってしまいそう"
+      ],
+      "line": 156
+    },
+    {
+      "id": "segment-100",
+      "kind": "segmentation",
+      "text": "しまいそう",
+      "tokens": [
+        "しまいそう"
+      ],
+      "line": 157
+    },
+    {
+      "id": "segment-101",
+      "kind": "segmentation",
+      "text": "まいそう祭り",
+      "tokens": [
+        "まいそう",
+        "祭り"
+      ],
+      "line": 158
+    },
+    {
+      "id": "segment-102",
+      "kind": "segmentation",
+      "text": "何ですか",
+      "tokens": [
+        "何",
+        "です",
+        "か"
+      ],
+      "line": 159
+    },
+    {
+      "id": "segment-103",
+      "kind": "segmentation",
+      "text": "浮かれたいから",
+      "tokens": [
+        "浮かれたい",
+        "から"
+      ],
+      "line": 160
+    },
+    {
+      "id": "segment-104",
+      "kind": "segmentation",
+      "text": "なくなっちゃう",
+      "tokens": [
+        "なくなっちゃう"
+      ],
+      "line": 161
+    },
+    {
+      "id": "segment-105",
+      "kind": "segmentation",
+      "text": "になりそうだけど",
+      "tokens": [
+        "に",
+        "なりそう",
+        "だけど"
+      ],
+      "line": 162
+    },
+    {
+      "id": "segment-106",
+      "kind": "segmentation",
+      "text": "これは辛い選択になりそうだな",
+      "tokens": [
+        "これ",
+        "は",
+        "辛い",
+        "選択",
+        "に",
+        "なりそう",
+        "だ",
+        "な"
+      ],
+      "line": 163
+    },
+    {
+      "id": "segment-107",
+      "kind": "segmentation",
+      "text": "はっきりしそうだな",
+      "tokens": [
+        "はっきりしそう",
+        "だ",
+        "な"
+      ],
+      "line": 164
+    },
+    {
+      "id": "segment-108",
+      "kind": "segmentation",
+      "text": "泣きそうなんだけど",
+      "tokens": [
+        "泣きそう",
+        "な",
+        "ん",
+        "だけど"
+      ],
+      "line": 165
+    },
+    {
+      "id": "segment-109",
+      "kind": "segmentation",
+      "text": "これですね",
+      "tokens": [
+        "これ",
+        "です",
+        "ね"
+      ],
+      "line": 166
+    },
+    {
+      "id": "segment-110",
+      "kind": "segmentation",
+      "text": "はいなくなります",
+      "tokens": [
+        "は",
+        "いなくなります"
+      ],
+      "line": 167
+    },
+    {
+      "id": "segment-111",
+      "kind": "segmentation",
+      "text": "忘れなく",
+      "tokens": [
+        "忘れなく"
+      ],
+      "line": 168
+    },
+    {
+      "id": "segment-112",
+      "kind": "segmentation",
+      "text": "じゃないですか",
+      "tokens": [
+        "じゃないです",
+        "か"
+      ],
+      "line": 169
+    },
+    {
+      "id": "segment-113",
+      "kind": "segmentation",
+      "text": "純粋さ健気さ",
+      "tokens": [
+        "純粋さ",
+        "健気さ"
+      ],
+      "line": 170
+    },
+    {
+      "id": "segment-114",
+      "kind": "segmentation",
+      "text": "着てたからね",
+      "tokens": [
+        "着てた",
+        "から",
+        "ね"
+      ],
+      "line": 171
+    },
+    {
+      "id": "segment-115",
+      "kind": "segmentation",
+      "text": "仕出かすからだと思います",
+      "tokens": [
+        "仕出かす",
+        "から",
+        "だ",
+        "と",
+        "思います"
+      ],
+      "line": 172
+    },
+    {
+      "id": "segment-116",
+      "kind": "segmentation",
+      "text": "みんながした",
+      "tokens": [
+        "みんな",
+        "が",
+        "した"
+      ],
+      "line": 173
+    },
+    {
+      "id": "segment-117",
+      "kind": "segmentation",
+      "text": "ほうが速いと",
+      "tokens": [
+        "ほう",
+        "が",
+        "速い",
+        "と"
+      ],
+      "line": 174
+    },
+    {
+      "id": "segment-118",
+      "kind": "segmentation",
+      "text": "注意してください",
+      "tokens": [
+        "注意してください"
+      ],
+      "line": 175
+    },
+    {
+      "id": "segment-119",
+      "kind": "segmentation",
+      "text": "昨日といいどうしてこう",
+      "tokens": [
+        "昨日",
+        "と",
+        "いい",
+        "どうして",
+        "こう"
+      ],
+      "line": 176
+    },
+    {
+      "id": "segment-120",
+      "kind": "segmentation",
+      "text": "いっぱいきそう",
+      "tokens": [
+        "いっぱい",
+        "きそう"
+      ],
+      "line": 177
+    },
+    {
+      "id": "segment-121",
+      "kind": "segmentation",
+      "text": "仲良しになったら",
+      "tokens": [
+        "仲良し",
+        "に",
+        "なったら"
+      ],
+      "line": 178
+    },
+    {
+      "id": "segment-122",
+      "kind": "segmentation",
+      "text": "全くといっていい",
+      "tokens": [
+        "全く",
+        "と",
+        "いって",
+        "いい"
+      ],
+      "line": 179
+    },
+    {
+      "id": "segment-123",
+      "kind": "segmentation",
+      "text": "発狂しそうなんだ",
+      "tokens": [
+        "発狂しそう",
+        "な",
+        "ん",
+        "だ"
+      ],
+      "line": 180
+    },
+    {
+      "id": "segment-124",
+      "kind": "segmentation",
+      "text": "していたんだ",
+      "tokens": [
+        "していた",
+        "ん",
+        "だ"
+      ],
+      "line": 181
+    },
+    {
+      "id": "segment-125",
+      "kind": "segmentation",
+      "text": "引き上げられた",
+      "tokens": [
+        "引き上げられた"
+      ],
+      "line": 182
+    },
+    {
+      "id": "segment-126",
+      "kind": "segmentation",
+      "text": "をつかむため",
+      "tokens": [
+        "を",
+        "つかむ",
+        "ため"
+      ],
+      "line": 183
+    },
+    {
+      "id": "segment-127",
+      "kind": "segmentation",
+      "text": "ときが自分",
+      "tokens": [
+        "とき",
+        "が",
+        "自分"
+      ],
+      "line": 184
+    },
+    {
+      "id": "segment-128",
+      "kind": "segmentation",
+      "text": "もうこころ",
+      "tokens": [
+        "もう",
+        "こころ"
+      ],
+      "line": 185
+    },
+    {
+      "id": "segment-129",
+      "kind": "segmentation",
+      "text": "届けしたら",
+      "tokens": [
+        "届け",
+        "したら"
+      ],
+      "line": 186
+    },
+    {
+      "id": "segment-130",
+      "kind": "segmentation",
+      "text": "おまえら低いんだよ",
+      "tokens": [
+        "おまえら",
+        "低い",
+        "ん",
+        "だ",
+        "よ"
+      ],
+      "line": 187
+    },
+    {
+      "id": "segment-131",
+      "kind": "segmentation",
+      "text": "すべてがかかっていると思いながら",
+      "tokens": [
+        "すべて",
+        "が",
+        "かかっている",
+        "と",
+        "思い",
+        "ながら"
+      ],
+      "line": 188
+    },
+    {
+      "id": "segment-132",
+      "kind": "segmentation",
+      "text": "エロいと思っちゃう",
+      "tokens": [
+        "エロい",
+        "と",
+        "思っちゃう"
+      ],
+      "line": 190
+    },
+    {
+      "id": "segment-133",
+      "kind": "segmentation",
+      "text": "変わり映えしない",
+      "tokens": [
+        "変わり映えしない"
+      ],
+      "line": 191
+    },
+    {
+      "id": "segment-134",
+      "kind": "segmentation",
+      "text": "あなたがいなきゃこんな計画思いつかなかった",
+      "tokens": [
+        "あなた",
+        "が",
+        "いなきゃ",
+        "こんな",
+        "計画",
+        "思いつかなかった"
+      ],
+      "line": 192
+    },
+    {
+      "id": "segment-135",
+      "kind": "segmentation",
+      "text": "見たかったです",
+      "tokens": [
+        "見たかったです"
+      ],
+      "line": 194
+    },
+    {
+      "id": "segment-136",
+      "kind": "segmentation",
+      "text": "出来て楽しかったな",
+      "tokens": [
+        "出来て",
+        "楽しかった",
+        "な"
+      ],
+      "line": 195
+    },
+    {
+      "id": "segment-137",
+      "kind": "segmentation",
+      "text": "つかってください",
+      "tokens": [
+        "つかってください"
+      ],
+      "line": 196
+    },
+    {
+      "id": "segment-138",
+      "kind": "segmentation",
+      "text": "誰もが思ってた",
+      "tokens": [
+        "誰も",
+        "が",
+        "思ってた"
+      ],
+      "line": 197
+    },
+    {
+      "id": "segment-139",
+      "kind": "segmentation",
+      "text": "参考にしたらしい",
+      "tokens": [
+        "参考にしたらしい"
+      ],
+      "line": 198
+    },
+    {
+      "id": "segment-140",
+      "kind": "segmentation",
+      "text": "狙いやすそうで",
+      "tokens": [
+        "狙い",
+        "やすそう",
+        "で"
+      ],
+      "line": 199
+    },
+    {
+      "id": "segment-141",
+      "kind": "segmentation",
+      "text": "予定はございませんので",
+      "tokens": [
+        "予定",
+        "は",
+        "ございません",
+        "ので"
+      ],
+      "line": 200
+    },
+    {
+      "id": "segment-142",
+      "kind": "segmentation",
+      "text": "犬はトラックにはねられた",
+      "tokens": [
+        "犬",
+        "は",
+        "トラック",
+        "に",
+        "はねられた"
+      ],
+      "line": 201
+    },
+    {
+      "id": "segment-143",
+      "kind": "segmentation",
+      "text": "仕事してください",
+      "tokens": [
+        "仕事してください"
+      ],
+      "line": 202
+    },
+    {
+      "id": "segment-144",
+      "kind": "segmentation",
+      "text": "おいかけっこしましょ",
+      "tokens": [
+        "おい",
+        "かけっこしましょ"
+      ],
+      "line": 203
+    },
+    {
+      "id": "segment-145",
+      "kind": "segmentation",
+      "text": "イラストカードが付きます",
+      "tokens": [
+        "イラスト",
+        "カード",
+        "が",
+        "付きます"
+      ],
+      "line": 204
+    },
+    {
+      "id": "segment-146",
+      "kind": "segmentation",
+      "text": "じゃないかしら",
+      "tokens": [
+        "じゃない",
+        "かしら"
+      ],
+      "line": 205
+    },
+    {
+      "id": "segment-147",
+      "kind": "segmentation",
+      "text": "いつか本当に",
+      "tokens": [
+        "いつか",
+        "本当に"
+      ],
+      "line": 206
+    },
+    {
+      "id": "segment-148",
+      "kind": "segmentation",
+      "text": "言い方もします",
+      "tokens": [
+        "言い方",
+        "も",
+        "します"
+      ],
+      "line": 207
+    },
+    {
+      "id": "segment-149",
+      "kind": "segmentation",
+      "text": "何でこれ",
+      "tokens": [
+        "何で",
+        "これ"
+      ],
+      "line": 208
+    },
+    {
+      "id": "segment-150",
+      "kind": "segmentation",
+      "text": "こういう物語ができるんだ",
+      "tokens": [
+        "こういう",
+        "物語",
+        "が",
+        "できる",
+        "ん",
+        "だ"
+      ],
+      "line": 209
+    },
+    {
+      "id": "segment-151",
+      "kind": "segmentation",
+      "text": "といったところでしょうか",
+      "tokens": [
+        "といった",
+        "ところ",
+        "でしょうか"
+      ],
+      "line": 210
+    },
+    {
+      "id": "segment-152",
+      "kind": "segmentation",
+      "text": "広めたいと思っている",
+      "tokens": [
+        "広めたい",
+        "と",
+        "思っている"
+      ],
+      "line": 211
+    },
+    {
+      "id": "segment-153",
+      "kind": "segmentation",
+      "text": "のせいかな",
+      "tokens": [
+        "の",
+        "せい",
+        "かな"
+      ],
+      "line": 212
+    },
+    {
+      "id": "segment-154",
+      "kind": "segmentation",
+      "text": "その場合",
+      "tokens": [
+        "その",
+        "場合"
+      ],
+      "line": 213
+    },
+    {
+      "id": "segment-155",
+      "kind": "segmentation",
+      "text": "教えてくれてありがとう",
+      "tokens": [
+        "教えてくれて",
+        "ありがとう"
+      ],
+      "line": 214
+    },
+    {
+      "id": "segment-156",
+      "kind": "segmentation",
+      "text": "彼が来るかどうか疑問だ",
+      "tokens": [
+        "彼",
+        "が",
+        "来る",
+        "かどうか",
+        "疑問",
+        "だ"
+      ],
+      "line": 215
+    },
+    {
+      "id": "segment-157",
+      "kind": "segmentation",
+      "text": "泳ぎに行ってはどうかな",
+      "tokens": [
+        "泳ぎ",
+        "に",
+        "行って",
+        "は",
+        "どうかな"
+      ],
+      "line": 216
+    },
+    {
+      "id": "segment-158",
+      "kind": "segmentation",
+      "text": "どうか僕を許して下さい",
+      "tokens": [
+        "どうか",
+        "僕",
+        "を",
+        "許して",
+        "下さい"
+      ],
+      "line": 217
+    },
+    {
+      "id": "segment-159",
+      "kind": "segmentation",
+      "text": "鏡はいらないですよ",
+      "tokens": [
+        "鏡",
+        "は",
+        "いらないです",
+        "よ"
+      ],
+      "line": 218
+    },
+    {
+      "id": "segment-160",
+      "kind": "segmentation",
+      "text": "ベッドで跳ねちゃいけません",
+      "tokens": [
+        "ベッド",
+        "で",
+        "跳ねちゃ",
+        "いけません"
+      ],
+      "line": 219
+    },
+    {
+      "id": "segment-161",
+      "kind": "segmentation",
+      "text": "お酒を飲んじゃだめです",
+      "tokens": [
+        "お酒",
+        "を",
+        "飲んじゃ",
+        "だめ",
+        "です"
+      ],
+      "line": 220
+    },
+    {
+      "id": "segment-162",
+      "kind": "segmentation",
+      "text": "これ洗濯しといて",
+      "tokens": [
+        "これ",
+        "洗濯しといて"
+      ],
+      "line": 221
+    },
+    {
+      "id": "segment-163",
+      "kind": "segmentation",
+      "text": "来週までに読んどいて",
+      "tokens": [
+        "来週",
+        "まで",
+        "に",
+        "読んどいて"
+      ],
+      "line": 222
+    },
+    {
+      "id": "segment-164",
+      "kind": "segmentation",
+      "text": "奴がまともに見られない",
+      "tokens": [
+        "奴",
+        "が",
+        "まともに",
+        "見られない"
+      ],
+      "line": 223
+    },
+    {
+      "id": "segment-165",
+      "kind": "segmentation",
+      "text": "間違いなし",
+      "tokens": [
+        "間違いなし"
+      ],
+      "line": 224
+    },
+    {
+      "id": "segment-166",
+      "kind": "segmentation",
+      "text": "見ませんでしょうか",
+      "tokens": [
+        "見ません",
+        "でしょうか"
+      ],
+      "line": 225
+    },
+    {
+      "id": "segment-167",
+      "kind": "segmentation",
+      "text": "書いていただけませんでしょうか",
+      "tokens": [
+        "書いていただけません",
+        "でしょうか"
+      ],
+      "line": 226
+    },
+    {
+      "id": "segment-168",
+      "kind": "segmentation",
+      "text": "友達できる",
+      "tokens": [
+        "友達",
+        "できる"
+      ],
+      "line": 227
+    },
+    {
+      "id": "segment-169",
+      "kind": "segmentation",
+      "text": "実はそうなんだ",
+      "tokens": [
+        "実は",
+        "そう",
+        "なんだ"
+      ],
+      "line": 228
+    },
+    {
+      "id": "segment-170",
+      "kind": "segmentation",
+      "text": "やらしいです",
+      "tokens": [
+        "やらしいです"
+      ],
+      "line": 229
+    },
+    {
+      "id": "segment-171",
+      "kind": "segmentation",
+      "text": "荒いとこもある",
+      "tokens": [
+        "荒い",
+        "とこ",
+        "も",
+        "ある"
+      ],
+      "line": 230
+    },
+    {
+      "id": "segment-172",
+      "kind": "segmentation",
+      "text": "あったかいとこ行こう",
+      "tokens": [
+        "あったかい",
+        "とこ",
+        "行こう"
+      ],
+      "line": 231
+    },
+    {
+      "id": "segment-173",
+      "kind": "segmentation",
+      "text": "ぶっちゃけ話",
+      "tokens": [
+        "ぶっちゃけ",
+        "話"
+      ],
+      "line": 232
+    },
+    {
+      "id": "segment-174",
+      "kind": "segmentation",
+      "text": "いけないわー",
+      "tokens": [
+        "いけない",
+        "わ",
+        ":gap"
+      ],
+      "line": 233,
+      "gap": true
+    },
+    {
+      "id": "segment-175",
+      "kind": "segmentation",
+      "text": "社長としてやっていけないわ",
+      "tokens": [
+        "社長",
+        "として",
+        "やっていけない",
+        "わ"
+      ],
+      "line": 234
+    },
+    {
+      "id": "segment-176",
+      "kind": "segmentation",
+      "text": "よくわかんないけど",
+      "tokens": [
+        "よく",
+        "わかんない",
+        "けど"
+      ],
+      "line": 235
+    },
+    {
+      "id": "segment-177",
+      "kind": "segmentation",
+      "text": "ほうがいいんじゃないの",
+      "tokens": [
+        "ほうがいい",
+        "ん",
+        "じゃない",
+        "の"
+      ],
+      "line": 236
+    },
+    {
+      "id": "segment-178",
+      "kind": "segmentation",
+      "text": "こんなんじゃ",
+      "tokens": [
+        "こんなん",
+        "じゃ"
+      ],
+      "line": 237
+    },
+    {
+      "id": "segment-179",
+      "kind": "segmentation",
+      "text": "増やしたほうがいいな",
+      "tokens": [
+        "増やした",
+        "ほうがいい",
+        "な"
+      ],
+      "line": 238
+    },
+    {
+      "id": "segment-180",
+      "kind": "segmentation",
+      "text": "屈しやすいものだ",
+      "tokens": [
+        "屈し",
+        "やすい",
+        "もの",
+        "だ"
+      ],
+      "line": 239
+    },
+    {
+      "id": "segment-181",
+      "kind": "segmentation",
+      "text": "目をもっている",
+      "tokens": [
+        "目",
+        "を",
+        "もっている"
+      ],
+      "line": 240
+    },
+    {
+      "id": "segment-182",
+      "kind": "segmentation",
+      "text": "これが君のなすべきものだ",
+      "tokens": [
+        "これ",
+        "が",
+        "君",
+        "の",
+        "なすべき",
+        "もの",
+        "だ"
+      ],
+      "line": 241
+    },
+    {
+      "id": "segment-183",
+      "kind": "segmentation",
+      "text": "泥棒をつかまえた",
+      "tokens": [
+        "泥棒",
+        "を",
+        "つかまえた"
+      ],
+      "line": 242
+    },
+    {
+      "id": "segment-184",
+      "kind": "segmentation",
+      "text": "金もないし友達もいません",
+      "tokens": [
+        "金",
+        "も",
+        "ない",
+        "し",
+        "友達",
+        "も",
+        "いません"
+      ],
+      "line": 243
+    },
+    {
+      "id": "segment-185",
+      "kind": "segmentation",
+      "text": "出来たからほら見てよ",
+      "tokens": [
+        "出来た",
+        "から",
+        "ほら",
+        "見て",
+        "よ"
+      ],
+      "line": 244
+    },
+    {
+      "id": "segment-186",
+      "kind": "segmentation",
+      "text": "眠いからもう寝るね",
+      "tokens": [
+        "眠い",
+        "から",
+        "もう",
+        "寝る",
+        "ね"
+      ],
+      "line": 245
+    },
+    {
+      "id": "segment-187",
+      "kind": "segmentation",
+      "text": "浮気してやがった",
+      "tokens": [
+        "浮気してやがった"
+      ],
+      "line": 246
+    },
+    {
+      "id": "segment-188",
+      "kind": "segmentation",
+      "text": "見本通りに",
+      "tokens": [
+        "見本",
+        "通り",
+        "に"
+      ],
+      "line": 247
+    },
+    {
+      "id": "segment-189",
+      "kind": "segmentation",
+      "text": "不適応",
+      "tokens": [
+        "不",
+        "適応"
+      ],
+      "line": 248
+    },
+    {
+      "id": "segment-190",
+      "kind": "segmentation",
+      "text": "良いそうです",
+      "tokens": [
+        "良い",
+        "そう",
+        "です"
+      ],
+      "line": 249
+    },
+    {
+      "id": "segment-191",
+      "kind": "segmentation",
+      "text": "むらむらとわいた",
+      "tokens": [
+        "むらむら",
+        "と",
+        "わいた"
+      ],
+      "line": 250
+    },
+    {
+      "id": "segment-192",
+      "kind": "segmentation",
+      "text": "否定しちゃいけない",
+      "tokens": [
+        "否定しちゃ",
+        "いけない"
+      ],
+      "line": 251
+    },
+    {
+      "id": "segment-193",
+      "kind": "segmentation",
+      "text": "観たいです",
+      "tokens": [
+        "観たいです"
+      ],
+      "line": 252
+    },
+    {
+      "id": "segment-194",
+      "kind": "segmentation",
+      "text": "あんたはわからん",
+      "tokens": [
+        "あんた",
+        "は",
+        "わからん"
+      ],
+      "line": 253
+    },
+    {
+      "id": "segment-195",
+      "kind": "segmentation",
+      "text": "見られたくないとこ",
+      "tokens": [
+        "見られたくない",
+        "とこ"
+      ],
+      "line": 254
+    },
+    {
+      "id": "segment-196",
+      "kind": "segmentation",
+      "text": "多分家で",
+      "tokens": [
+        "多分",
+        "家",
+        "で"
+      ],
+      "line": 255
+    },
+    {
+      "id": "segment-197",
+      "kind": "segmentation",
+      "text": "三十八",
+      "tokens": [
+        "三十八"
+      ],
+      "line": 256
+    },
+    {
+      "id": "segment-198",
+      "kind": "segmentation",
+      "text": "エロそうだヤバそうだ",
+      "tokens": [
+        "エロそう",
+        "だ",
+        "ヤバそう",
+        "だ"
+      ],
+      "line": 257
+    },
+    {
+      "id": "segment-199",
+      "kind": "segmentation",
+      "text": "私にとっても",
+      "tokens": [
+        "私",
+        "にとって",
+        "も"
+      ],
+      "line": 258
+    },
+    {
+      "id": "segment-200",
+      "kind": "segmentation",
+      "text": "睡眠を十分にとってください",
+      "tokens": [
+        "睡眠",
+        "を",
+        "十分",
+        "に",
+        "とってください"
+      ],
+      "line": 259
+    },
+    {
+      "id": "segment-201",
+      "kind": "segmentation",
+      "text": "そうなんだけど",
+      "tokens": [
+        "そう",
+        "な",
+        "ん",
+        "だけど"
+      ],
+      "line": 260
+    },
+    {
+      "id": "segment-202",
+      "kind": "segmentation",
+      "text": "進んでない",
+      "tokens": [
+        "進んでない"
+      ],
+      "line": 261
+    },
+    {
+      "id": "segment-203",
+      "kind": "segmentation",
+      "text": "一回だけであとは言わない",
+      "tokens": [
+        "一回",
+        "だけ",
+        "で",
+        "あと",
+        "は",
+        "言わない"
+      ],
+      "line": 262
+    },
+    {
+      "id": "segment-204",
+      "kind": "segmentation",
+      "text": "ご親切に恐縮しております",
+      "tokens": [
+        "ご親切に",
+        "恐縮しております"
+      ],
+      "line": 263
+    },
+    {
+      "id": "segment-205",
+      "kind": "segmentation",
+      "text": "官吏となっておる者がある",
+      "tokens": [
+        "官吏",
+        "と",
+        "なっておる",
+        "者",
+        "が",
+        "ある"
+      ],
+      "line": 264
+    },
+    {
+      "id": "segment-206",
+      "kind": "segmentation",
+      "text": "間違えておられたようですね",
+      "tokens": [
+        "間違えておられた",
+        "ようです",
+        "ね"
+      ],
+      "line": 265
+    },
+    {
+      "id": "segment-207",
+      "kind": "segmentation",
+      "text": "人気のせいな",
+      "tokens": [
+        "人気",
+        "の",
+        "せい",
+        "な"
+      ],
+      "line": 266
+    },
+    {
+      "id": "segment-208",
+      "kind": "segmentation",
+      "text": "コレはアレ",
+      "tokens": [
+        "コレ",
+        "は",
+        "アレ"
+      ],
+      "line": 267
+    },
+    {
+      "id": "segment-209",
+      "kind": "segmentation",
+      "text": "アレハレ",
+      "tokens": [
+        "アレ",
+        ":gap"
+      ],
+      "line": 268,
+      "gap": true
+    },
+    {
+      "id": "segment-210",
+      "kind": "segmentation",
+      "text": "上に文字があったり",
+      "tokens": [
+        "上",
+        "に",
+        "文字",
+        "が",
+        "あったり"
+      ],
+      "line": 269
+    },
+    {
+      "id": "segment-211",
+      "kind": "segmentation",
+      "text": "言っただろ",
+      "tokens": [
+        "言った",
+        "だろ"
+      ],
+      "line": 270
+    },
+    {
+      "id": "segment-212",
+      "kind": "segmentation",
+      "text": "嵐が起ころうとしている",
+      "tokens": [
+        "嵐",
+        "が",
+        "起ころうとしている"
+      ],
+      "line": 271
+    },
+    {
+      "id": "segment-213",
+      "kind": "segmentation",
+      "text": "知らないでしょう",
+      "tokens": [
+        "知らないでしょう"
+      ],
+      "line": 272
+    },
+    {
+      "id": "segment-214",
+      "kind": "segmentation",
+      "text": "読まないでしょう",
+      "tokens": [
+        "読まないでしょう"
+      ],
+      "line": 273
+    },
+    {
+      "id": "segment-215",
+      "kind": "segmentation",
+      "text": "来ないでしょう",
+      "tokens": [
+        "来ないでしょう"
+      ],
+      "line": 274
+    },
+    {
+      "id": "segment-216",
+      "kind": "segmentation",
+      "text": "何もかもがめんどい",
+      "tokens": [
+        "何もかも",
+        "が",
+        "めんどい"
+      ],
+      "line": 275
+    },
+    {
+      "id": "segment-217",
+      "kind": "segmentation",
+      "text": "なにもかもがめんどい",
+      "tokens": [
+        "なにもかも",
+        "が",
+        "めんどい"
+      ],
+      "line": 276
+    },
+    {
+      "id": "segment-218",
+      "kind": "segmentation",
+      "text": "あいつ規制されりゃいいのに",
+      "tokens": [
+        "あいつ",
+        "規制されりゃ",
+        "いい",
+        "のに"
+      ],
+      "line": 277
+    },
+    {
+      "id": "segment-219",
+      "kind": "segmentation",
+      "text": "塗ってみようと思って",
+      "tokens": [
+        "塗って",
+        "みよう",
+        "と",
+        "思って"
+      ],
+      "line": 278
+    },
+    {
+      "id": "segment-220",
+      "kind": "segmentation",
+      "text": "肩を並べられなかった",
+      "tokens": [
+        "肩を並べられなかった"
+      ],
+      "line": 279
+    },
+    {
+      "id": "segment-221",
+      "kind": "segmentation",
+      "text": "じゃなくて良かった",
+      "tokens": [
+        "じゃなくて",
+        "良かった"
+      ],
+      "line": 280
+    },
+    {
+      "id": "segment-222",
+      "kind": "segmentation",
+      "text": "申し訳なさそう",
+      "tokens": [
+        "申し訳なさそう"
+      ],
+      "line": 281
+    },
+    {
+      "id": "segment-223",
+      "kind": "segmentation",
+      "text": "決まってたし",
+      "tokens": [
+        "決まってた",
+        "し"
+      ],
+      "line": 282
+    },
+    {
+      "id": "segment-224",
+      "kind": "segmentation",
+      "text": "決まっている",
+      "tokens": [
+        "決まっている"
+      ],
+      "line": 283
+    },
+    {
+      "id": "segment-225",
+      "kind": "segmentation",
+      "text": "恐れ入りました",
+      "tokens": [
+        "恐れ入りました"
+      ],
+      "line": 284
+    },
+    {
+      "id": "segment-226",
+      "kind": "segmentation",
+      "text": "はうまい",
+      "tokens": [
+        "は",
+        "うまい"
+      ],
+      "line": 285
+    },
+    {
+      "id": "segment-227",
+      "kind": "segmentation",
+      "text": "弾け飛びました",
+      "tokens": [
+        "弾け飛びました"
+      ],
+      "line": 286
+    },
+    {
+      "id": "segment-228",
+      "kind": "segmentation",
+      "text": "ぶっこんでいるようで",
+      "tokens": [
+        "ぶっこんでいる",
+        "よう",
+        "で"
+      ],
+      "line": 287
+    },
+    {
+      "id": "segment-229",
+      "kind": "segmentation",
+      "text": "じゃないけど下手に",
+      "tokens": [
+        "じゃない",
+        "けど",
+        "下手",
+        "に"
+      ],
+      "line": 288
+    },
+    {
+      "id": "segment-230",
+      "kind": "segmentation",
+      "text": "的にそうではない",
+      "tokens": [
+        "的",
+        "に",
+        "そう",
+        "ではない"
+      ],
+      "line": 289
+    },
+    {
+      "id": "segment-231",
+      "kind": "segmentation",
+      "text": "入り込めなかった",
+      "tokens": [
+        "入り込めなかった"
+      ],
+      "line": 290
+    },
+    {
+      "id": "segment-232",
+      "kind": "segmentation",
+      "text": "がいまいちなんだよ",
+      "tokens": [
+        "が",
+        "いまいち",
+        "なんだ",
+        "よ"
+      ],
+      "line": 291
+    },
+    {
+      "id": "segment-233",
+      "kind": "segmentation",
+      "text": "脱がしにかかってる",
+      "tokens": [
+        "脱がし",
+        "に",
+        "かかってる"
+      ],
+      "line": 292
+    },
+    {
+      "id": "segment-234",
+      "kind": "segmentation",
+      "text": "必死になってる",
+      "tokens": [
+        "必死",
+        "に",
+        "なってる"
+      ],
+      "line": 293
+    },
+    {
+      "id": "segment-235",
+      "kind": "segmentation",
+      "text": "安心させた",
+      "tokens": [
+        "安心させた"
+      ],
+      "line": 294
+    },
+    {
+      "id": "segment-236",
+      "kind": "segmentation",
+      "text": "人が好きそうだ",
+      "tokens": [
+        "人",
+        "が",
+        "好き",
+        "そう",
+        "だ"
+      ],
+      "line": 295
+    },
+    {
+      "id": "segment-237",
+      "kind": "segmentation",
+      "text": "もっていこうとする",
+      "tokens": [
+        "もっていこうとする"
+      ],
+      "line": 296
+    },
+    {
+      "id": "segment-238",
+      "kind": "segmentation",
+      "text": "増やして",
+      "tokens": [
+        "増やして"
+      ],
+      "line": 297
+    },
+    {
+      "id": "segment-239",
+      "kind": "segmentation",
+      "text": "ぜいたくで",
+      "tokens": [
+        "ぜいたく",
+        "で"
+      ],
+      "line": 298
+    },
+    {
+      "id": "segment-240",
+      "kind": "segmentation",
+      "text": "したくらいで",
+      "tokens": [
+        "したくらい",
+        "で"
+      ],
+      "line": 299
+    },
+    {
+      "id": "segment-241",
+      "kind": "segmentation",
+      "text": "でもうまく人",
+      "tokens": [
+        "でも",
+        "うまく",
+        "人"
+      ],
+      "line": 300
+    },
+    {
+      "id": "segment-242",
+      "kind": "segmentation",
+      "text": "好き嫌いもしないように",
+      "tokens": [
+        "好き嫌い",
+        "も",
+        "しない",
+        "ように"
+      ],
+      "line": 301
+    },
+    {
+      "id": "segment-243",
+      "kind": "segmentation",
+      "text": "のどこが思える",
+      "tokens": [
+        "の",
+        "どこ",
+        "が",
+        "思える"
+      ],
+      "line": 302
+    },
+    {
+      "id": "segment-244",
+      "kind": "segmentation",
+      "text": "出会えて良かった",
+      "tokens": [
+        "出会えて",
+        "良かった"
+      ],
+      "line": 303
+    },
+    {
+      "id": "segment-245",
+      "kind": "segmentation",
+      "text": "無理しなくていいから",
+      "tokens": [
+        "無理しなくていい",
+        "から"
+      ],
+      "line": 304
+    },
+    {
+      "id": "segment-246",
+      "kind": "segmentation",
+      "text": "調子にのらないほうが",
+      "tokens": [
+        "調子にのらない",
+        "ほう",
+        "が"
+      ],
+      "line": 305
+    },
+    {
+      "id": "segment-247",
+      "kind": "segmentation",
+      "text": "こなさそう",
+      "tokens": [
+        "こなさそう"
+      ],
+      "line": 306
+    },
+    {
+      "id": "segment-248",
+      "kind": "segmentation",
+      "text": "伸びてこなさそう",
+      "tokens": [
+        "伸びてこなさそう"
+      ],
+      "line": 307
+    },
+    {
+      "id": "segment-249",
+      "kind": "segmentation",
+      "text": "手にとって",
+      "tokens": [
+        "手にとって"
+      ],
+      "line": 308
+    },
+    {
+      "id": "segment-250",
+      "kind": "segmentation",
+      "text": "平和である",
+      "tokens": [
+        "平和",
+        "で",
+        "ある"
+      ],
+      "line": 309
+    },
+    {
+      "id": "segment-251",
+      "kind": "segmentation",
+      "text": "私にとっては少しおかしいです",
+      "tokens": [
+        "私",
+        "にとって",
+        "は",
+        "少し",
+        "おかしいです"
+      ],
+      "line": 310
+    },
+    {
+      "id": "segment-252",
+      "kind": "segmentation",
+      "text": "パーティーは",
+      "tokens": [
+        "パーティー",
+        "は"
+      ],
+      "line": 311
+    },
+    {
+      "id": "segment-253",
+      "kind": "segmentation",
+      "text": "彼以上のばかはいない",
+      "tokens": [
+        "彼",
+        "以上",
+        "の",
+        "ばか",
+        "は",
+        "いない"
+      ],
+      "line": 312
+    },
+    {
+      "id": "segment-254",
+      "kind": "segmentation",
+      "text": "君がいないと淋しい",
+      "tokens": [
+        "君",
+        "が",
+        "いない",
+        "と",
+        "淋しい"
+      ],
+      "line": 313
+    },
+    {
+      "id": "segment-255",
+      "kind": "segmentation",
+      "text": "思いきって",
+      "tokens": [
+        "思いきって"
+      ],
+      "line": 314
+    },
+    {
+      "id": "segment-256",
+      "kind": "segmentation",
+      "text": "思いきっている",
+      "tokens": [
+        "思いきっている"
+      ],
+      "line": 315
+    },
+    {
+      "id": "segment-257",
+      "kind": "segmentation",
+      "text": "大事になります",
+      "tokens": [
+        "大事",
+        "に",
+        "なります"
+      ],
+      "line": 316
+    },
+    {
+      "id": "segment-258",
+      "kind": "segmentation",
+      "text": "元気にします",
+      "tokens": [
+        "元気",
+        "に",
+        "します"
+      ],
+      "line": 317
+    },
+    {
+      "id": "segment-259",
+      "kind": "segmentation",
+      "text": "ご迷惑おかけしてすみません",
+      "tokens": [
+        "ご迷惑",
+        "おかけして",
+        "すみません"
+      ],
+      "line": 318
+    },
+    {
+      "id": "segment-260",
+      "kind": "segmentation",
+      "text": "不便をおかけすることを謝ります",
+      "tokens": [
+        "不便",
+        "を",
+        "おかけする",
+        "こと",
+        "を",
+        "謝ります"
+      ],
+      "line": 319
+    },
+    {
+      "id": "segment-261",
+      "kind": "segmentation",
+      "text": "お手数おかけし申し訳ないが",
+      "tokens": [
+        "お手数",
+        "おかけし",
+        "申し訳ない",
+        "が"
+      ],
+      "line": 320
+    },
+    {
+      "id": "segment-262",
+      "kind": "segmentation",
+      "text": "私はあなたにお手数をおかけました",
+      "tokens": [
+        "私",
+        "は",
+        "あなた",
+        "に",
+        "お手数",
+        "を",
+        "お",
+        "かけました"
+      ],
+      "line": 321
+    },
+    {
+      "id": "segment-263",
+      "kind": "segmentation",
+      "text": "ここにおかけなさい",
+      "tokens": [
+        "ここ",
+        "に",
+        "お",
+        "かけなさい"
+      ],
+      "line": 322
+    },
+    {
+      "id": "segment-264",
+      "kind": "segmentation",
+      "text": "弾き出されてる",
+      "tokens": [
+        "弾き出されてる"
+      ],
+      "line": 323
+    },
+    {
+      "id": "segment-265",
+      "kind": "segmentation",
+      "text": "あかんわ",
+      "tokens": [
+        "あかん",
+        "わ"
+      ],
+      "line": 324
+    },
+    {
+      "id": "segment-266",
+      "kind": "segmentation",
+      "text": "ぶっちゃけ",
+      "tokens": [
+        "ぶっちゃけ"
+      ],
+      "line": 325
+    },
+    {
+      "id": "segment-267",
+      "kind": "segmentation",
+      "text": "賢人たち",
+      "tokens": [
+        "賢人",
+        "たち"
+      ],
+      "line": 326
+    },
+    {
+      "id": "segment-268",
+      "kind": "segmentation",
+      "text": "差ついた",
+      "tokens": [
+        "差",
+        "ついた"
+      ],
+      "line": 327
+    },
+    {
+      "id": "segment-269",
+      "kind": "segmentation",
+      "text": "ですら",
+      "tokens": [
+        "ですら"
+      ],
+      "line": 328
+    },
+    {
+      "id": "segment-270",
+      "kind": "segmentation",
+      "text": "でさえ",
+      "tokens": [
+        "でさえ"
+      ],
+      "line": 329
+    },
+    {
+      "id": "segment-271",
+      "kind": "segmentation",
+      "text": "みごとにやってのける",
+      "tokens": [
+        "みごと",
+        "に",
+        "やってのける"
+      ],
+      "line": 330
+    },
+    {
+      "id": "segment-272",
+      "kind": "segmentation",
+      "text": "いる",
+      "tokens": [
+        "いる"
+      ],
+      "line": 331
+    },
+    {
+      "id": "segment-273",
+      "kind": "segmentation",
+      "text": "はいずれ",
+      "tokens": [
+        "は",
+        "いずれ"
+      ],
+      "line": 332
+    },
+    {
+      "id": "segment-274",
+      "kind": "segmentation",
+      "text": "お下がり",
+      "tokens": [
+        "お下がり"
+      ],
+      "line": 333
+    },
+    {
+      "id": "segment-275",
+      "kind": "segmentation",
+      "text": "でも1000台とか1桁はあんまりだよな",
+      "tokens": [
+        "でも",
+        "1000台",
+        "とか",
+        "1桁",
+        "は",
+        "あんまり",
+        "だ",
+        "よな"
+      ],
+      "line": 334
+    },
+    {
+      "id": "segment-276",
+      "kind": "segmentation",
+      "text": "みんなにうらやましがられている",
+      "tokens": [
+        "みんな",
+        "に",
+        "うらやましがられている"
+      ],
+      "line": 335
+    },
+    {
+      "id": "segment-277",
+      "kind": "segmentation",
+      "text": "悪がられて",
+      "tokens": [
+        "悪がられて"
+      ],
+      "line": 336
+    },
+    {
+      "id": "segment-278",
+      "kind": "segmentation",
+      "text": "期待されがちなので男女",
+      "tokens": [
+        "期待されがち",
+        "なので",
+        "男女"
+      ],
+      "line": 337
+    },
+    {
+      "id": "segment-279",
+      "kind": "segmentation",
+      "text": "とぎれがちに話す",
+      "tokens": [
+        "とぎれがち",
+        "に",
+        "話す"
+      ],
+      "line": 338
+    },
+    {
+      "id": "segment-280",
+      "kind": "segmentation",
+      "text": "手にとっていただきやすくなる",
+      "tokens": [
+        "手にとって",
+        "いただき",
+        "やすくなる"
+      ],
+      "line": 339
+    },
+    {
+      "id": "segment-281",
+      "kind": "segmentation",
+      "text": "さほど",
+      "tokens": [
+        "さほど"
+      ],
+      "line": 340
+    },
+    {
+      "id": "segment-282",
+      "kind": "segmentation",
+      "text": "大きさほどもある",
+      "tokens": [
+        "大きさ",
+        "ほど",
+        "も",
+        "ある"
+      ],
+      "line": 341
+    },
+    {
+      "id": "segment-283",
+      "kind": "segmentation",
+      "text": "しかいない",
+      "tokens": [
+        "しか",
+        "いない"
+      ],
+      "line": 342
+    },
+    {
+      "id": "segment-284",
+      "kind": "segmentation",
+      "text": "掴めていない",
+      "tokens": [
+        "掴めていない"
+      ],
+      "line": 343
+    },
+    {
+      "id": "segment-285",
+      "kind": "segmentation",
+      "text": "振り回されたいな",
+      "tokens": [
+        "振り回されたい",
+        "な"
+      ],
+      "line": 344
+    },
+    {
+      "id": "segment-286",
+      "kind": "segmentation",
+      "text": "さぼっている",
+      "tokens": [
+        "さぼっている"
+      ],
+      "line": 345
+    },
+    {
+      "id": "segment-287",
+      "kind": "segmentation",
+      "text": "のままで来る",
+      "tokens": [
+        "の",
+        "まま",
+        "で",
+        "来る"
+      ],
+      "line": 346
+    },
+    {
+      "id": "segment-288",
+      "kind": "segmentation",
+      "text": "5人中4人",
+      "tokens": [
+        "5人中",
+        "4人"
+      ],
+      "line": 347
+    },
+    {
+      "id": "segment-289",
+      "kind": "segmentation",
+      "text": "彼はどなりすぎて声をからした",
+      "tokens": [
+        "彼",
+        "は",
+        "どなり",
+        "すぎて",
+        "声",
+        "を",
+        "からした"
+      ],
+      "line": 348
+    },
+    {
+      "id": "segment-290",
+      "kind": "segmentation",
+      "text": "そうしたいからしただけだ",
+      "tokens": [
+        "そう",
+        "したい",
+        "から",
+        "した",
+        "だけ",
+        "だ"
+      ],
+      "line": 349
+    },
+    {
+      "id": "segment-291",
+      "kind": "segmentation",
+      "text": "推し続けている",
+      "tokens": [
+        "推し",
+        "続けている"
+      ],
+      "line": 350
+    },
+    {
+      "id": "segment-292",
+      "kind": "segmentation",
+      "text": "少し直せたら",
+      "tokens": [
+        "少し",
+        "直せたら"
+      ],
+      "line": 351
+    },
+    {
+      "id": "segment-293",
+      "kind": "segmentation",
+      "text": "良いほう",
+      "tokens": [
+        "良い",
+        "ほう"
+      ],
+      "line": 352
+    },
+    {
+      "id": "segment-294",
+      "kind": "segmentation",
+      "text": "いいえ",
+      "tokens": [
+        "いいえ"
+      ],
+      "line": 353
+    },
+    {
+      "id": "segment-295",
+      "kind": "segmentation",
+      "text": "割り当てられた",
+      "tokens": [
+        "割り当てられた"
+      ],
+      "line": 354
+    },
+    {
+      "id": "segment-296",
+      "kind": "segmentation",
+      "text": "綺麗だけど近よりがたいよね",
+      "tokens": [
+        "綺麗",
+        "だけど",
+        "近よりがたい",
+        "よね"
+      ],
+      "line": 355
+    },
+    {
+      "id": "segment-297",
+      "kind": "segmentation",
+      "text": "そうなんじゃない",
+      "tokens": [
+        "そう",
+        "な",
+        "ん",
+        "じゃない"
+      ],
+      "line": 356
+    },
+    {
+      "id": "segment-298",
+      "kind": "segmentation",
+      "text": "なんというかすみません",
+      "tokens": [
+        "なんというか",
+        "すみません"
+      ],
+      "line": 357
+    },
+    {
+      "id": "segment-299",
+      "kind": "segmentation",
+      "text": "めんどくそがる",
+      "tokens": [
+        "めんどくそがる"
+      ],
+      "line": 358
+    },
+    {
+      "id": "segment-300",
+      "kind": "segmentation",
+      "text": "がなんで終わった",
+      "tokens": [
+        "が",
+        "なんで",
+        "終わった"
+      ],
+      "line": 359
+    },
+    {
+      "id": "segment-301",
+      "kind": "segmentation",
+      "text": "てか最近ファン層は円盤すら買わないからそいつらから金とるってのは無謀",
+      "tokens": [
+        "てか",
+        "最近",
+        "ファン層",
+        "は",
+        "円盤",
+        "すら",
+        "買わない",
+        "から",
+        "そいつら",
+        "から",
+        "金",
+        "とる",
+        "ってのは",
+        "無謀"
+      ],
+      "line": 360
+    },
+    {
+      "id": "segment-302",
+      "kind": "segmentation",
+      "text": "とろいな",
+      "tokens": [
+        "とろい",
+        "な"
+      ],
+      "line": 363
+    },
+    {
+      "id": "segment-303",
+      "kind": "segmentation",
+      "text": "なんでもかんでも",
+      "tokens": [
+        "なんでもかんでも"
+      ],
+      "line": 364
+    },
+    {
+      "id": "segment-304",
+      "kind": "segmentation",
+      "text": "しないかい",
+      "tokens": [
+        "しない",
+        "かい"
+      ],
+      "line": 365
+    },
+    {
+      "id": "segment-305",
+      "kind": "segmentation",
+      "text": "参拝しちゃいかんという人がいます",
+      "tokens": [
+        "参拝しちゃ",
+        "いかん",
+        "という",
+        "人",
+        "が",
+        "います"
+      ],
+      "line": 366
+    },
+    {
+      "id": "segment-306",
+      "kind": "segmentation",
+      "text": "人をひやかしちゃいやよ",
+      "tokens": [
+        "人",
+        "を",
+        "ひやかしちゃ",
+        "いや",
+        "よ"
+      ],
+      "line": 368
+    },
+    {
+      "id": "segment-307",
+      "kind": "segmentation",
+      "text": "しちゃいたい",
+      "tokens": [
+        "しちゃいたい"
+      ],
+      "line": 369
+    },
+    {
+      "id": "segment-308",
+      "kind": "segmentation",
+      "text": "けがなどをしないように",
+      "tokens": [
+        "けが",
+        "など",
+        "を",
+        "しない",
+        "ように"
+      ],
+      "line": 370
+    },
+    {
+      "id": "segment-309",
+      "kind": "segmentation",
+      "text": "買い支えたいと思う",
+      "tokens": [
+        "買い",
+        "支えたい",
+        "と",
+        "思う"
+      ],
+      "line": 371
+    },
+    {
+      "id": "segment-310",
+      "kind": "segmentation",
+      "text": "おじゃましています",
+      "tokens": [
+        "おじゃましています"
+      ],
+      "line": 372
+    },
+    {
+      "id": "segment-311",
+      "kind": "segmentation",
+      "text": "とかいらんから",
+      "tokens": [
+        "とか",
+        "いらん",
+        "から"
+      ],
+      "line": 373
+    },
+    {
+      "id": "segment-312",
+      "kind": "segmentation",
+      "text": "ということだろうけど",
+      "tokens": [
+        "という",
+        "こと",
+        "だろう",
+        "けど"
+      ],
+      "line": 374
+    },
+    {
+      "id": "segment-313",
+      "kind": "segmentation",
+      "text": "のはわからなくもない",
+      "tokens": [
+        "の",
+        "は",
+        "わからなく",
+        "も",
+        "ない"
+      ],
+      "line": 375
+    },
+    {
+      "id": "segment-314",
+      "kind": "segmentation",
+      "text": "変わっていくだろう",
+      "tokens": [
+        "変わっていく",
+        "だろう"
+      ],
+      "line": 376
+    },
+    {
+      "id": "segment-315",
+      "kind": "segmentation",
+      "text": "待ってねぇ",
+      "tokens": [
+        "待って",
+        "ねぇ"
+      ],
+      "line": 377
+    },
+    {
+      "id": "segment-316",
+      "kind": "segmentation",
+      "text": "おかしいと思わんですか",
+      "tokens": [
+        "おかしい",
+        "と",
+        "思わん",
+        "です",
+        "か"
+      ],
+      "line": 378
+    },
+    {
+      "id": "segment-317",
+      "kind": "segmentation",
+      "text": "ズレてる",
+      "tokens": [
+        "ズレてる"
+      ],
+      "line": 379
+    },
+    {
+      "id": "segment-318",
+      "kind": "segmentation",
+      "text": "紅茶飲みたい",
+      "tokens": [
+        "紅茶",
+        "飲みたい"
+      ],
+      "line": 380
+    },
+    {
+      "id": "segment-319",
+      "kind": "segmentation",
+      "text": "電気がついた",
+      "tokens": [
+        "電気",
+        "が",
+        "ついた"
+      ],
+      "line": 381
+    },
+    {
+      "id": "segment-320",
+      "kind": "segmentation",
+      "text": "脚本会議",
+      "tokens": [
+        "脚本",
+        "会議"
+      ],
+      "line": 382
+    },
+    {
+      "id": "segment-321",
+      "kind": "segmentation",
+      "text": "見せなきゃいけなくなって",
+      "tokens": [
+        "見せなきゃ",
+        "いけなくなって"
+      ],
+      "line": 383
+    },
+    {
+      "id": "segment-322",
+      "kind": "segmentation",
+      "text": "私じゃなくなるような瞬間があって",
+      "tokens": [
+        "私",
+        "じゃなくなる",
+        "ような",
+        "瞬間",
+        "が",
+        "あって"
+      ],
+      "line": 384
+    },
+    {
+      "id": "segment-323",
+      "kind": "segmentation",
+      "text": "効いててかなりぬくい",
+      "tokens": [
+        "効いてて",
+        "かなり",
+        "ぬくい"
+      ],
+      "line": 385
+    },
+    {
+      "id": "segment-324",
+      "kind": "segmentation",
+      "text": "撮影してていつもは",
+      "tokens": [
+        "撮影してて",
+        "いつも",
+        "は"
+      ],
+      "line": 386
+    },
+    {
+      "id": "segment-325",
+      "kind": "segmentation",
+      "text": "むしろいないほうが珍しい",
+      "tokens": [
+        "むしろ",
+        "いない",
+        "ほう",
+        "が",
+        "珍しい"
+      ],
+      "line": 387
+    },
+    {
+      "id": "segment-326",
+      "kind": "segmentation",
+      "text": "旅行にいきたい",
+      "tokens": [
+        "旅行",
+        "に",
+        "いきたい"
+      ],
+      "line": 388
+    },
+    {
+      "id": "segment-327",
+      "kind": "segmentation",
+      "text": "見ててこんな話あったっけ",
+      "tokens": [
+        "見てて",
+        "こんな",
+        "話",
+        "あった",
+        "っけ"
+      ],
+      "line": 389
+    },
+    {
+      "id": "segment-328",
+      "kind": "segmentation",
+      "text": "いじめとかある",
+      "tokens": [
+        "いじめ",
+        "とか",
+        "ある"
+      ],
+      "line": 390
+    },
+    {
+      "id": "segment-329",
+      "kind": "segmentation",
+      "text": "となったらしい",
+      "tokens": [
+        "となったらしい"
+      ],
+      "line": 391
+    },
+    {
+      "id": "segment-330",
+      "kind": "segmentation",
+      "text": "基地外が必死過ぎ",
+      "tokens": [
+        "基地外",
+        "が",
+        "必死",
+        "過ぎ"
+      ],
+      "line": 392
+    },
+    {
+      "id": "segment-331",
+      "kind": "segmentation",
+      "text": "調整のせいとか",
+      "tokens": [
+        "調整",
+        "の",
+        "せい",
+        "とか"
+      ],
+      "line": 393
+    },
+    {
+      "id": "segment-332",
+      "kind": "segmentation",
+      "text": "はっしていない",
+      "tokens": [
+        "はっしていない"
+      ],
+      "line": 394
+    },
+    {
+      "id": "segment-333",
+      "kind": "segmentation",
+      "text": "無理さえしなければ",
+      "tokens": [
+        "無理",
+        "さえ",
+        "しなければ"
+      ],
+      "line": 395
+    },
+    {
+      "id": "segment-334",
+      "kind": "segmentation",
+      "text": "ところで",
+      "tokens": [
+        "ところで"
+      ],
+      "line": 396
+    },
+    {
+      "id": "segment-335",
+      "kind": "segmentation",
+      "text": "外に出て",
+      "tokens": [
+        "外",
+        "に",
+        "出て"
+      ],
+      "line": 397
+    },
+    {
+      "id": "segment-336",
+      "kind": "segmentation",
+      "text": "大人しそうな顔",
+      "tokens": [
+        "大人しそう",
+        "な",
+        "顔"
+      ],
+      "line": 398
+    },
+    {
+      "id": "segment-337",
+      "kind": "segmentation",
+      "text": "おとなしそうなようすにだまされた",
+      "tokens": [
+        "おとなしそう",
+        "な",
+        "ようす",
+        "に",
+        "だまされた"
+      ],
+      "line": 399
+    },
+    {
+      "id": "segment-338",
+      "kind": "segmentation",
+      "text": "勝手に入る",
+      "tokens": [
+        "勝手に",
+        "入る"
+      ],
+      "line": 400
+    },
+    {
+      "id": "segment-339",
+      "kind": "segmentation",
+      "text": "後継ぎする",
+      "tokens": [
+        "後継ぎ",
+        "する"
+      ],
+      "line": 401
+    },
+    {
+      "id": "segment-340",
+      "kind": "segmentation",
+      "text": "なすまん",
+      "tokens": [
+        "な",
+        "すまん"
+      ],
+      "line": 402
+    },
+    {
+      "id": "segment-341",
+      "kind": "segmentation",
+      "text": "強いんだね",
+      "tokens": [
+        "強い",
+        "ん",
+        "だ",
+        "ね"
+      ],
+      "line": 403
+    },
+    {
+      "id": "segment-342",
+      "kind": "segmentation",
+      "text": "おんなじなんだろ",
+      "tokens": [
+        "おんなじ",
+        "な",
+        "ん",
+        "だろ"
+      ],
+      "line": 404
+    },
+    {
+      "id": "segment-343",
+      "kind": "segmentation",
+      "text": "女神様",
+      "tokens": [
+        "女神",
+        "様"
+      ],
+      "line": 405
+    },
+    {
+      "id": "segment-344",
+      "kind": "segmentation",
+      "text": "邪推した事柄",
+      "tokens": [
+        "邪推した",
+        "事柄"
+      ],
+      "line": 406
+    },
+    {
+      "id": "segment-345",
+      "kind": "segmentation",
+      "text": "邪推してしまう",
+      "tokens": [
+        "邪推してしまう"
+      ],
+      "line": 407
+    },
+    {
+      "id": "segment-346",
+      "kind": "segmentation",
+      "text": "良さげかも",
+      "tokens": [
+        "良さげ",
+        "かも"
+      ],
+      "line": 409
+    },
+    {
+      "id": "segment-347",
+      "kind": "segmentation",
+      "text": "事故ってます",
+      "tokens": [
+        "事故ってます"
+      ],
+      "line": 410
+    },
+    {
+      "id": "segment-348",
+      "kind": "segmentation",
+      "text": "卒倒している",
+      "tokens": [
+        "卒倒している"
+      ],
+      "line": 411
+    },
+    {
+      "id": "segment-349",
+      "kind": "segmentation",
+      "text": "卒倒させる",
+      "tokens": [
+        "卒倒させる"
+      ],
+      "line": 412
+    },
+    {
+      "id": "segment-350",
+      "kind": "segmentation",
+      "text": "出したいときは",
+      "tokens": [
+        "出したい",
+        "とき",
+        "は"
+      ],
+      "line": 413
+    },
+    {
+      "id": "segment-351",
+      "kind": "segmentation",
+      "text": "柔らかさ",
+      "tokens": [
+        "柔らかさ"
+      ],
+      "line": 414
+    },
+    {
+      "id": "segment-352",
+      "kind": "segmentation",
+      "text": "次がある",
+      "tokens": [
+        "次",
+        "が",
+        "ある"
+      ],
+      "line": 415
+    },
+    {
+      "id": "segment-353",
+      "kind": "segmentation",
+      "text": "のせいですね",
+      "tokens": [
+        "の",
+        "せい",
+        "です",
+        "ね"
+      ],
+      "line": 416
+    },
+    {
+      "id": "segment-354",
+      "kind": "segmentation",
+      "text": "それただの怪しい人ですし",
+      "tokens": [
+        "それ",
+        "ただ",
+        "の",
+        "怪しい",
+        "人",
+        "です",
+        "し"
+      ],
+      "line": 417
+    },
+    {
+      "id": "segment-355",
+      "kind": "segmentation",
+      "text": "ごときが知る",
+      "tokens": [
+        "ごとき",
+        "が",
+        "知る"
+      ],
+      "line": 418
+    },
+    {
+      "id": "segment-356",
+      "kind": "segmentation",
+      "text": "山にはさまれて",
+      "tokens": [
+        "山",
+        "に",
+        "はさまれて"
+      ],
+      "line": 419
+    },
+    {
+      "id": "segment-357",
+      "kind": "segmentation",
+      "text": "物がぼんやりとかすんで見える",
+      "tokens": [
+        "物",
+        "が",
+        "ぼんやり",
+        "と",
+        "かすんで",
+        "見える"
+      ],
+      "line": 420
+    },
+    {
+      "id": "segment-358",
+      "kind": "segmentation",
+      "text": "どなた様でございましょうか",
+      "tokens": [
+        "どなた",
+        "様",
+        "でございましょう",
+        "か"
+      ],
+      "line": 421
+    },
+    {
+      "id": "segment-359",
+      "kind": "segmentation",
+      "text": "読んでくださりありがとうございました",
+      "tokens": [
+        "読んで",
+        "くださり",
+        "ありがとうございました"
+      ],
+      "line": 422
+    },
+    {
+      "id": "segment-360",
+      "kind": "segmentation",
+      "text": "ふざけんな",
+      "tokens": [
+        "ふざけんな"
+      ],
+      "line": 423
+    },
+    {
+      "id": "segment-361",
+      "kind": "segmentation",
+      "text": "観終わってた",
+      "tokens": [
+        "観",
+        "終わってた"
+      ],
+      "line": 424
+    },
+    {
+      "id": "segment-362",
+      "kind": "segmentation",
+      "text": "意味深終わり",
+      "tokens": [
+        "意味深",
+        "終わり"
+      ],
+      "line": 425
+    },
+    {
+      "id": "segment-363",
+      "kind": "segmentation",
+      "text": "今日とて居残りです",
+      "tokens": [
+        "今日",
+        "とて",
+        "居残り",
+        "です"
+      ],
+      "line": 426
+    },
+    {
+      "id": "segment-364",
+      "kind": "segmentation",
+      "text": "堪能させていただきます",
+      "tokens": [
+        "堪能させていただきます"
+      ],
+      "line": 427
+    },
+    {
+      "id": "segment-365",
+      "kind": "segmentation",
+      "text": "わからんからそう思った",
+      "tokens": [
+        "わからん",
+        "から",
+        "そう",
+        "思った"
+      ],
+      "line": 428
+    },
+    {
+      "id": "segment-366",
+      "kind": "segmentation",
+      "text": "うちからそうなっても",
+      "tokens": [
+        "うち",
+        "から",
+        "そう",
+        "なっても"
+      ],
+      "line": 429
+    },
+    {
+      "id": "segment-367",
+      "kind": "segmentation",
+      "text": "上映会やな",
+      "tokens": [
+        "上映",
+        "会",
+        "や",
+        "な"
+      ],
+      "line": 430
+    },
+    {
+      "id": "segment-368",
+      "kind": "segmentation",
+      "text": "以上書いてください",
+      "tokens": [
+        "以上",
+        "書いてください"
+      ],
+      "line": 431
+    },
+    {
+      "id": "segment-369",
+      "kind": "segmentation",
+      "text": "してしまったのがいまだに忘れられないし",
+      "tokens": [
+        "してしまった",
+        "の",
+        "が",
+        "いまだに",
+        "忘れられない",
+        "し"
+      ],
+      "line": 432
+    },
+    {
+      "id": "segment-370",
+      "kind": "segmentation",
+      "text": "彼ははんぱじゃなく",
+      "tokens": [
+        "彼",
+        "は",
+        "はんぱじゃなく"
+      ],
+      "line": 433
+    },
+    {
+      "id": "segment-371",
+      "kind": "segmentation",
+      "text": "許さないじゃなくてさ",
+      "tokens": [
+        "許さない",
+        "じゃなくて",
+        "さ"
+      ],
+      "line": 434
+    },
+    {
+      "id": "segment-372",
+      "kind": "segmentation",
+      "text": "じゃなかったです",
+      "tokens": [
+        "じゃなかったです"
+      ],
+      "line": 435
+    },
+    {
+      "id": "segment-373",
+      "kind": "segmentation",
+      "text": "彼女は苦しげにうめいて横たわった",
+      "tokens": [
+        "彼女",
+        "は",
+        "苦しげ",
+        "に",
+        "うめいて",
+        "横たわった"
+      ],
+      "line": 436
+    },
+    {
+      "id": "segment-374",
+      "kind": "segmentation",
+      "text": "わたしにはちょっとわかりかねますので",
+      "tokens": [
+        "わたし",
+        "には",
+        "ちょっと",
+        "わかりかねます",
+        "ので"
+      ],
+      "line": 437
+    },
+    {
+      "id": "segment-375",
+      "kind": "segmentation",
+      "text": "要素はないかと",
+      "tokens": [
+        "要素",
+        "は",
+        "ない",
+        "か",
+        "と"
+      ],
+      "line": 438
+    },
+    {
+      "id": "segment-376",
+      "kind": "segmentation",
+      "text": "すごいじゃん",
+      "tokens": [
+        "すごい",
+        "じゃん"
+      ],
+      "line": 439
+    },
+    {
+      "id": "segment-377",
+      "kind": "segmentation",
+      "text": "腕をつかまれて路地",
+      "tokens": [
+        "腕",
+        "を",
+        "つかまれて",
+        "路地"
+      ],
+      "line": 440
+    },
+    {
+      "id": "segment-378",
+      "kind": "segmentation",
+      "text": "別にマイナスにならん",
+      "tokens": [
+        "別に",
+        "マイナス",
+        "に",
+        "ならん"
+      ],
+      "line": 441
+    },
+    {
+      "id": "segment-379",
+      "kind": "segmentation",
+      "text": "遊びばかりはだめだよ",
+      "tokens": [
+        "遊び",
+        "ばかり",
+        "は",
+        "だめ",
+        "だ",
+        "よ"
+      ],
+      "line": 442
+    },
+    {
+      "id": "segment-380",
+      "kind": "segmentation",
+      "text": "最中でも",
+      "tokens": [
+        "最中",
+        "でも"
+      ],
+      "line": 443
+    },
+    {
+      "id": "segment-381",
+      "kind": "segmentation",
+      "text": "小動物好き物好き",
+      "tokens": [
+        "小動物",
+        "好き",
+        "物好き"
+      ],
+      "line": 444
+    },
+    {
+      "id": "segment-382",
+      "kind": "segmentation",
+      "text": "知れないですか",
+      "tokens": [
+        "知れないです",
+        "か"
+      ],
+      "line": 445
+    },
+    {
+      "id": "segment-383",
+      "kind": "segmentation",
+      "text": "かも知れないですね",
+      "tokens": [
+        "かも知れない",
+        "です",
+        "ね"
+      ],
+      "line": 446
+    },
+    {
+      "id": "segment-384",
+      "kind": "segmentation",
+      "text": "匙ですくう",
+      "tokens": [
+        "匙",
+        "で",
+        "すくう"
+      ],
+      "line": 447
+    },
+    {
+      "id": "segment-385",
+      "kind": "segmentation",
+      "text": "デカかったクドくない",
+      "tokens": [
+        "デカかった",
+        "クドくない"
+      ],
+      "line": 448
+    },
+    {
+      "id": "segment-386",
+      "kind": "segmentation",
+      "text": "決めたらしい教われたらしい",
+      "tokens": [
+        "決めたらしい",
+        "教われたらしい"
+      ],
+      "line": 449
+    },
+    {
+      "id": "segment-387",
+      "kind": "segmentation",
+      "text": "臆病なくせにとてもよい仲間だった",
+      "tokens": [
+        "臆病",
+        "な",
+        "くせに",
+        "とても",
+        "よい",
+        "仲間",
+        "だった"
+      ],
+      "line": 450
+    },
+    {
+      "id": "segment-388",
+      "kind": "segmentation",
+      "text": "あのねあのさ",
+      "tokens": [
+        "あのね",
+        "あのさ"
+      ],
+      "line": 451
+    },
+    {
+      "id": "segment-389",
+      "kind": "segmentation",
+      "text": "これまでになかったような名優",
+      "tokens": [
+        "これまで",
+        "に",
+        "なかった",
+        "ような",
+        "名優"
+      ],
+      "line": 452
+    },
+    {
+      "id": "segment-390",
+      "kind": "segmentation",
+      "text": "確かめてちゃんと",
+      "tokens": [
+        "確かめて",
+        "ちゃんと"
+      ],
+      "line": 453
+    },
+    {
+      "id": "segment-391",
+      "kind": "segmentation",
+      "text": "ことにしましょうってなった",
+      "tokens": [
+        "ことにしましょう",
+        "って",
+        "なった"
+      ],
+      "line": 454
+    },
+    {
+      "id": "segment-392",
+      "kind": "segmentation",
+      "text": "見てござる",
+      "tokens": [
+        "見て",
+        "ござる"
+      ],
+      "line": 455
+    },
+    {
+      "id": "segment-393",
+      "kind": "segmentation",
+      "text": "彼がいうことはわけがわからない",
+      "tokens": [
+        "彼",
+        "が",
+        "いう",
+        "こと",
+        "は",
+        "わけがわからない"
+      ],
+      "line": 456
+    },
+    {
+      "id": "segment-394",
+      "kind": "segmentation",
+      "text": "わけのわからないことをくどくど言う",
+      "tokens": [
+        "わけのわからない",
+        "こと",
+        "を",
+        "くどくど",
+        "言う"
+      ],
+      "line": 457
+    },
+    {
+      "id": "segment-395",
+      "kind": "segmentation",
+      "text": "ごくまれに",
+      "tokens": [
+        "ごくまれ",
+        "に"
+      ],
+      "line": 458
+    },
+    {
+      "id": "segment-396",
+      "kind": "segmentation",
+      "text": "天をうらんでみたところで始まらない",
+      "tokens": [
+        "天",
+        "を",
+        "うらんで",
+        "みた",
+        "ところで",
+        "始まらない"
+      ],
+      "line": 459
+    },
+    {
+      "id": "segment-397",
+      "kind": "segmentation",
+      "text": "癒やされたかった",
+      "tokens": [
+        "癒やされたかった"
+      ],
+      "line": 460
+    },
+    {
+      "id": "segment-398",
+      "kind": "segmentation",
+      "text": "7時には帰ってきなさい",
+      "tokens": [
+        "7時",
+        "には",
+        "帰ってきなさい"
+      ],
+      "line": 461
+    },
+    {
+      "id": "segment-399",
+      "kind": "segmentation",
+      "text": "人はいますか",
+      "tokens": [
+        "人",
+        "は",
+        "います",
+        "か"
+      ],
+      "line": 462
+    },
+    {
+      "id": "segment-400",
+      "kind": "segmentation",
+      "text": "トマトづくし",
+      "tokens": [
+        "トマト",
+        "づくし"
+      ],
+      "line": 463
+    },
+    {
+      "id": "segment-401",
+      "kind": "segmentation",
+      "text": "見えざる関係性",
+      "tokens": [
+        "見えざる",
+        "関係性"
+      ],
+      "line": 464
+    },
+    {
+      "id": "segment-402",
+      "kind": "segmentation",
+      "text": "だめだったら",
+      "tokens": [
+        "だめ",
+        "だったら"
+      ],
+      "line": 465
+    },
+    {
+      "id": "segment-403",
+      "kind": "segmentation",
+      "text": "万事不都合の無いようにはからってくれ",
+      "tokens": [
+        "万事",
+        "不都合",
+        "の",
+        "無い",
+        "ように",
+        "はからってくれ"
+      ],
+      "line": 466
+    },
+    {
+      "id": "segment-404",
+      "kind": "segmentation",
+      "text": "ではみなさん",
+      "tokens": [
+        "では",
+        "みなさん"
+      ],
+      "line": 467
+    },
+    {
+      "id": "segment-405",
+      "kind": "segmentation",
+      "text": "鉄とはがね",
+      "tokens": [
+        "鉄",
+        "と",
+        "はがね"
+      ],
+      "line": 468
+    },
+    {
+      "id": "segment-406",
+      "kind": "segmentation",
+      "text": "抹茶とは",
+      "tokens": [
+        "抹茶",
+        "とは"
+      ],
+      "line": 469
+    },
+    {
+      "id": "segment-407",
+      "kind": "segmentation",
+      "text": "工夫がされる",
+      "tokens": [
+        "工夫",
+        "が",
+        "される"
+      ],
+      "line": 471
+    },
+    {
+      "id": "segment-408",
+      "kind": "segmentation",
+      "text": "うまいことしたね",
+      "tokens": [
+        "うまいこと",
+        "した",
+        "ね"
+      ],
+      "line": 472
+    },
+    {
+      "id": "segment-409",
+      "kind": "segmentation",
+      "text": "ことしは新成人１４人のうち８人が避難先などから村の村民会館に集まりました",
+      "tokens": [
+        "ことし",
+        "は",
+        "新成人",
+        "１４人",
+        "の",
+        "うち",
+        "８人",
+        "が",
+        "避難先",
+        "など",
+        "から",
+        "村",
+        "の",
+        "村民",
+        "会館",
+        "に",
+        "集まりました"
+      ],
+      "line": 473
+    },
+    {
+      "id": "segment-410",
+      "kind": "segmentation",
+      "text": "鬱が悪化する",
+      "tokens": [
+        "鬱",
+        "が",
+        "悪化する"
+      ],
+      "line": 476
+    },
+    {
+      "id": "segment-411",
+      "kind": "segmentation",
+      "text": "一部が手に入ればことし１年の願いがかなうとされています",
+      "tokens": [
+        "一部",
+        "が",
+        "手に入れば",
+        "ことし",
+        "１年",
+        "の",
+        "願い",
+        "が",
+        "かなう",
+        "とされています"
+      ],
+      "line": 477
+    },
+    {
+      "id": "segment-412",
+      "kind": "segmentation",
+      "text": "汗を流しました",
+      "tokens": [
+        "汗を流しました"
+      ],
+      "line": 479
+    },
+    {
+      "id": "segment-413",
+      "kind": "segmentation",
+      "text": "気がついてる",
+      "tokens": [
+        "気がついてる"
+      ],
+      "line": 480
+    },
+    {
+      "id": "segment-414",
+      "kind": "segmentation",
+      "text": "ガスがついている",
+      "tokens": [
+        "ガス",
+        "が",
+        "ついている"
+      ],
+      "line": 481
+    },
+    {
+      "id": "segment-415",
+      "kind": "segmentation",
+      "text": "再開通",
+      "tokens": [
+        "再",
+        "開通"
+      ],
+      "line": 482
+    },
+    {
+      "id": "segment-416",
+      "kind": "segmentation",
+      "text": "謝罪はあったにせよ",
+      "tokens": [
+        "謝罪",
+        "は",
+        "あった",
+        "にせよ"
+      ],
+      "line": 483
+    },
+    {
+      "id": "segment-417",
+      "kind": "segmentation",
+      "text": "うそではないにしろ",
+      "tokens": [
+        "うそ",
+        "ではない",
+        "にしろ"
+      ],
+      "line": 484
+    },
+    {
+      "id": "segment-418",
+      "kind": "segmentation",
+      "text": "普段着てる服",
+      "tokens": [
+        "普段",
+        "着てる",
+        "服"
+      ],
+      "line": 485
+    },
+    {
+      "id": "segment-419",
+      "kind": "segmentation",
+      "text": "エレガントなお洋服",
+      "tokens": [
+        "エレガント",
+        "な",
+        "お",
+        "洋服"
+      ],
+      "line": 486
+    },
+    {
+      "id": "segment-420",
+      "kind": "segmentation",
+      "text": "老いてなお元気なこと",
+      "tokens": [
+        "老いて",
+        "なお",
+        "元気",
+        "な",
+        "こと"
+      ],
+      "line": 487
+    },
+    {
+      "id": "segment-421",
+      "kind": "segmentation",
+      "text": "何も口にせぬ",
+      "tokens": [
+        "何も",
+        "口",
+        "に",
+        "せぬ"
+      ],
+      "line": 488
+    },
+    {
+      "id": "segment-422",
+      "kind": "segmentation",
+      "text": "切ねぇ",
+      "tokens": [
+        "切ねぇ"
+      ],
+      "line": 489
+    },
+    {
+      "id": "segment-423",
+      "kind": "segmentation",
+      "text": "何故人気がある",
+      "tokens": [
+        "何故",
+        "人気がある"
+      ],
+      "line": 490
+    },
+    {
+      "id": "segment-424",
+      "kind": "segmentation",
+      "text": "バラしちゃってる",
+      "tokens": [
+        "バラしちゃってる"
+      ],
+      "line": 491
+    },
+    {
+      "id": "segment-425",
+      "kind": "segmentation",
+      "text": "気を使わせている",
+      "tokens": [
+        "気を使わせている"
+      ],
+      "line": 492
+    },
+    {
+      "id": "segment-426",
+      "kind": "segmentation",
+      "text": "一段上がる",
+      "tokens": [
+        "一段",
+        "上がる"
+      ],
+      "line": 493
+    },
+    {
+      "id": "segment-427",
+      "kind": "segmentation",
+      "text": "一段落ちる",
+      "tokens": [
+        "一段",
+        "落ちる"
+      ],
+      "line": 494
+    },
+    {
+      "id": "segment-428",
+      "kind": "segmentation",
+      "text": "恐怖ですくむ",
+      "tokens": [
+        "恐怖",
+        "で",
+        "すくむ"
+      ],
+      "line": 495
+    },
+    {
+      "id": "segment-429",
+      "kind": "segmentation",
+      "text": "全員がたちすくみました",
+      "tokens": [
+        "全員",
+        "が",
+        "たちすくみました"
+      ],
+      "line": 496
+    },
+    {
+      "id": "segment-430",
+      "kind": "segmentation",
+      "text": "雪がないため",
+      "tokens": [
+        "雪",
+        "が",
+        "ない",
+        "ため"
+      ],
+      "line": 497
+    },
+    {
+      "id": "segment-431",
+      "kind": "segmentation",
+      "text": "雪がなく",
+      "tokens": [
+        "雪",
+        "が",
+        "なく"
+      ],
+      "line": 498
+    },
+    {
+      "id": "segment-432",
+      "kind": "segmentation",
+      "text": "零れ落ちてる",
+      "tokens": [
+        "零れ落ちてる"
+      ],
+      "line": 499
+    },
+    {
+      "id": "segment-433",
+      "kind": "segmentation",
+      "text": "使い物にならんだろ",
+      "tokens": [
+        "使い物",
+        "に",
+        "ならん",
+        "だろ"
+      ],
+      "line": 500
+    },
+    {
+      "id": "segment-434",
+      "kind": "segmentation",
+      "text": "私とならんで走った",
+      "tokens": [
+        "私",
+        "と",
+        "ならんで",
+        "走った"
+      ],
+      "line": 501
+    },
+    {
+      "id": "segment-435",
+      "kind": "segmentation",
+      "text": "のうえに",
+      "tokens": [
+        "の",
+        "うえ",
+        "に"
+      ],
+      "line": 502
+    },
+    {
+      "id": "segment-436",
+      "kind": "segmentation",
+      "text": "皇位についたが",
+      "tokens": [
+        "皇位",
+        "に",
+        "ついた",
+        "が"
+      ],
+      "line": 503
+    },
+    {
+      "id": "segment-437",
+      "kind": "segmentation",
+      "text": "疱瘡がついたか",
+      "tokens": [
+        "疱瘡",
+        "が",
+        "ついた",
+        "か"
+      ],
+      "line": 504
+    },
+    {
+      "id": "segment-438",
+      "kind": "segmentation",
+      "text": "折りたたみ式ついたて",
+      "tokens": [
+        "折りたたみ式",
+        "ついたて"
+      ],
+      "line": 505
+    },
+    {
+      "id": "segment-439",
+      "kind": "segmentation",
+      "text": "いろいろな部分をもんだりこすったりすること",
+      "tokens": [
+        "いろいろ",
+        "な",
+        "部分",
+        "を",
+        "もんだり",
+        "こすったり",
+        "する",
+        "こと"
+      ],
+      "line": 506
+    },
+    {
+      "id": "segment-440",
+      "kind": "segmentation",
+      "text": "たまにはいいもんだよ",
+      "tokens": [
+        "たまに",
+        "は",
+        "いい",
+        "もんだ",
+        "よ"
+      ],
+      "line": 507
+    },
+    {
+      "id": "segment-441",
+      "kind": "segmentation",
+      "text": "歩みをはやめるのだった",
+      "tokens": [
+        "歩み",
+        "を",
+        "はやめる",
+        "の",
+        "だった"
+      ],
+      "line": 508
+    },
+    {
+      "id": "segment-442",
+      "kind": "segmentation",
+      "text": "たばこはやめると誓います",
+      "tokens": [
+        "たばこ",
+        "は",
+        "やめる",
+        "と",
+        "誓います"
+      ],
+      "line": 509
+    },
+    {
+      "id": "segment-443",
+      "kind": "segmentation",
+      "text": "私個人の生活についてとやかくうるさくいうのはやめてください",
+      "tokens": [
+        "私",
+        "個人",
+        "の",
+        "生活",
+        "について",
+        "とやかく",
+        "うるさく",
+        "いう",
+        "の",
+        "は",
+        "やめてください"
+      ],
+      "line": 510
+    },
+    {
+      "id": "segment-444",
+      "kind": "segmentation",
+      "text": "こもりがちな人",
+      "tokens": [
+        "こもりがち",
+        "な",
+        "人"
+      ],
+      "line": 512
+    },
+    {
+      "id": "segment-445",
+      "kind": "segmentation",
+      "text": "がちなやつ",
+      "tokens": [
+        "がち",
+        "な",
+        "やつ"
+      ],
+      "line": 513
+    },
+    {
+      "id": "segment-446",
+      "kind": "segmentation",
+      "text": "長くはかからないでしょう",
+      "tokens": [
+        "長く",
+        "は",
+        "かからないでしょう"
+      ],
+      "line": 514
+    },
+    {
+      "id": "segment-447",
+      "kind": "segmentation",
+      "text": "人はいないでしょうね",
+      "tokens": [
+        "人",
+        "は",
+        "いないでしょう",
+        "ね"
+      ],
+      "line": 515
+    },
+    {
+      "id": "segment-448",
+      "kind": "segmentation",
+      "text": "人はいないですね",
+      "tokens": [
+        "人",
+        "は",
+        "いないです",
+        "ね"
+      ],
+      "line": 516
+    },
+    {
+      "id": "segment-449",
+      "kind": "segmentation",
+      "text": "猛者どもの集い",
+      "tokens": [
+        "猛者",
+        "ども",
+        "の",
+        "集い"
+      ],
+      "line": 517
+    },
+    {
+      "id": "segment-450",
+      "kind": "segmentation",
+      "text": "うまいかまずいか",
+      "tokens": [
+        "うまい",
+        "か",
+        "まずい",
+        "か"
+      ],
+      "line": 518
+    },
+    {
+      "id": "segment-451",
+      "kind": "segmentation",
+      "text": "守衛にとがめられた",
+      "tokens": [
+        "守衛",
+        "に",
+        "とがめられた"
+      ],
+      "line": 519
+    },
+    {
+      "id": "segment-452",
+      "kind": "segmentation",
+      "text": "問い合わせがたくさん",
+      "tokens": [
+        "問い合わせ",
+        "が",
+        "たくさん"
+      ],
+      "line": 520
+    },
+    {
+      "id": "segment-453",
+      "kind": "segmentation",
+      "text": "楽しみがたくさん",
+      "tokens": [
+        "楽しみ",
+        "が",
+        "たくさん"
+      ],
+      "line": 521
+    },
+    {
+      "id": "segment-454",
+      "kind": "segmentation",
+      "text": "ふくろうは",
+      "tokens": [
+        "ふくろう",
+        "は"
+      ],
+      "line": 522
+    },
+    {
+      "id": "segment-455",
+      "kind": "segmentation",
+      "text": "語れるもんだな",
+      "tokens": [
+        "語れる",
+        "もんだ",
+        "な"
+      ],
+      "line": 523
+    },
+    {
+      "id": "segment-456",
+      "kind": "segmentation",
+      "text": "筋をもんでくれ",
+      "tokens": [
+        "筋",
+        "を",
+        "もんでくれ"
+      ],
+      "line": 524
+    },
+    {
+      "id": "segment-457",
+      "kind": "segmentation",
+      "text": "いわきからさいたままで",
+      "tokens": [
+        "いわき",
+        "から",
+        "さいたま",
+        "まで"
+      ],
+      "line": 525
+    },
+    {
+      "id": "segment-458",
+      "kind": "segmentation",
+      "text": "新型コロナウイルス",
+      "tokens": [
+        "新型コロナウイルス"
+      ],
+      "line": 526
+    },
+    {
+      "id": "segment-459",
+      "kind": "segmentation",
+      "text": "新型コロナウィルス",
+      "tokens": [
+        "新型コロナウィルス"
+      ],
+      "line": 527
+    },
+    {
+      "id": "segment-460",
+      "kind": "segmentation",
+      "text": "映画を見るとか食事をするとか",
+      "tokens": [
+        "映画",
+        "を",
+        "見る",
+        "とか",
+        "食事",
+        "を",
+        "する",
+        "とか"
+      ],
+      "line": 528
+    },
+    {
+      "id": "segment-461",
+      "kind": "segmentation",
+      "text": "さもうれしそうに笑う",
+      "tokens": [
+        "さも",
+        "うれしそう",
+        "に",
+        "笑う"
+      ],
+      "line": 529
+    },
+    {
+      "id": "segment-462",
+      "kind": "segmentation",
+      "text": "出しなに客が来る",
+      "tokens": [
+        "出しな",
+        "に",
+        "客",
+        "が",
+        "来る"
+      ],
+      "line": 530
+    },
+    {
+      "id": "segment-463",
+      "kind": "segmentation",
+      "text": "出しながら飛んで",
+      "tokens": [
+        "出し",
+        "ながら",
+        "飛んで"
+      ],
+      "line": 531
+    },
+    {
+      "id": "segment-464",
+      "kind": "segmentation",
+      "text": "正直言いたい",
+      "tokens": [
+        "正直",
+        "言いたい"
+      ],
+      "line": 532
+    },
+    {
+      "id": "segment-465",
+      "kind": "segmentation",
+      "text": "おとめにふさわしい振る舞い",
+      "tokens": [
+        "おとめ",
+        "に",
+        "ふさわしい",
+        "振る舞い"
+      ],
+      "line": 533
+    },
+    {
+      "id": "segment-466",
+      "kind": "segmentation",
+      "text": "気がないのよ",
+      "tokens": [
+        "気がない",
+        "の",
+        "よ"
+      ],
+      "line": 534
+    },
+    {
+      "id": "segment-467",
+      "kind": "segmentation",
+      "text": "口論のあげくに殴り合いになった",
+      "tokens": [
+        "口論",
+        "の",
+        "あげく",
+        "に",
+        "殴り合い",
+        "に",
+        "なった"
+      ],
+      "line": 535
+    },
+    {
+      "id": "segment-468",
+      "kind": "segmentation",
+      "text": "お手数おかけします",
+      "tokens": [
+        "お手数",
+        "おかけします"
+      ],
+      "line": 536
+    },
+    {
+      "id": "segment-469",
+      "kind": "segmentation",
+      "text": "30分後におかけ直しください",
+      "tokens": [
+        "30分",
+        "後",
+        "に",
+        "お",
+        "かけ直し",
+        "ください"
+      ],
+      "line": 537
+    },
+    {
+      "id": "segment-470",
+      "kind": "segmentation",
+      "text": "わかりきった",
+      "tokens": [
+        "わかりきった"
+      ],
+      "line": 538
+    },
+    {
+      "id": "segment-471",
+      "kind": "segmentation",
+      "text": "最良の方法は何だと思いますか",
+      "tokens": [
+        "最良",
+        "の",
+        "方法",
+        "は",
+        "何",
+        "だ",
+        "と",
+        "思います",
+        "か"
+      ],
+      "line": 539
+    },
+    {
+      "id": "segment-472",
+      "kind": "segmentation",
+      "text": "どうせいやがらせでする",
+      "tokens": [
+        "どうせ",
+        "いやがらせ",
+        "で",
+        "する"
+      ],
+      "line": 540
+    },
+    {
+      "id": "segment-473",
+      "kind": "segmentation",
+      "text": "芝居もどきのせりふを言う",
+      "tokens": [
+        "芝居",
+        "もどき",
+        "の",
+        "せりふ",
+        "を",
+        "言う"
+      ],
+      "line": 541
+    },
+    {
+      "id": "segment-474",
+      "kind": "segmentation",
+      "text": "がんもどきという食品",
+      "tokens": [
+        "がんもどき",
+        "という",
+        "食品"
+      ],
+      "line": 542
+    },
+    {
+      "id": "segment-475",
+      "kind": "segmentation",
+      "text": "落ちこぼれている",
+      "tokens": [
+        "落ちこぼれている"
+      ],
+      "line": 543
+    },
+    {
+      "id": "segment-476",
+      "kind": "segmentation",
+      "text": "1話しか見てない",
+      "tokens": [
+        "1話",
+        "しか",
+        "見てない"
+      ],
+      "line": 544
+    },
+    {
+      "id": "segment-477",
+      "kind": "segmentation",
+      "text": "忙しくてろくに更新もできず",
+      "tokens": [
+        "忙しくて",
+        "ろくに",
+        "更新",
+        "も",
+        "できず"
+      ],
+      "line": 545
+    },
+    {
+      "id": "segment-478",
+      "kind": "segmentation",
+      "text": "だまってろって",
+      "tokens": [
+        "だまってろ",
+        "って"
+      ],
+      "line": 546
+    },
+    {
+      "id": "segment-479",
+      "kind": "segmentation",
+      "text": "しっぽく蕎麦",
+      "tokens": [
+        "しっぽく",
+        "蕎麦"
+      ],
+      "line": 547
+    },
+    {
+      "id": "segment-480",
+      "kind": "segmentation",
+      "text": "猫はしっぽをぴんとはね上がって歩いた",
+      "tokens": [
+        "猫",
+        "は",
+        "しっぽ",
+        "を",
+        "ぴんと",
+        "はね上がって",
+        "歩いた"
+      ],
+      "line": 548
+    },
+    {
+      "id": "segment-481",
+      "kind": "segmentation",
+      "text": "物がぴんとはね上がるさま",
+      "tokens": [
+        "物",
+        "が",
+        "ぴんと",
+        "はね上がる",
+        "さま"
+      ],
+      "line": 549
+    },
+    {
+      "id": "segment-482",
+      "kind": "segmentation",
+      "text": "やる気はない",
+      "tokens": [
+        "やる気",
+        "は",
+        "ない"
+      ],
+      "line": 550
+    },
+    {
+      "id": "segment-483",
+      "kind": "segmentation",
+      "text": "あけましておめでとうございます",
+      "tokens": [
+        "あけましておめでとうございます"
+      ],
+      "line": 551
+    },
+    {
+      "id": "segment-484",
+      "kind": "segmentation",
+      "text": "おれたちは行くのにおまえたちは行かぬ",
+      "tokens": [
+        "おれたち",
+        "は",
+        "行く",
+        "のに",
+        "おまえたち",
+        "は",
+        "行かぬ"
+      ],
+      "line": 552
+    },
+    {
+      "id": "segment-485",
+      "kind": "segmentation",
+      "text": "よろしくおねがいします",
+      "tokens": [
+        "よろしくおねがいします"
+      ],
+      "line": 553
+    },
+    {
+      "id": "segment-486",
+      "kind": "segmentation",
+      "text": "気を遣ってくれてるのかと思ってました",
+      "tokens": [
+        "気を遣ってくれてる",
+        "のか",
+        "と",
+        "思ってました"
+      ],
+      "line": 554
+    },
+    {
+      "id": "segment-487",
+      "kind": "segmentation",
+      "text": "太陽をかたどったしるし",
+      "tokens": [
+        "太陽",
+        "を",
+        "かたどった",
+        "しるし"
+      ],
+      "line": 555
+    },
+    {
+      "id": "segment-488",
+      "kind": "segmentation",
+      "text": "間違えていらっしゃるのかしら",
+      "tokens": [
+        "間違えて",
+        "いらっしゃる",
+        "の",
+        "かしら"
+      ],
+      "line": 556
+    },
+    {
+      "id": "segment-489",
+      "kind": "segmentation",
+      "text": "ヤツはいそうにないな",
+      "tokens": [
+        "ヤツ",
+        "は",
+        "いそうにない",
+        "な"
+      ],
+      "line": 557
+    },
+    {
+      "id": "segment-490",
+      "kind": "segmentation",
+      "text": "確認をとっています",
+      "tokens": [
+        "確認",
+        "を",
+        "とっています"
+      ],
+      "line": 558
+    },
+    {
+      "id": "segment-491",
+      "kind": "segmentation",
+      "text": "人口10万人以上の都市の中で唯一旅客を扱う鉄道駅が存在せず",
+      "tokens": [
+        "人口",
+        "10万人",
+        "以上",
+        "の",
+        "都市",
+        "の",
+        "中",
+        "で",
+        "唯一",
+        "旅客",
+        "を",
+        "扱う",
+        "鉄道駅",
+        "が",
+        "存在",
+        "せず"
+      ],
+      "line": 559
+    },
+    {
+      "id": "segment-492",
+      "kind": "segmentation",
+      "text": "だし",
+      "tokens": [
+        "だ",
+        "し"
+      ],
+      "line": 561
+    },
+    {
+      "id": "segment-493",
+      "kind": "segmentation",
+      "text": "だしはおいしい",
+      "tokens": [
+        "だし",
+        "は",
+        "おいしい"
+      ],
+      "line": 562
+    },
+    {
+      "id": "segment-494",
+      "kind": "segmentation",
+      "text": "だして",
+      "tokens": [
+        "だして"
+      ],
+      "line": 563
+    },
+    {
+      "id": "segment-495",
+      "kind": "segmentation",
+      "text": "だしといて",
+      "tokens": [
+        "だしといて"
+      ],
+      "line": 564
+    },
+    {
+      "id": "segment-496",
+      "kind": "segmentation",
+      "text": "割り切れたら",
+      "tokens": [
+        "割り切れたら"
+      ],
+      "line": 565
+    },
+    {
+      "id": "segment-497",
+      "kind": "segmentation",
+      "text": "あり得なかったり",
+      "tokens": [
+        "あり得なかったり"
+      ],
+      "line": 566
+    },
+    {
+      "id": "segment-498",
+      "kind": "segmentation",
+      "text": "代わり映え",
+      "tokens": [
+        "代わり映え"
+      ],
+      "line": 567
+    },
+    {
+      "id": "segment-499",
+      "kind": "segmentation",
+      "text": "器用なのですぐ上達しますよ",
+      "tokens": [
+        "器用",
+        "なので",
+        "すぐ",
+        "上達します",
+        "よ"
+      ],
+      "line": 568
+    },
+    {
+      "id": "segment-500",
+      "kind": "segmentation",
+      "text": "おにいちゃん",
+      "tokens": [
+        "おにいちゃん"
+      ],
+      "line": 569
+    },
+    {
+      "id": "segment-501",
+      "kind": "segmentation",
+      "text": "動画につまってる",
+      "tokens": [
+        "動画",
+        "に",
+        "つまってる"
+      ],
+      "line": 570
+    },
+    {
+      "id": "segment-502",
+      "kind": "segmentation",
+      "text": "出来そう",
+      "tokens": [
+        "出来そう"
+      ],
+      "line": 571
+    },
+    {
+      "id": "segment-503",
+      "kind": "segmentation",
+      "text": "その上着貸してください",
+      "tokens": [
+        "その",
+        "上着",
+        "貸してください"
+      ],
+      "line": 572
+    },
+    {
+      "id": "segment-504",
+      "kind": "segmentation",
+      "text": "幸多き",
+      "tokens": [
+        "幸",
+        "多き"
+      ],
+      "line": 573
+    },
+    {
+      "id": "segment-505",
+      "kind": "segmentation",
+      "text": "きっと気に入っていつかまた来てくれるよ",
+      "tokens": [
+        "きっと",
+        "気に入って",
+        "いつか",
+        "また",
+        "来てくれる",
+        "よ"
+      ],
+      "line": 574
+    },
+    {
+      "id": "segment-506",
+      "kind": "segmentation",
+      "text": "私がいそうな場所知ってたんだから",
+      "tokens": [
+        "私",
+        "が",
+        "いそう",
+        "な",
+        "場所",
+        "知ってた",
+        "ん",
+        "だから"
+      ],
+      "line": 575
+    },
+    {
+      "id": "segment-507",
+      "kind": "segmentation",
+      "text": "うまくハメられた",
+      "tokens": [
+        "うまく",
+        "ハメられた"
+      ],
+      "line": 576
+    },
+    {
+      "id": "segment-508",
+      "kind": "segmentation",
+      "text": "してるとこだから",
+      "tokens": [
+        "してる",
+        "とこ",
+        "だから"
+      ],
+      "line": 577
+    },
+    {
+      "id": "segment-509",
+      "kind": "segmentation",
+      "text": "下記のとおりです",
+      "tokens": [
+        "下記",
+        "の",
+        "とおり",
+        "です"
+      ],
+      "line": 578
+    },
+    {
+      "id": "segment-510",
+      "kind": "segmentation",
+      "text": "123ヶ年",
+      "tokens": [
+        "123ヶ年"
+      ],
+      "line": 579
+    },
+    {
+      "id": "segment-511",
+      "kind": "segmentation",
+      "text": "そうはいかん",
+      "tokens": [
+        "そう",
+        "は",
+        "いかん"
+      ],
+      "line": 580
+    },
+    {
+      "id": "segment-512",
+      "kind": "segmentation",
+      "text": "いつなりともお使いなさい",
+      "tokens": [
+        "いつなりと",
+        "も",
+        "お",
+        "使いなさい"
+      ],
+      "line": 581
+    },
+    {
+      "id": "segment-513",
+      "kind": "segmentation",
+      "text": "よそで待ってて",
+      "tokens": [
+        "よそ",
+        "で",
+        "待ってて"
+      ],
+      "line": 582
+    },
+    {
+      "id": "segment-514",
+      "kind": "segmentation",
+      "text": "3つおきの席",
+      "tokens": [
+        "3つ",
+        "おき",
+        "の",
+        "席"
+      ],
+      "line": 583
+    },
+    {
+      "id": "segment-515",
+      "kind": "segmentation",
+      "text": "1年おきに",
+      "tokens": [
+        "1年",
+        "おきに"
+      ],
+      "line": 584
+    },
+    {
+      "id": "segment-516",
+      "kind": "segmentation",
+      "text": "練習したかいがあって",
+      "tokens": [
+        "練習した",
+        "かいがあって"
+      ],
+      "line": 585
+    },
+    {
+      "id": "segment-517",
+      "kind": "segmentation",
+      "text": "高いお金を払ったかいがあったと思う",
+      "tokens": [
+        "高い",
+        "お金",
+        "を",
+        "払った",
+        "かいがあった",
+        "と",
+        "思う"
+      ],
+      "line": 586
+    },
+    {
+      "id": "segment-518",
+      "kind": "segmentation",
+      "text": "養生したかいもなく",
+      "tokens": [
+        "養生した",
+        "かいもなく"
+      ],
+      "line": 587
+    },
+    {
+      "id": "segment-519",
+      "kind": "segmentation",
+      "text": "読みがいがある",
+      "tokens": [
+        "読みがい",
+        "が",
+        "ある"
+      ],
+      "line": 588
+    },
+    {
+      "id": "segment-520",
+      "kind": "segmentation",
+      "text": "狩りがいのある",
+      "tokens": [
+        "狩りがい",
+        "の",
+        "ある"
+      ],
+      "line": 589
+    },
+    {
+      "id": "segment-521",
+      "kind": "segmentation",
+      "text": "懐いている",
+      "tokens": [
+        "懐いている"
+      ],
+      "line": 590
+    },
+    {
+      "id": "segment-522",
+      "kind": "segmentation",
+      "text": "カッコよさ",
+      "tokens": [
+        "カッコよさ"
+      ],
+      "line": 591
+    },
+    {
+      "id": "segment-523",
+      "kind": "segmentation",
+      "text": "上手く案内出来てたらいいんですけど",
+      "tokens": [
+        "上手く",
+        "案内",
+        "出来てたら",
+        "いい",
+        "ん",
+        "です",
+        "けど"
+      ],
+      "line": 592
+    },
+    {
+      "id": "segment-524",
+      "kind": "segmentation",
+      "text": "仲間になりたそうに見ている",
+      "tokens": [
+        "仲間",
+        "に",
+        "なりたそう",
+        "に",
+        "見ている"
+      ],
+      "line": 593
+    },
+    {
+      "id": "segment-525",
+      "kind": "segmentation",
+      "text": "何か問いたそうな口調",
+      "tokens": [
+        "何か",
+        "問いたそう",
+        "な",
+        "口調"
+      ],
+      "line": 594
+    },
+    {
+      "id": "segment-526",
+      "kind": "segmentation",
+      "text": "どんなものにも潮時がある",
+      "tokens": [
+        "どんな",
+        "もの",
+        "にも",
+        "潮時",
+        "が",
+        "ある"
+      ],
+      "line": 595
+    },
+    {
+      "id": "segment-527",
+      "kind": "segmentation",
+      "text": "特化してるというからね",
+      "tokens": [
+        "特化してる",
+        "という",
+        "から",
+        "ね"
+      ],
+      "line": 596
+    },
+    {
+      "id": "segment-528",
+      "kind": "segmentation",
+      "text": "歩いたぁ",
+      "tokens": [
+        "歩いた",
+        ":gap"
+      ],
+      "line": 597,
+      "gap": true
+    },
+    {
+      "id": "segment-529",
+      "kind": "segmentation",
+      "text": "りばてぃ",
+      "tokens": [
+        ":gap"
+      ],
+      "line": 598,
+      "gap": true
+    },
+    {
+      "id": "segment-530",
+      "kind": "segmentation",
+      "text": "サウンドトラック",
+      "tokens": [
+        "サウンドトラック"
+      ],
+      "line": 599
+    },
+    {
+      "id": "segment-531",
+      "kind": "segmentation",
+      "text": "写真を撮りました",
+      "tokens": [
+        "写真を撮りました"
+      ],
+      "line": 600
+    },
+    {
+      "id": "segment-532",
+      "kind": "segmentation",
+      "text": "取り留めの無い",
+      "tokens": [
+        "取り留めの無い"
+      ],
+      "line": 601
+    },
+    {
+      "id": "segment-533",
+      "kind": "segmentation",
+      "text": "取り留めも無い",
+      "tokens": [
+        "取り留めも無い"
+      ],
+      "line": 602
+    },
+    {
+      "id": "segment-534",
+      "kind": "segmentation",
+      "text": "これへんだ",
+      "tokens": [
+        "これ",
+        "へん",
+        "だ"
+      ],
+      "line": 603
+    },
+    {
+      "id": "segment-535",
+      "kind": "segmentation",
+      "text": "おそれたか",
+      "tokens": [
+        "おそれた",
+        "か"
+      ],
+      "line": 604
+    },
+    {
+      "id": "segment-536",
+      "kind": "segmentation",
+      "text": "不確かなものに",
+      "tokens": [
+        "不確か",
+        "な",
+        "もの",
+        "に"
+      ],
+      "line": 605
+    },
+    {
+      "id": "segment-537",
+      "kind": "segmentation",
+      "text": "まとめていかねばな",
+      "tokens": [
+        "まとめていかねば",
+        "な"
+      ],
+      "line": 606
+    },
+    {
+      "id": "segment-538",
+      "kind": "segmentation",
+      "text": "来るからすき",
+      "tokens": [
+        "来る",
+        "から",
+        "すき"
+      ],
+      "line": 607
+    },
+    {
+      "id": "segment-539",
+      "kind": "segmentation",
+      "text": "けんかを引分ける",
+      "tokens": [
+        "けんか",
+        "を",
+        "引分ける"
+      ],
+      "line": 608
+    },
+    {
+      "id": "segment-540",
+      "kind": "segmentation",
+      "text": "取り計らいましょう",
+      "tokens": [
+        "取り計らいましょう"
+      ],
+      "line": 609
+    },
+    {
+      "id": "segment-541",
+      "kind": "segmentation",
+      "text": "一日置いただけで",
+      "tokens": [
+        "一日",
+        "置いた",
+        "だけ",
+        "で"
+      ],
+      "line": 610
+    },
+    {
+      "id": "value-542",
+      "kind": "number",
+      "text": "100万",
+      "expected": 1000000,
+      "function": "parse-number",
+      "line": 644
+    },
+    {
+      "id": "value-543",
+      "kind": "number",
+      "text": "100万500",
+      "expected": 1000500,
+      "function": "parse-number",
+      "line": 645
+    },
+    {
+      "id": "segment-544",
+      "kind": "segmentation",
+      "text": "1倍",
+      "tokens": [
+        "1倍"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-545",
+      "kind": "segmentation",
+      "text": "三倍",
+      "tokens": [
+        "三倍"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-546",
+      "kind": "segmentation",
+      "text": "十一倍",
+      "tokens": [
+        "十一倍"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-547",
+      "kind": "segmentation",
+      "text": "1晩",
+      "tokens": [
+        "1晩"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-548",
+      "kind": "segmentation",
+      "text": "三晩",
+      "tokens": [
+        "三晩"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-549",
+      "kind": "segmentation",
+      "text": "十一晩",
+      "tokens": [
+        "十一晩"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-550",
+      "kind": "segmentation",
+      "text": "1秒",
+      "tokens": [
+        "1秒"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-551",
+      "kind": "segmentation",
+      "text": "三秒",
+      "tokens": [
+        "三秒"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-552",
+      "kind": "segmentation",
+      "text": "十一秒",
+      "tokens": [
+        "十一秒"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-553",
+      "kind": "segmentation",
+      "text": "1着",
+      "tokens": [
+        "1着"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-554",
+      "kind": "segmentation",
+      "text": "三着",
+      "tokens": [
+        "三着"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-555",
+      "kind": "segmentation",
+      "text": "十一着",
+      "tokens": [
+        "十一着"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-556",
+      "kind": "segmentation",
+      "text": "1挺",
+      "tokens": [
+        "1挺"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-557",
+      "kind": "segmentation",
+      "text": "三挺",
+      "tokens": [
+        "三挺"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-558",
+      "kind": "segmentation",
+      "text": "十一挺",
+      "tokens": [
+        "十一挺"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-559",
+      "kind": "segmentation",
+      "text": "1丁",
+      "tokens": [
+        "1丁"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-560",
+      "kind": "segmentation",
+      "text": "三丁",
+      "tokens": [
+        "三丁"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-561",
+      "kind": "segmentation",
+      "text": "十一丁",
+      "tokens": [
+        "十一丁"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-562",
+      "kind": "segmentation",
+      "text": "1台",
+      "tokens": [
+        "1台"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-563",
+      "kind": "segmentation",
+      "text": "三台",
+      "tokens": [
+        "三台"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-564",
+      "kind": "segmentation",
+      "text": "十一台",
+      "tokens": [
+        "十一台"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-565",
+      "kind": "segmentation",
+      "text": "1段",
+      "tokens": [
+        "1段"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-566",
+      "kind": "segmentation",
+      "text": "三段",
+      "tokens": [
+        "三段"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-567",
+      "kind": "segmentation",
+      "text": "十一段",
+      "tokens": [
+        "十一段"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-568",
+      "kind": "segmentation",
+      "text": "1度",
+      "tokens": [
+        "1度"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-569",
+      "kind": "segmentation",
+      "text": "三度",
+      "tokens": [
+        "三度"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-570",
+      "kind": "segmentation",
+      "text": "十一度",
+      "tokens": [
+        "十一度"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-571",
+      "kind": "segmentation",
+      "text": "1円",
+      "tokens": [
+        "1円"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-572",
+      "kind": "segmentation",
+      "text": "三円",
+      "tokens": [
+        "三円"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-573",
+      "kind": "segmentation",
+      "text": "十一円",
+      "tokens": [
+        "十一円"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-574",
+      "kind": "segmentation",
+      "text": "1服",
+      "tokens": [
+        "1服"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-575",
+      "kind": "segmentation",
+      "text": "三服",
+      "tokens": [
+        "三服"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-576",
+      "kind": "segmentation",
+      "text": "十一服",
+      "tokens": [
+        "十一服"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-577",
+      "kind": "segmentation",
+      "text": "1幅",
+      "tokens": [
+        "1幅"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-578",
+      "kind": "segmentation",
+      "text": "三幅",
+      "tokens": [
+        "三幅"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-579",
+      "kind": "segmentation",
+      "text": "十一幅",
+      "tokens": [
+        "十一幅"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-580",
+      "kind": "segmentation",
+      "text": "1分",
+      "tokens": [
+        "1分"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-581",
+      "kind": "segmentation",
+      "text": "三分",
+      "tokens": [
+        "三分"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-582",
+      "kind": "segmentation",
+      "text": "十一分",
+      "tokens": [
+        "十一分"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-583",
+      "kind": "segmentation",
+      "text": "1杯",
+      "tokens": [
+        "1杯"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-584",
+      "kind": "segmentation",
+      "text": "三杯",
+      "tokens": [
+        "三杯"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-585",
+      "kind": "segmentation",
+      "text": "十一杯",
+      "tokens": [
+        "十一杯"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-586",
+      "kind": "segmentation",
+      "text": "1発",
+      "tokens": [
+        "1発"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-587",
+      "kind": "segmentation",
+      "text": "三発",
+      "tokens": [
+        "三発"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-588",
+      "kind": "segmentation",
+      "text": "十一発",
+      "tokens": [
+        "十一発"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-589",
+      "kind": "segmentation",
+      "text": "1遍",
+      "tokens": [
+        "1遍"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-590",
+      "kind": "segmentation",
+      "text": "三遍",
+      "tokens": [
+        "三遍"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-591",
+      "kind": "segmentation",
+      "text": "十一遍",
+      "tokens": [
+        "十一遍"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-592",
+      "kind": "segmentation",
+      "text": "1篇",
+      "tokens": [
+        "1篇"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-593",
+      "kind": "segmentation",
+      "text": "三篇",
+      "tokens": [
+        "三篇"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-594",
+      "kind": "segmentation",
+      "text": "十一篇",
+      "tokens": [
+        "十一篇"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-595",
+      "kind": "segmentation",
+      "text": "1匹",
+      "tokens": [
+        "1匹"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-596",
+      "kind": "segmentation",
+      "text": "三匹",
+      "tokens": [
+        "三匹"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-597",
+      "kind": "segmentation",
+      "text": "十一匹",
+      "tokens": [
+        "十一匹"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-598",
+      "kind": "segmentation",
+      "text": "1本",
+      "tokens": [
+        "1本"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-599",
+      "kind": "segmentation",
+      "text": "三本",
+      "tokens": [
+        "三本"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-600",
+      "kind": "segmentation",
+      "text": "十一本",
+      "tokens": [
+        "十一本"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-601",
+      "kind": "segmentation",
+      "text": "1時",
+      "tokens": [
+        "1時"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-602",
+      "kind": "segmentation",
+      "text": "三時",
+      "tokens": [
+        "三時"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-603",
+      "kind": "segmentation",
+      "text": "十一時",
+      "tokens": [
+        "十一時"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-604",
+      "kind": "segmentation",
+      "text": "1畳",
+      "tokens": [
+        "1畳"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-605",
+      "kind": "segmentation",
+      "text": "三畳",
+      "tokens": [
+        "三畳"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-606",
+      "kind": "segmentation",
+      "text": "十一畳",
+      "tokens": [
+        "十一畳"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-607",
+      "kind": "segmentation",
+      "text": "1帖",
+      "tokens": [
+        "1帖"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-608",
+      "kind": "segmentation",
+      "text": "三帖",
+      "tokens": [
+        "三帖"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-609",
+      "kind": "segmentation",
+      "text": "十一帖",
+      "tokens": [
+        "十一帖"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-610",
+      "kind": "segmentation",
+      "text": "1条",
+      "tokens": [
+        "1条"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-611",
+      "kind": "segmentation",
+      "text": "三条",
+      "tokens": [
+        "三条"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-612",
+      "kind": "segmentation",
+      "text": "十一条",
+      "tokens": [
+        "十一条"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-613",
+      "kind": "segmentation",
+      "text": "1課",
+      "tokens": [
+        "1課"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-614",
+      "kind": "segmentation",
+      "text": "三課",
+      "tokens": [
+        "三課"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-615",
+      "kind": "segmentation",
+      "text": "十一課",
+      "tokens": [
+        "十一課"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-616",
+      "kind": "segmentation",
+      "text": "1日",
+      "tokens": [
+        "1日"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-617",
+      "kind": "segmentation",
+      "text": "三日",
+      "tokens": [
+        "三日"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-618",
+      "kind": "segmentation",
+      "text": "十一日",
+      "tokens": [
+        "十一日"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-619",
+      "kind": "segmentation",
+      "text": "1回",
+      "tokens": [
+        "1回"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-620",
+      "kind": "segmentation",
+      "text": "三回",
+      "tokens": [
+        "三回"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-621",
+      "kind": "segmentation",
+      "text": "十一回",
+      "tokens": [
+        "十一回"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-622",
+      "kind": "segmentation",
+      "text": "1ヵ月",
+      "tokens": [
+        "1ヵ月"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-623",
+      "kind": "segmentation",
+      "text": "三ヵ月",
+      "tokens": [
+        "三ヵ月"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-624",
+      "kind": "segmentation",
+      "text": "十一ヵ月",
+      "tokens": [
+        "十一ヵ月"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-625",
+      "kind": "segmentation",
+      "text": "1階",
+      "tokens": [
+        "1階"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-626",
+      "kind": "segmentation",
+      "text": "三階",
+      "tokens": [
+        "三階"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-627",
+      "kind": "segmentation",
+      "text": "十一階",
+      "tokens": [
+        "十一階"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-628",
+      "kind": "segmentation",
+      "text": "1軒",
+      "tokens": [
+        "1軒"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-629",
+      "kind": "segmentation",
+      "text": "三軒",
+      "tokens": [
+        "三軒"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-630",
+      "kind": "segmentation",
+      "text": "十一軒",
+      "tokens": [
+        "十一軒"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-631",
+      "kind": "segmentation",
+      "text": "1機",
+      "tokens": [
+        "1機"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-632",
+      "kind": "segmentation",
+      "text": "三機",
+      "tokens": [
+        "三機"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-633",
+      "kind": "segmentation",
+      "text": "十一機",
+      "tokens": [
+        "十一機"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-634",
+      "kind": "segmentation",
+      "text": "1個",
+      "tokens": [
+        "1個"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-635",
+      "kind": "segmentation",
+      "text": "三個",
+      "tokens": [
+        "三個"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-636",
+      "kind": "segmentation",
+      "text": "十一個",
+      "tokens": [
+        "十一個"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-637",
+      "kind": "segmentation",
+      "text": "1脚",
+      "tokens": [
+        "1脚"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-638",
+      "kind": "segmentation",
+      "text": "三脚",
+      "tokens": [
+        "三脚"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-639",
+      "kind": "segmentation",
+      "text": "十一脚",
+      "tokens": [
+        "十一脚"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-640",
+      "kind": "segmentation",
+      "text": "1間",
+      "tokens": [
+        "1間"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-641",
+      "kind": "segmentation",
+      "text": "三間",
+      "tokens": [
+        "三間"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-642",
+      "kind": "segmentation",
+      "text": "十一間",
+      "tokens": [
+        "十一間"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-643",
+      "kind": "segmentation",
+      "text": "1枚",
+      "tokens": [
+        "1枚"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-644",
+      "kind": "segmentation",
+      "text": "三枚",
+      "tokens": [
+        "三枚"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-645",
+      "kind": "segmentation",
+      "text": "十一枚",
+      "tokens": [
+        "十一枚"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-646",
+      "kind": "segmentation",
+      "text": "1巻",
+      "tokens": [
+        "1巻"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-647",
+      "kind": "segmentation",
+      "text": "三巻",
+      "tokens": [
+        "三巻"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-648",
+      "kind": "segmentation",
+      "text": "十一巻",
+      "tokens": [
+        "十一巻"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-649",
+      "kind": "segmentation",
+      "text": "1名",
+      "tokens": [
+        "1名"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-650",
+      "kind": "segmentation",
+      "text": "三名",
+      "tokens": [
+        "三名"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-651",
+      "kind": "segmentation",
+      "text": "十一名",
+      "tokens": [
+        "十一名"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-652",
+      "kind": "segmentation",
+      "text": "1年",
+      "tokens": [
+        "1年"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-653",
+      "kind": "segmentation",
+      "text": "三年",
+      "tokens": [
+        "三年"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-654",
+      "kind": "segmentation",
+      "text": "十一年",
+      "tokens": [
+        "十一年"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-655",
+      "kind": "segmentation",
+      "text": "1人",
+      "tokens": [
+        "1人"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-656",
+      "kind": "segmentation",
+      "text": "三人",
+      "tokens": [
+        "三人"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-657",
+      "kind": "segmentation",
+      "text": "十一人",
+      "tokens": [
+        "十一人"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-658",
+      "kind": "segmentation",
+      "text": "1列",
+      "tokens": [
+        "1列"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-659",
+      "kind": "segmentation",
+      "text": "三列",
+      "tokens": [
+        "三列"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-660",
+      "kind": "segmentation",
+      "text": "十一列",
+      "tokens": [
+        "十一列"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-661",
+      "kind": "segmentation",
+      "text": "1輪",
+      "tokens": [
+        "1輪"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-662",
+      "kind": "segmentation",
+      "text": "三輪",
+      "tokens": [
+        "三輪"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-663",
+      "kind": "segmentation",
+      "text": "十一輪",
+      "tokens": [
+        "十一輪"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-664",
+      "kind": "segmentation",
+      "text": "1輌",
+      "tokens": [
+        "1輌"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-665",
+      "kind": "segmentation",
+      "text": "三輌",
+      "tokens": [
+        "三輌"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-666",
+      "kind": "segmentation",
+      "text": "十一輌",
+      "tokens": [
+        "十一輌"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-667",
+      "kind": "segmentation",
+      "text": "1才",
+      "tokens": [
+        "1才"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-668",
+      "kind": "segmentation",
+      "text": "三才",
+      "tokens": [
+        "三才"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-669",
+      "kind": "segmentation",
+      "text": "十一才",
+      "tokens": [
+        "十一才"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-670",
+      "kind": "segmentation",
+      "text": "1歳",
+      "tokens": [
+        "1歳"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-671",
+      "kind": "segmentation",
+      "text": "三歳",
+      "tokens": [
+        "三歳"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-672",
+      "kind": "segmentation",
+      "text": "十一歳",
+      "tokens": [
+        "十一歳"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-673",
+      "kind": "segmentation",
+      "text": "1棹",
+      "tokens": [
+        "1棹"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-674",
+      "kind": "segmentation",
+      "text": "三棹",
+      "tokens": [
+        "三棹"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-675",
+      "kind": "segmentation",
+      "text": "十一棹",
+      "tokens": [
+        "十一棹"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-676",
+      "kind": "segmentation",
+      "text": "1冊",
+      "tokens": [
+        "1冊"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-677",
+      "kind": "segmentation",
+      "text": "三冊",
+      "tokens": [
+        "三冊"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-678",
+      "kind": "segmentation",
+      "text": "十一冊",
+      "tokens": [
+        "十一冊"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-679",
+      "kind": "segmentation",
+      "text": "1隻",
+      "tokens": [
+        "1隻"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-680",
+      "kind": "segmentation",
+      "text": "三隻",
+      "tokens": [
+        "三隻"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-681",
+      "kind": "segmentation",
+      "text": "十一隻",
+      "tokens": [
+        "十一隻"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-682",
+      "kind": "segmentation",
+      "text": "1章",
+      "tokens": [
+        "1章"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-683",
+      "kind": "segmentation",
+      "text": "三章",
+      "tokens": [
+        "三章"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-684",
+      "kind": "segmentation",
+      "text": "十一章",
+      "tokens": [
+        "十一章"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-685",
+      "kind": "segmentation",
+      "text": "1首",
+      "tokens": [
+        "1首"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-686",
+      "kind": "segmentation",
+      "text": "三首",
+      "tokens": [
+        "三首"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-687",
+      "kind": "segmentation",
+      "text": "十一首",
+      "tokens": [
+        "十一首"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-688",
+      "kind": "segmentation",
+      "text": "1足",
+      "tokens": [
+        "1足"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-689",
+      "kind": "segmentation",
+      "text": "三足",
+      "tokens": [
+        "三足"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-690",
+      "kind": "segmentation",
+      "text": "十一足",
+      "tokens": [
+        "十一足"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-691",
+      "kind": "segmentation",
+      "text": "1艘",
+      "tokens": [
+        "1艘"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-692",
+      "kind": "segmentation",
+      "text": "三艘",
+      "tokens": [
+        "三艘"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-693",
+      "kind": "segmentation",
+      "text": "十一艘",
+      "tokens": [
+        "十一艘"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-694",
+      "kind": "segmentation",
+      "text": "1反",
+      "tokens": [
+        "1反"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-695",
+      "kind": "segmentation",
+      "text": "三反",
+      "tokens": [
+        "三反"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-696",
+      "kind": "segmentation",
+      "text": "十一反",
+      "tokens": [
+        "十一反"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-697",
+      "kind": "segmentation",
+      "text": "1滴",
+      "tokens": [
+        "1滴"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-698",
+      "kind": "segmentation",
+      "text": "三滴",
+      "tokens": [
+        "三滴"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-699",
+      "kind": "segmentation",
+      "text": "十一滴",
+      "tokens": [
+        "十一滴"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-700",
+      "kind": "segmentation",
+      "text": "1点",
+      "tokens": [
+        "1点"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-701",
+      "kind": "segmentation",
+      "text": "三点",
+      "tokens": [
+        "三点"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-702",
+      "kind": "segmentation",
+      "text": "十一点",
+      "tokens": [
+        "十一点"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-703",
+      "kind": "segmentation",
+      "text": "1頭",
+      "tokens": [
+        "1頭"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-704",
+      "kind": "segmentation",
+      "text": "三頭",
+      "tokens": [
+        "三頭"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-705",
+      "kind": "segmentation",
+      "text": "十一頭",
+      "tokens": [
+        "十一頭"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-706",
+      "kind": "segmentation",
+      "text": "1つ",
+      "tokens": [
+        "1つ"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-707",
+      "kind": "segmentation",
+      "text": "三つ",
+      "tokens": [
+        "三つ"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-708",
+      "kind": "segmentation",
+      "text": "1通",
+      "tokens": [
+        "1通"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-709",
+      "kind": "segmentation",
+      "text": "三通",
+      "tokens": [
+        "三通"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-710",
+      "kind": "segmentation",
+      "text": "十一通",
+      "tokens": [
+        "十一通"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-711",
+      "kind": "segmentation",
+      "text": "1対",
+      "tokens": [
+        "1対"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-712",
+      "kind": "segmentation",
+      "text": "三対",
+      "tokens": [
+        "三対"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-713",
+      "kind": "segmentation",
+      "text": "十一対",
+      "tokens": [
+        "十一対"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-714",
+      "kind": "segmentation",
+      "text": "1羽",
+      "tokens": [
+        "1羽"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-715",
+      "kind": "segmentation",
+      "text": "三羽",
+      "tokens": [
+        "三羽"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-716",
+      "kind": "segmentation",
+      "text": "十一羽",
+      "tokens": [
+        "十一羽"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-717",
+      "kind": "segmentation",
+      "text": "1把",
+      "tokens": [
+        "1把"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-718",
+      "kind": "segmentation",
+      "text": "三把",
+      "tokens": [
+        "三把"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-719",
+      "kind": "segmentation",
+      "text": "十一把",
+      "tokens": [
+        "十一把"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-720",
+      "kind": "segmentation",
+      "text": "1割",
+      "tokens": [
+        "1割"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-721",
+      "kind": "segmentation",
+      "text": "三割",
+      "tokens": [
+        "三割"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-722",
+      "kind": "segmentation",
+      "text": "十一割",
+      "tokens": [
+        "十一割"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-723",
+      "kind": "segmentation",
+      "text": "1膳",
+      "tokens": [
+        "1膳"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-724",
+      "kind": "segmentation",
+      "text": "三膳",
+      "tokens": [
+        "三膳"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-725",
+      "kind": "segmentation",
+      "text": "十一膳",
+      "tokens": [
+        "十一膳"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-726",
+      "kind": "segmentation",
+      "text": "1時間",
+      "tokens": [
+        "1時間"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-727",
+      "kind": "segmentation",
+      "text": "三時間",
+      "tokens": [
+        "三時間"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-728",
+      "kind": "segmentation",
+      "text": "十一時間",
+      "tokens": [
+        "十一時間"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-729",
+      "kind": "segmentation",
+      "text": "1週間",
+      "tokens": [
+        "1週間"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-730",
+      "kind": "segmentation",
+      "text": "三週間",
+      "tokens": [
+        "三週間"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-731",
+      "kind": "segmentation",
+      "text": "十一週間",
+      "tokens": [
+        "十一週間"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-732",
+      "kind": "segmentation",
+      "text": "1人中",
+      "tokens": [
+        "1人中"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-733",
+      "kind": "segmentation",
+      "text": "三人中",
+      "tokens": [
+        "三人中"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-734",
+      "kind": "segmentation",
+      "text": "十一人中",
+      "tokens": [
+        "十一人中"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-735",
+      "kind": "segmentation",
+      "text": "1番目",
+      "tokens": [
+        "1番目"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-736",
+      "kind": "segmentation",
+      "text": "三番目",
+      "tokens": [
+        "三番目"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-737",
+      "kind": "segmentation",
+      "text": "十一番目",
+      "tokens": [
+        "十一番目"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-738",
+      "kind": "segmentation",
+      "text": "1期目",
+      "tokens": [
+        "1期目"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-739",
+      "kind": "segmentation",
+      "text": "三期目",
+      "tokens": [
+        "三期目"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-740",
+      "kind": "segmentation",
+      "text": "十一期目",
+      "tokens": [
+        "十一期目"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-741",
+      "kind": "segmentation",
+      "text": "1巻目",
+      "tokens": [
+        "1巻目"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-742",
+      "kind": "segmentation",
+      "text": "三巻目",
+      "tokens": [
+        "三巻目"
+      ],
+      "line": 662,
+      "generated": true
+    },
+    {
+      "id": "segment-743",
+      "kind": "segmentation",
+      "text": "十一巻目",
+      "tokens": [
+        "十一巻目"
+      ],
+      "line": 662,
+      "generated": true
+    }
+  ],
+  "skipped": [
+    {
+      "line": 643,
+      "reason": "Property/computed expectation retained in upstream source, not a literal golden output"
+    }
+  ]
+}

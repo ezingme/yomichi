@@ -2,16 +2,18 @@
 
 **Japanese, word by word.** An open-source TypeScript Japanese text analysis engine, PostgreSQL-backed HTTP API, lightweight SDK, CLI, and independent multilingual Playground.
 
-> **0.1 alpha — implementation in progress.** This is a working first vertical slice, **not feature-equivalent to Ichiran or Himotoki**. It has selected productive conjugations and a simple length/priority scoring model. Original grammar synergies, counters, compounds and scoring parity remain future work. Do not use the alpha as an authoritative language tutor without review.
+> **0.1 alpha — coverage expansion in progress.** Major Ichiran capability families are implemented, but **complete Ichiran equivalence is not established**. The [capability audit](docs/ICHIRAN-COVERAGE.md) records implemented surfaces, remaining gaps and a reproducible comparison against published upstream expectations using real JMdict. This is a development corpus, not a held-out accuracy benchmark.
 
 ## What works
 
 - Dictionary-driven segmentation with up to five ranked paths; reading/entry alternatives per token.
 - Original UTF-16 offsets, whitespace preservation, forced boundaries and explicit unknown text.
-- Selected ichidan, godan, irregular verb and i-adjective forms, with morphology labels.
-- Kana/Hepburn-style/Kunrei-style conversion (orthographic `ou`/`oo`, no inferred macrons).
+- Modern productive verb/adjective/copula paradigms (23 POS labels), secondary conjugations, bounded auxiliary chains and contractions, with nested components.
+- Character normalization/voicing/mora utilities; eight romanization modes, branching inverse romanization and partial romaji suggestions.
+- Exact Japanese integer parsing/rendering and productive counter pronunciation, exceptional/native readings and ordinal suffixes.
 - Streaming JMdict and KANJIDIC2 XML/gzip import into PostgreSQL; atomic dataset activation, source version and checksum.
-- Word prefix search, word details and kanji readings/meanings/stroke counts.
+- Rich JMdict/KANJIDIC2 metadata, kanji words/statistics and bounded reading alignment with explicit unmatched hypotheses.
+- Immutable custom dictionary overlays and dataset activation/rollback.
 - Validated Fastify API, OpenAPI UI, rate limits, bounded input, optional API keys and exact CORS origins.
 - Separate responsive Playground with English, Chinese and Japanese interface; kana/romaji annotations, candidate switching, word details, JSON and cURL.
 - SDK and CLI connect to your server; no dictionary database bundled with packages.
@@ -55,18 +57,20 @@ curl http://localhost:3000/v1/analyze \
   --data '{"text":"猫は魚を食べました。","limit":3,"romanization":"hepburn"}'
 ```
 
-| Endpoint | Description |
-| --- | --- |
-| `POST /v1/analyze` | Dictionary analysis; `limit` 1–5, `romanization`, `includeGlosses`, `includeConjugation`, `segmentationHints` |
-| `POST /v1/reading` | Reading extraction; `mode: "kana"` converts katakana only without dictionary analysis |
-| `POST /v1/romanize` | Kana conversion or full analysis; `romanization: "hepburn"` or `"kunrei"` |
-| `GET /v1/words/search?q=食&limit=20` | Prefix search of dictionary spellings/readings, max 50 |
-| `GET /v1/words/:seq` | JMdict entry with original restrictions and gloss language tags |
-| `GET /v1/kanji/:char` | KANJIDIC2 details, requires separate import |
-| `GET /healthz`, `GET /readyz` | Process liveness and dictionary readiness |
-| `GET /openapi.json`, `GET /docs` | API schema and interactive documentation |
+| Endpoint                             | Description                                                                                                   |
+| ------------------------------------ | ------------------------------------------------------------------------------------------------------------- |
+| `POST /v1/analyze`                   | Dictionary analysis; `limit` 1–5, `romanization`, `includeGlosses`, `includeConjugation`, `segmentationHints` |
+| `POST /v1/reading`                   | Reading extraction; `mode: "kana"` converts katakana only without dictionary analysis                         |
+| `POST /v1/romanize`                  | Kana conversion or full analysis; `romanization: "hepburn"` or `"kunrei"`                                     |
+| `GET /v1/words/search?q=食&limit=20` | Prefix search of dictionary spellings/readings, max 50                                                        |
+| `GET /v1/words/:seq`                 | JMdict entry with original restrictions and gloss language tags                                               |
+| `GET /v1/kanji/:char`                | KANJIDIC2 details, requires separate import                                                                   |
+| `GET /healthz`, `GET /readyz`        | Process liveness and dictionary readiness                                                                     |
+| `GET /openapi.json`, `GET /docs`     | API schema and interactive documentation                                                                      |
 
-Maximum sentence length: 500 Unicode code points. Offsets/hints are **UTF-16 code units** into the unmodified input: `input.slice(token.start, token.end)` reconstructs every token. Hints may include text start/end but cannot split a surrogate pair. Scores are heuristic ranks, **not probabilities**. Top-K refers to segmentation paths; lexical alternatives are attached to each word. Unknown readings are `null`, never guessed. `components` is reserved and currently empty: compound grammar analysis is not implemented yet. Conjugation labels are English in this alpha.
+Maximum sentence length: 500 Unicode code points. Offsets/hints are **UTF-16 code units** into the unmodified input: `input.slice(token.start, token.end)` reconstructs every token. Hints may include text start/end but cannot split a surrogate pair. Scores are heuristic ranks, **not probabilities**. Top-K refers to segmentation paths; lexical alternatives are attached to each word. Unknown readings are `null`, never guessed. `components` contains recursive grammatical components where a productive rule was used. Grammar-only components have no invented dictionary ID or gloss; fused counter readings may have `null` component readings. Search is bounded (three compound layers, finite candidate beam), so arbitrary-depth or exact global scoring parity is not promised. Conjugation labels are English in this alpha.
+
+Additional tools: `POST /v1/deromanize`, `/v1/suggest`, `/v1/numbers`, `/v1/characters`, `/v1/kanji/align`; `GET /v1/kanji/:char/words`, `/stats`, `/readings?reading=...`. OpenAPI lists request schemas. Number values are decimal strings so large integers survive JSON. Suggestions come from the imported dictionary; conversion candidates are kana only. Corpus frequencies unavailable from source data remain `null`.
 
 ## Packages and CLI
 
@@ -79,19 +83,19 @@ npm run cli -- search '食べ'
 ```
 
 ```ts
-import { YomichiClient } from '@yomichi/client';
-const api = new YomichiClient('http://localhost:3000');
-const result = await api.analyze({ text: '猫は魚を食べました。', limit: 3 });
+import { YomichiClient } from "@yomichi/client";
+const api = new YomichiClient("http://localhost:3000");
+const result = await api.analyze({ text: "猫は魚を食べました。", limit: 3 });
 ```
 
-| Workspace | Role |
-| --- | --- |
-| `packages/core` | Pure TS analysis and morphology; repository interface |
-| `packages/dictionary` | PostgreSQL schema, repository and import tools |
-| `packages/server` | Fastify API and standalone service entry |
-| `packages/client` | Fetch-based client, no runtime dictionary dependency |
-| `packages/cli` | HTTP CLI; `YOMICHI_API_URL`, `YOMICHI_API_KEY` |
-| `apps/playground` | Standalone Vite static frontend |
+| Workspace             | Role                                                  |
+| --------------------- | ----------------------------------------------------- |
+| `packages/core`       | Pure TS analysis and morphology; repository interface |
+| `packages/dictionary` | PostgreSQL schema, repository and import tools        |
+| `packages/server`     | Fastify API and standalone service entry              |
+| `packages/client`     | Fetch-based client, no runtime dictionary dependency  |
+| `packages/cli`        | HTTP CLI; `YOMICHI_API_URL`, `YOMICHI_API_KEY`        |
+| `apps/playground`     | Standalone Vite static frontend                       |
 
 ## Deployment
 
@@ -102,6 +106,25 @@ const result = await api.analyze({ text: '猫は魚を食べました。', limit
 Use a reverse proxy for TLS and deployment-level request limits. Bindings in Compose are localhost-only. `API_KEY` protects `/v1/*`; **never embed a private key in `VITE_*` or frontend JavaScript**. A public Playground needs a rate-limited public endpoint or a server-side proxy with its own quotas. Default IP rate limiting trusts the socket address, not arbitrary forwarding headers; configure your trusted edge deliberately. Input text is not logged by the application.
 
 Imports require a dedicated connection and run in a transaction; a failed/empty import leaves the active version unchanged. Old versions are retained to keep in-flight requests consistent. Provision disk headroom for old/new dictionaries, indexes and WAL. Garbage collection of obsolete datasets is a manual operator task; do not delete a dataset while requests may still use it. Database migration is explicit, never an automatic dictionary build at API startup. No storage-size or RAM reduction is claimed yet.
+
+### Dictionary maintenance
+
+```sh
+npm run db:manage -- list
+npm run db:manage -- activate DATASET_ID
+npm run db:manage -- overlay BASE_ID corrections.json VERSION 'my reviewed corrections'
+```
+
+Overlay JSON is an array of `{ "op": "add" | "replace", "entry": Entry }` or `{ "op": "delete", "id": "..." }`. It creates a new snapshot with a parent/recipe digest and regenerated forms. Preserve source attribution for added entries. Use IDs matching `[A-Za-z0-9_-]{1,128}` for HTTP retrieval. An activated snapshot is not edited in place.
+
+### Upstream comparison
+
+```sh
+npm run parity:jmdict  # data/JMdict_e.gz; streams the full source, retains only corpus lookup forms
+npm run parity -- --database  # evaluates an actually imported PostgreSQL snapshot
+```
+
+The full-source evaluator writes `data/parity-full.jsonl` and reports checksums, scan counts and segmentation metrics. `--reuse-index` verifies source/morphology/corpus fingerprints before reuse. Published upstream expectations are distinct from a live Ichiran oracle; no original Lisp runtime was executed here. Full PostgreSQL ingestion, operational performance and dictionary-size claims require separate measurements.
 
 ## Validation and limitations
 
