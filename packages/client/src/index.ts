@@ -10,7 +10,8 @@ import type {
   Kanji,
   Romanization,
 } from "../../core/src/types.js";
-export type { Analysis, AnalyzeOptions, Entry, Kanji };
+import type { IchiranMethodName, IchiranResult } from "../../core/src/ichiran/index.js";
+export type { Analysis, AnalyzeOptions, Entry, Kanji, IchiranResult };
 export class YomichiClientError extends Error {
   constructor(
     public status: number,
@@ -124,6 +125,10 @@ export class YomichiClient {
       reading,
       includeNanori,
     });
+  }
+  /** Everything ichi.moe shows for a text (requires the Ichiran engine). */
+  ichiranAnalyze(text: string, options: { method?: IchiranMethodName; limit?: number } = {}) {
+    return this.request<IchiranResult>("/v1/ichiran/analyze", { text, ...options });
   }
   /** Ichiran romanize* JSON (requires an Ichiran-model dataset). */
   ichiranSegment(text: string, options: { method?: string; limit?: number } = {}) {

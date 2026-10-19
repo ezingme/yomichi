@@ -401,17 +401,7 @@ export function romanizeWordInfo(wi: WordInfo, method: RomanizationMethod | "kan
     wi,
   );
 }
-/** join-parts: insert a space before alphanumeric parts not preceded by whitespace. */
-export function joinParts(parts: string[]): string {
-  let out = "",
-    lastSpace = true;
-  for (const part of parts) {
-    if (part.length && !lastSpace && /^[\p{L}\p{N}]/u.test(part)) out += " ";
-    out += part;
-    if (part.length) lastSpace = /\s/u.test(part[part.length - 1]);
-  }
-  return out;
-}
+export { joinParts } from "./view.js";
 
 // ---------------------------------------------------------------------------
 // word-info-str (text info, as `ichiran-cli -i`)

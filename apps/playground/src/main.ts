@@ -1,6 +1,8 @@
 import "./style.css";
 import { messages, type Locale } from "./i18n.js";
 import { YomichiClient } from "../../../packages/client/src/index.js";
+import { renderIchiran } from "./ichiran-view.js";
+import type { IchiranResult } from "../../../packages/core/src/ichiran/index.js";
 import type {
   Analysis,
   Token,
@@ -16,6 +18,10 @@ const client = new YomichiClient(apiBase);
 let locale: Locale = "en",
   mode: "analyze" | "words" | "kanji" | "tools" = "analyze",
   result: Analysis | null = null,
+  // Ichiran engine available on the server: analysis is shown as on ichi.moe
+  ichiranEngine = false,
+  ichiranData: IchiranResult | null = null,
+  picks: number[] = [],
   selected = 0,
   busy = false,
   lastRequest: unknown = null,
@@ -34,7 +40,7 @@ $("app").innerHTML =
 <main><section class="hero"><div><p class="eyebrow" id="eyebrow"></p><h1 id="title"></h1><p id="intro" class="intro"></p></div><div class="hero-art" aria-hidden="true"><span>読</span><small>よむ · to read</small></div></section>
 <section class="input-card"><div class="tabs" role="tablist" aria-label="Tools"><button id="tab-analyze" role="tab" data-mode="analyze"></button><button id="tab-words" role="tab" data-mode="words"></button><button id="tab-kanji" role="tab" data-mode="kanji"></button><button id="tab-tools" role="tab" data-mode="tools"></button></div><form id="form"><div class="tool-settings"><select id="tool" hidden aria-label="Language tool"><option value="romanize"></option><option value="deromanize"></option><option value="numbers"></option><option value="characters"></option></select><label id="scheme-label" for="scheme"></label><select id="scheme"><option value="hepburn">Hepburn</option><option value="kunrei">Kunrei</option><option value="hepburn-basic">Hepburn · basic</option><option value="hepburn-simple">Hepburn · simple</option><option value="hepburn-passport">Hepburn · passport</option><option value="hepburn-traditional">Hepburn · traditional</option><option value="hepburn-modified">Hepburn · modified</option><option value="kunrei-shiki">Kunrei-shiki</option></select></div><label for="input" id="label"></label><textarea id="input" rows="3" lang="ja" spellcheck="false"></textarea><div class="input-meta"><span id="hint"></span><span id="count">0 / 500</span></div><div class="input-actions"><div class="examples"><span id="examples-label"></span><button type="button" data-example="駅の前で会いましょう。">駅の前で会いましょう。</button><button type="button" data-example="猫は魚を食べました。">猫は魚を食べました。</button></div><button class="primary" id="run" type="submit"></button></div></form></section>
 <div id="error" class="error" role="alert" hidden></div><div class="connection"><span class="dot" id="dot"></span><span id="status"></span><span id="version"></span></div>
-<section class="results"><div class="result-main"><div class="section-heading"><h2 id="result-title"></h2><span class="badge" id="alpha"></span></div><div id="empty" class="empty"><span class="empty-symbol" aria-hidden="true">文</span><h3 id="empty-title"></h3><p id="empty-note"></p></div><div id="output" hidden><div class="result-controls"><div id="candidates" class="candidate-list" aria-label="Candidates"></div><select id="annotation" aria-label="Annotation"><option value="reading">Reading</option><option value="romaji">Romaji</option></select></div><div id="tokens" class="tokens" lang="ja"></div><div id="lookup"></div><p class="alpha-note" id="alpha-note"></p></div></div><aside id="detail" class="detail"><div class="section-heading"><h2 id="detail-title"></h2><button type="button" id="close" class="close" aria-label="Close details">×</button></div><div id="detail-content"></div></aside></section>
+<section class="results"><div class="result-main"><div class="section-heading"><h2 id="result-title"></h2><span class="badge" id="alpha"></span></div><div id="empty" class="empty"><span class="empty-symbol" aria-hidden="true">文</span><h3 id="empty-title"></h3><p id="empty-note"></p></div><div id="output" hidden><div class="result-controls"><div id="candidates" class="candidate-list" aria-label="Candidates"></div><select id="annotation" aria-label="Annotation"><option value="reading">Reading</option><option value="romaji">Romaji</option></select></div><div id="ichiran" class="im" hidden></div><div id="tokens" class="tokens" lang="ja"></div><div id="lookup"></div><p class="alpha-note" id="alpha-note"></p></div></div><aside id="detail" class="detail"><div class="section-heading"><h2 id="detail-title"></h2><button type="button" id="close" class="close" aria-label="Close details">×</button></div><div id="detail-content"></div></aside></section>
 <details class="developer" id="developer"><summary id="developer-title"></summary><div class="developer-header"><code id="endpoint"></code><button id="copy" type="button"></button></div><div class="code-grid"><div><h3 id="request-title"></h3><pre id="request"></pre></div><div><h3 id="response-title"></h3><pre id="response"></pre></div></div></details>
 <footer><span>Yomichi · よみち</span><span>Built on open knowledge. <a href="https://www.edrdg.org/" target="_blank" rel="noreferrer">Dictionary data: EDRDG</a></span></footer></main>`;
 $("docs").setAttribute("href", apiBase + "/docs");
@@ -58,7 +64,7 @@ function translate() {
     "response-title": "response",
     copy: "copy",
   }))
-    $(id).textContent = t()[key as keyof typeof messages.en];
+    $(id).textContent = t()[key as keyof typeof messages.en] as string;
   for (const m of ["analyze", "words", "kanji", "tools"] as const) {
     $("tab-" + m).textContent = t()[m];
     $("tab-" + m).setAttribute("aria-selected", String(mode === m));
@@ -67,7 +73,7 @@ function translate() {
   $("scheme").hidden =
     mode !== "analyze" &&
     !(mode === "tools" && $<HTMLSelectElement>("tool").value === "romanize");
-  $("annotation").hidden = mode !== "analyze";
+  $("annotation").hidden = mode !== "analyze" || !!ichiranData;
   $("hint").hidden = mode === "tools";
   document.querySelector<HTMLElement>(".examples")!.hidden = mode === "tools";
   $("scheme-label").hidden = $("scheme").hidden;
@@ -100,12 +106,19 @@ function translate() {
 }
 /** The note names the engine that produced the shown analysis. */
 function engineNote() {
-  $("alpha-note").textContent = result?.engineVersion.endsWith("+ichiran")
+  $("alpha-note").textContent =
+    ichiranData || result?.engineVersion.endsWith("+ichiran")
     ? t().ichiranNote
     : t().alphaNote;
 }
 function reset() {
   result = null;
+  ichiranData = null;
+  picks = [];
+  $("ichiran").hidden = true;
+  $("ichiran").replaceChildren();
+  for (const id of ["tokens", "candidates", "lookup"]) $(id).hidden = false;
+  document.querySelector(".results")!.classList.remove("wide");
   selected = 0;
   $("output").hidden = true;
   $("empty").hidden = false;
@@ -123,6 +136,7 @@ async function status() {
     $("dot").classList.toggle("online", !!d.ready);
     $("version").textContent =
       d.ichiran?.version ?? d.dictionary?.version ?? "";
+    ichiranEngine = !!d.ichiran;
   } catch {
     $("status").textContent = t().offline;
   }
@@ -272,6 +286,41 @@ function wordCard(e: Entry) {
     );
   return card;
 }
+/** Yomichi scheme names to Ichiran methods ("hepburn" is Ichiran's default). */
+function ichiranMethod(scheme: Romanization): string {
+  return scheme === "hepburn"
+    ? "hepburn-traditional"
+    : scheme === "kunrei" || scheme === "kunrei-shiki"
+      ? "kunrei-siki"
+      : scheme;
+}
+function renderIchiranView() {
+  if (!ichiranData) return;
+  for (const id of ["tokens", "candidates", "lookup", "annotation"]) $(id).hidden = true;
+  document.querySelector(".results")!.classList.add("wide");
+  $("ichiran").hidden = false;
+  renderIchiran(
+    $("ichiran"),
+    ichiranData,
+    picks,
+    t().im,
+    async (text) => (await client.ichiranWord(text)).items,
+    (part, path) => {
+      picks[part] = path;
+      renderIchiranView();
+      $("ichiran").querySelectorAll<HTMLElement>(".im-part-text")[
+        ichiranData!.parts.slice(0, part).filter((p) => p.type === "word").length
+      ]?.focus();
+    },
+  );
+  engineNote();
+}
+// close segmentation menus when clicking elsewhere
+document.addEventListener("click", (ev) => {
+  if ((ev.target as HTMLElement).closest?.(".im-part")) return;
+  document.querySelectorAll<HTMLElement>(".im-picks").forEach((m) => (m.hidden = true));
+  document.querySelectorAll(".im-part-text").forEach((b) => b.setAttribute("aria-expanded", "false"));
+});
 function showError(e: unknown) {
   $("error").hidden = false;
   $("error").textContent =
@@ -296,8 +345,11 @@ $("form").addEventListener("submit", async (event) => {
   try {
     const tool = $<HTMLSelectElement>("tool").value;
     const scheme = $<HTMLSelectElement>("scheme").value as Romanization;
+    const useIchiran = mode === "analyze" && ichiranEngine;
     const path =
-      mode === "analyze"
+      useIchiran
+        ? "/v1/ichiran/analyze"
+        : mode === "analyze"
         ? "/v1/analyze"
         : mode === "words"
           ? `/v1/words/search?q=${encodeURIComponent(text.trim())}`
@@ -305,7 +357,9 @@ $("form").addEventListener("submit", async (event) => {
             ? `/v1/${tool}`
             : `/v1/kanji/${encodeURIComponent(text.trim())}`;
     lastRequest =
-      mode === "analyze"
+      useIchiran
+        ? { text, limit: 5, method: ichiranMethod(scheme) }
+        : mode === "analyze"
         ? { text, limit: 5, romanization: scheme }
         : mode === "tools"
           ? {
@@ -317,7 +371,13 @@ $("form").addEventListener("submit", async (event) => {
           : null;
     $("endpoint").textContent =
       (lastRequest ? "POST " : "GET ") + apiBase + path;
-    if (mode === "analyze") {
+    if (useIchiran) {
+      const { text: q, ...options } = lastRequest as { text: string; method: any; limit: number };
+      ichiranData = await client.ichiranAnalyze(q, options);
+      lastResponse = ichiranData;
+      picks = ichiranData.parts.map(() => 0);
+      renderIchiranView();
+    } else if (mode === "analyze") {
       result = await client.analyze(lastRequest as any);
       lastResponse = result;
       renderAnalysis();
@@ -408,6 +468,7 @@ $("locale").addEventListener("change", () => {
   locale = $<HTMLSelectElement>("locale").value as Locale;
   translate();
   if (result) renderAnalysis();
+  if (ichiranData) renderIchiranView();
   void status();
 });
 for (const button of document.querySelectorAll<HTMLButtonElement>(

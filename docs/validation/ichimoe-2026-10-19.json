@@ -1,0 +1,27 @@
+{
+ "type": "ichimoe-comparison",
+ "comparedAt": "2026-10-19T15:47:42.369Z",
+ "ichimoe": "https://ichi.moe/cl/qr/ result pages, Hepburn (traditional), fetched 2026-10-19",
+ "yomichi": "ichiranResult over the Ichiran release database ichiran-260118 (sha256 98a44e2c…), limit 5",
+ "compared": "text runs; every displayed path with score and romanization; the word cards of each run's best path",
+ "corpus": "7 hand-picked sentences, 10 edge cases, and the first 150 sentences of the Tatoeba sample (scripts/oracle/sample-tatoeba.ts)",
+ "totals": {
+  "sentences": 167,
+  "parts": 167,
+  "picks": 166,
+  "cards": 166,
+  "all": 166
+ },
+ "differences": [
+  {
+   "text": "私の考えでは空のたびで最悪な面は、空港の待合室でぶらぶらしなければならない。",
+   "equal": {
+    "parts": true,
+    "picks": false,
+    "cards": false
+   },
+   "diff": ".picks[0][0].romanization: ichi.moe=\"watashi no kangae de wa sora/kara no tabi de saiaku na tsura/men/omote wa\" yomichi=\"watashi no kangae de wa kara/sora no tabi de saiaku na tsura/men/omote wa\""
+  }
+ ],
+ "note": "The one difference is the order of 空's equal-score readings (kara/sora). Live Ichiran over the release database gives kara/sora, as Yomichi does; ichi.moe's database orders them sora/kara. Ties follow PostgreSQL physical row order."
+}

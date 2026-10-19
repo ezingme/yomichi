@@ -4,45 +4,47 @@ Run the Playground and the live API cases against the Ichiran engine. This uses 
 
 ```sh
 npm run dev                                   # API on :3000 with ICHIRAN_DATABASE_URL set
-npm run demo:api -- data/demo                 # 19 live API cases → data/demo/api-cases.{md,json}
-npm run demo:screenshots -- data/demo/shots   # starts the Playground on :5173, writes 10 PNGs
+npm run demo:api -- data/demo                 # 20 live API cases → data/demo/api-cases.{md,json}
+npm run demo:screenshots -- data/demo/shots   # starts the Playground on :5173, writes 11 PNGs
 ```
 
 The expected values in `scripts/demo/api-cases.ts` are Ichiran's results over the `ichiran-260118` release database. The screenshot script fails if an expected element is missing or a page error occurs. It walks through:
 
-- conjugation detail;
-- a suffix compound and one of its components;
-- romaji annotation with a counter;
-- switching to a second candidate;
+- ichi.moe's example べんきょう しています;
+- word cards with alternatives, a counter and a conjugation chain;
+- the segmentation menu, and switching to a second segmentation;
+- a conjugation reached through two roots;
+- expanding omitted entries;
 - the Chinese interface;
-- the mobile result and detail drawer;
+- mobile;
 - the API docs.
 
 The report below was recorded on 2026-10-19 with Ichiran's release database `ichiran-260118` read in place. Timings are from a single local run.
 
-Server: `http://127.0.0.1:3000` · dictionary: ichiran-260118 · **19/19 passed**
+Server: `http://127.0.0.1:3000` · dictionary: ichiran-260118 · **20/20 passed**
 
 | #   | Case                                                       | Request                           | HTTP | Result |  ms |
 | --- | ---------------------------------------------------------- | --------------------------------- | ---- | ------ | --: |
-| 1   | Readiness reports the Ichiran database                     | `GET /readyz`                     | 200  | ✅     | 142 |
-| 2   | Sentence analysis: tokens, readings and romanization       | `POST /v1/analyze`                | 200  | ✅     | 333 |
-| 3   | Conjugation chain resolves to the dictionary form          | `POST /v1/analyze`                | 200  | ✅     |  49 |
-| 4   | Suffix compound with components and spans                  | `POST /v1/analyze`                | 200  | ✅     |  35 |
-| 5   | Counter reading with sound change                          | `POST /v1/analyze`                | 200  | ✅     |  43 |
-| 6   | UTF-16 offsets, halfwidth katakana, emoji and unknown text | `POST /v1/analyze`                | 200  | ✅     |  20 |
-| 7   | Romanization: Kunrei-shiki                                 | `POST /v1/analyze`                | 200  | ✅     |  23 |
-| 8   | Segmentation hint forces a boundary                        | `POST /v1/analyze`                | 200  | ✅     |  16 |
-| 9   | Top-K candidates are ordered by score                      | `POST /v1/analyze`                | 200  | ✅     |  41 |
-| 10  | Reading endpoint                                           | `POST /v1/reading`                | 200  | ✅     |  38 |
-| 11  | Ichiran romanize with word info                            | `POST /v1/ichiran/romanize`       | 200  | ✅     |  66 |
-| 12  | Ichiran romanize* JSON                                     | `POST /v1/ichiran/segment`        | 200  | ✅     |   9 |
-| 13  | Ichiran word lookup                                        | `GET /v1/ichiran/word?text=行く`  | 200  | ✅     |   4 |
-| 14  | Ichiran kanji information                                  | `GET /v1/ichiran/kanji/食`        | 200  | ✅     |   6 |
-| 15  | Ichiran kanji/reading alignment                            | `POST /v1/ichiran/match-readings` | 200  | ✅     |   9 |
-| 16  | Validation: empty text is rejected                         | `POST /v1/analyze`                | 400  | ✅     |   3 |
-| 17  | Validation: limit above 5 is rejected                      | `POST /v1/analyze`                | 400  | ✅     |   2 |
-| 18  | Validation: hint inside a surrogate pair is rejected       | `POST /v1/analyze`                | 400  | ✅     |   2 |
-| 19  | A character outside KANJIDIC returns 404                   | `GET /v1/ichiran/kanji/ア`        | 404  | ✅     |   2 |
+| 1   | Readiness reports the Ichiran database                     | `GET /readyz`                     | 200  | ✅     |  74 |
+| 2   | Sentence analysis: tokens, readings and romanization       | `POST /v1/analyze`                | 200  | ✅     |  38 |
+| 3   | Conjugation chain resolves to the dictionary form          | `POST /v1/analyze`                | 200  | ✅     |   8 |
+| 4   | Suffix compound with components and spans                  | `POST /v1/analyze`                | 200  | ✅     |  29 |
+| 5   | Counter reading with sound change                          | `POST /v1/analyze`                | 200  | ✅     |  13 |
+| 6   | UTF-16 offsets, halfwidth katakana, emoji and unknown text | `POST /v1/analyze`                | 200  | ✅     |  14 |
+| 7   | Romanization: Kunrei-shiki                                 | `POST /v1/analyze`                | 200  | ✅     |  20 |
+| 8   | Segmentation hint forces a boundary                        | `POST /v1/analyze`                | 200  | ✅     |  15 |
+| 9   | Top-K candidates are ordered by score                      | `POST /v1/analyze`                | 200  | ✅     |  32 |
+| 10  | Reading endpoint                                           | `POST /v1/reading`                | 200  | ✅     |   9 |
+| 11  | ichi.moe data: runs, paths with scores, word cards         | `POST /v1/ichiran/analyze`        | 200  | ✅     |   9 |
+| 12  | Ichiran romanize with word info                            | `POST /v1/ichiran/romanize`       | 200  | ✅     |  67 |
+| 13  | Ichiran romanize* JSON                                     | `POST /v1/ichiran/segment`        | 200  | ✅     |  11 |
+| 14  | Ichiran word lookup                                        | `GET /v1/ichiran/word?text=行く`  | 200  | ✅     |   5 |
+| 15  | Ichiran kanji information                                  | `GET /v1/ichiran/kanji/食`        | 200  | ✅     |  12 |
+| 16  | Ichiran kanji/reading alignment                            | `POST /v1/ichiran/match-readings` | 200  | ✅     |  12 |
+| 17  | Validation: empty text is rejected                         | `POST /v1/analyze`                | 400  | ✅     |   3 |
+| 18  | Validation: limit above 5 is rejected                      | `POST /v1/analyze`                | 400  | ✅     |   2 |
+| 19  | Validation: hint inside a surrogate pair is rejected       | `POST /v1/analyze`                | 400  | ✅     |   2 |
+| 20  | A character outside KANJIDIC returns 404                   | `GET /v1/ichiran/kanji/ア`        | 404  | ✅     |   3 |
 
 ## Response excerpts
 
@@ -137,7 +139,34 @@ Server: `http://127.0.0.1:3000` · dictionary: ichiran-260118 · **19/19 passed*
 "にほんごをべんきょうしています"
 ```
 
-**11. Ichiran romanize with word info**
+**11. ichi.moe data: runs, paths with scores, word cards**
+
+```json
+[
+  {
+    "run": "べんきょう",
+    "paths": [
+      "benkyō (208)",
+      "ben kyō (28)",
+      "be n kyō (-473)",
+      "ben kyō (-984)",
+      "ben kyō (-1488)"
+    ]
+  },
+  {
+    "run": "しています",
+    "paths": [
+      "shiteimasu (380)",
+      "shite imasu (130)",
+      "shi te imasu (101)",
+      "shi te imasu (-404)",
+      "shite ima su (-444)"
+    ]
+  }
+]
+```
+
+**12. Ichiran romanize with word info**
 
 ```json
 {
@@ -149,7 +178,7 @@ Server: `http://127.0.0.1:3000` · dictionary: ichiran-260118 · **19/19 passed*
 }
 ```
 
-_*12. Ichiran romanize* JSON_*
+_*13. Ichiran romanize* JSON_*
 
 ```json
 [
@@ -179,7 +208,7 @@ _*12. Ichiran romanize* JSON_*
 ]
 ```
 
-**13. Ichiran word lookup**
+**14. Ichiran word lookup**
 
 ```json
 [
@@ -190,7 +219,7 @@ _*12. Ichiran romanize* JSON_*
 ]
 ```
 
-**14. Ichiran kanji information**
+**15. Ichiran kanji information**
 
 ```json
 {
@@ -201,31 +230,31 @@ _*12. Ichiran romanize* JSON_*
 }
 ```
 
-**15. Ichiran kanji/reading alignment**
+**16. Ichiran kanji/reading alignment**
 
 ```json
 ["食=た (ja_kun)", "べ", "物=もの (ja_kun)"]
 ```
 
-**16. Validation: empty text is rejected**
+**17. Validation: empty text is rejected**
 
 ```json
 [400, "INVALID_REQUEST"]
 ```
 
-**17. Validation: limit above 5 is rejected**
+**18. Validation: limit above 5 is rejected**
 
 ```json
 [400, "INVALID_REQUEST"]
 ```
 
-**18. Validation: hint inside a surrogate pair is rejected**
+**19. Validation: hint inside a surrogate pair is rejected**
 
 ```json
 [400, "INVALID_HINTS"]
 ```
 
-**19. A character outside KANJIDIC returns 404**
+**20. A character outside KANJIDIC returns 404**
 
 ```json
 [404, "NOT_FOUND"]

@@ -36,6 +36,8 @@ import { matchKanjiReading } from "../../dictionary/src/kanji.js";
 import {
   analyzeIchiran,
   findWordInfoJson,
+  ichiranResult,
+  type IchiranMethodName,
   kanjiInfo,
   matchReadingsInfo,
   romanize as ichiranRomanize,
@@ -590,6 +592,31 @@ export async function buildApp(options: ServerOptions) {
       },
     );
   }
+  app.post<{ Body: { text: string; method?: IchiranMethodName; limit?: number } }>(
+    "/v1/ichiran/analyze",
+    {
+      schema: {
+        body: conversionBody({
+          text,
+          method: { type: "string", enum: [...Object.keys(ROMANIZATION_METHODS), "kana", "text"] },
+          limit: { type: "integer", minimum: 1, maximum: 5 },
+        }),
+        summary:
+          "Everything ichi.moe shows: per run the best paths with scores; per word its romanization, omitted entries and gloss JSON",
+        tags: ["ichiran"],
+      },
+    },
+    async (req) => {
+      validateOptions({ text: req.body.text });
+      const engine = await ichiranEngine();
+      return limited(() =>
+        ichiranResult(engine, req.body.text, {
+          method: req.body.method,
+          limit: req.body.limit ?? 5,
+        }),
+      );
+    },
+  );
   app.post<{ Body: { text: string; method?: string; limit?: number } }>(
     "/v1/ichiran/segment",
     {

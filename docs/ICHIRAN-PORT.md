@@ -13,17 +13,17 @@ given here. They do not certify identical behaviour on every possible input.
 
 ## What is ported
 
-| Ichiran source                    | Port                                                                                                                                                                                                                                                                          |
-| --------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `characters.lisp`, `numbers.lisp` | `chars.ts`, `numbers.ts`: normalization with an offset map, character classes, basic split (including its alternation quirk), kanji regexes, mora length, rendaku, gemination, destem, sticky positions, BigInt number parsing and rendering                                  |
-| `dict.lisp`, `dict-split.lisp`    | `dict.ts`, `split.ts`, `easy-hints.ts`: `calc-score`, kanji-break penalties, substring lookup, `join-substring-words`, culling, `find-best-path` (top array, gap penalty), word info, splits, segsplits and kana hints (simple and easy hints)                                  |
+| Ichiran source                    | Port                                                                                                                                                                                                                                                                           |
+| --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `characters.lisp`, `numbers.lisp` | `chars.ts`, `numbers.ts`: normalization with an offset map, character classes, basic split (including its alternation quirk), kanji regexes, mora length, rendaku, gemination, destem, sticky positions, BigInt number parsing and rendering                                   |
+| `dict.lisp`, `dict-split.lisp`    | `dict.ts`, `split.ts`, `easy-hints.ts`: `calc-score`, kanji-break penalties, substring lookup, `join-substring-words`, culling, `find-best-path` (top array, gap penalty), word info, splits, segsplits and kana hints (simple and easy hints)                                 |
 | `dict-grammar.lisp`               | `grammar.ts`: suffix cache and every suffix function, abbreviations, synergies, penalties and segfilters                                                                                                                                                                       |
-| `dict-counters.lisp`              | `counters.ts`: counter classes, special counters, readings and the counter cache                                                                                                                                                                                              |
+| `dict-counters.lisp`              | `counters.ts`: counter classes, special counters, readings and the counter cache                                                                                                                                                                                               |
 | `dict-errata.lisp`                | `errata.ts` (runtime lists) and `ichiran-build/errata.ts` plus `errata-data.ts` (all 604 load-time operations, quirks included)                                                                                                                                                |
 | `dict-load.lisp`, `conn.lisp`     | `ichiran-build/lexicon.ts`, `conj-rules.ts`: entry loading, conjugation generation (`construct-conjugation`, `insert-conjugation`, secondary conjugations), best readings. Rows are fetched on demand through `IchiranSource` (PostgreSQL or memory) into a shared query store |
 | `dict-custom.lisp`                | `ichiran-build/custom.ts`: `extra.xml`, municipalities and wards (vendored in `packages/dictionary/data/ichiran`)                                                                                                                                                              |
 | `kanji.lisp`                      | `kanji.ts`, `ichiran-build/kanji.ts`: KANJIDIC loading, reading matching (`match-readings`), per-reading statistics, `kanji-info-json`, `match-readings-json`                                                                                                                  |
-| `romanize.lisp`                   | `romanize.ts`: every method (Hepburn basic, simple, passport, traditional, modified; Kunrei-shiki) and `romanize`, `romanize*`, `romanize-word-geo`                                                                                                                             |
+| `romanize.lisp`                   | `romanize.ts`: every method (Hepburn basic, simple, passport, traditional, modified; Kunrei-shiki) and `romanize`, `romanize*`, `romanize-word-geo`                                                                                                                            |
 | JSON output (`dict.lisp`)         | `output.ts`: `word-info-gloss-json`, `conj-info-json`, `word-info-str`, sense and reading strings                                                                                                                                                                              |
 
 Some Lisp behaviour has to be reproduced exactly for the output to match:
@@ -51,12 +51,12 @@ The corpus is the 5,000 Tatoeba Japanese sentences whose SHA-256 of the id sorts
 - the full `romanize*` JSON;
 - `romanize :with-info`.
 
-| Data                                                                                                                           | Result                                                                                                                                                                                                                |
-| ------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Port reading the oracle's own database                                                                                         | 5,000 / 5,000 sentences identical in every path, score and word-info field, in the full `romanize*` JSON and in `romanize` info text. Published upstream segmentation cases: 741 / 741                              |
-| Model built in TypeScript from the same JMdict revision (entry XML recovered from the oracle database), built-in rules          | 741 / 741 published cases. Root and custom rows identical. 99.8% of conjugation rows identical. With the oracle's generation order replayed: 2,343,276 / 2,343,282 (the 6 remaining rows are historical `exp` rows) |
-| Same build, top segmentation on the 5,000 sentences (generated seqs normalized)                                                 | 4,998 / 5,000 with built-in rules; 5,000 / 5,000 with JMdictDB's `conjo.csv`. The remaining differences are equal-score alternatives whose order depends on PostgreSQL heap order                                    |
-| Build from JMdict 2026-10-19 (current)                                                                                         | 729 / 741 published cases, identical between the memory and PostgreSQL paths. All 12 differences come from entries added to JMdict since the oracle's snapshot (e.g. どなた様, かと, といい, おい, きそう)            |
+| Data                                                                                                                   | Result                                                                                                                                                                                                              |
+| ---------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Port reading the oracle's own database                                                                                 | 5,000 / 5,000 sentences identical in every path, score and word-info field, in the full `romanize*` JSON and in `romanize` info text. Published upstream segmentation cases: 741 / 741                              |
+| Model built in TypeScript from the same JMdict revision (entry XML recovered from the oracle database), built-in rules | 741 / 741 published cases. Root and custom rows identical. 99.8% of conjugation rows identical. With the oracle's generation order replayed: 2,343,276 / 2,343,282 (the 6 remaining rows are historical `exp` rows) |
+| Same build, top segmentation on the 5,000 sentences (generated seqs normalized)                                        | 4,998 / 5,000 with built-in rules; 5,000 / 5,000 with JMdictDB's `conjo.csv`. The remaining differences are equal-score alternatives whose order depends on PostgreSQL heap order                                   |
+| Build from JMdict 2026-10-19 (current)                                                                                 | 729 / 741 published cases, identical between the memory and PostgreSQL paths. All 12 differences come from entries added to JMdict since the oracle's snapshot (e.g. どなた様, かと, といい, おい, きそう)          |
 
 The latest run over the oracle database is recorded in [`ichiran-oracle-2026-10-19.json`](validation/ichiran-oracle-2026-10-19.json): 5,000 / 5,000 identical in top text, all paths, scores, full JSON and info.
 
@@ -86,6 +86,34 @@ Ichiran reads conjugation rules from JMdictDB's `conjo.csv`, which is GPLv2, so 
 
 These choices change only the forms listed.
 
+## Comparison with ichi.moe
+
+ichi.moe is Ichiran's public web interface. `POST /v1/ichiran/analyze` returns the data its result pages show, and the Playground lays it out the same way. Both come from Ichiran's own output: `word-info-gloss-json`, the `skipped` count, and up to five `dict-segment` paths per run.
+
+ichi.moe's frontend applies a few presentation rules on top of that data. Yomichi follows them; all were derived from the pages and then checked:
+
+- A word run is displayed after character normalization (`ｶﾀｶﾅ`→`カタカナ`, `３`→`3`, `？`→`?`), but without Ichiran's punctuation replacement (`、` and `！` stay as typed). `normalizeChars` implements this.
+- The root senses of a suffix's conjugation are not listed (for example the いる in しています).
+- All intermediate conjugations of a secondary conjugation share one "via" block.
+- A counter shows its value text ("Value: 3", "Value: 3rd").
+- "omitted: N" links to every entry for the text.
+
+`scripts/oracle/ichimoe-compare.ts` checks this against live pages, fetched slowly and cached. It parses each page with JavaScript disabled into the view model the Playground renders (`packages/core/src/ichiran/view.ts`) and compares:
+
+- the runs;
+- every displayed path with its score and romanization;
+- each word card of the best path: romanization, omitted count, readings, senses with notes and fields, counters, compounds, suffixes and conjugations.
+
+On 2026-10-19 the corpus was 167 sentences: 7 hand-picked, 10 edge cases, and the first 150 of the Tatoeba sample. **166 were identical** ([record](validation/ichimoe-2026-10-19.json)).
+
+The remaining sentence differs only in the order of the equal-score readings of 空. Live Ichiran over the release database gives "kara/sora", as Yomichi does; ichi.moe gives "sora/kara". Ties follow PostgreSQL's physical row order, and ichi.moe's database evidently differs from the release dump in that respect.
+
+`tests/ichimoe.test.ts` repeats the comparison offline for five pages. It uses their parsed content and the database rows those sentences read (`tests/fixtures/ichimoe`).
+
+```sh
+ICHIRAN_DATABASE_URL=postgres://.../ichiran npx tsx scripts/oracle/ichimoe-compare.ts sentences.jsonl --cache data/ichimoe-cache
+```
+
 ## Storage and resources
 
 `npm run import:ichiran -- JMdict_e.gz VERSION [--kanjidic kanjidic2.xml.gz] [--jmdictdb DIR]`:
@@ -98,6 +126,7 @@ These choices change only the forms listed.
 `npm run import:ichiran-db -- postgres://.../ichiran VERSION` copies an existing Ichiran database instead, for example a restored release dump, keeping its heap order.
 
 Alternatively, set `ICHIRAN_DATABASE_URL` (and optionally `ICHIRAN_DATABASE_VERSION`) to read an Ichiran database in place.
+
 - No import step. The release database is 3.7 GB, against 6.75 GB for an imported copy.
 - Connections use `default_transaction_read_only`.
 - Results tie-break on the database's physical (ctid) order. This is the setup the 5,000-sentence comparison used.
@@ -120,15 +149,15 @@ When an `ichiran` dataset is active:
 - `segmentationHints` split Japanese runs before segmentation.
 - Candidates combine the best paths of each run. Paths that differ only in hidden scoring details are merged.
 
-Endpoints that return Ichiran's own JSON:
+`POST /v1/ichiran/analyze` returns everything ichi.moe displays (see above). Endpoints that return Ichiran's own JSON:
 
-| Endpoint                                      | Ichiran function                       |
-| --------------------------------------------- | -------------------------------------- |
-| `POST /v1/ichiran/segment` `{text, method?, limit?}` | `romanize*` (full JSON)         |
-| `POST /v1/ichiran/romanize` `{text, method?, info?}` | `romanize` with `:with-info`    |
-| `GET /v1/ichiran/word?text=&reading=&root=`   | `find-word-info-json`                  |
-| `GET /v1/ichiran/kanji/:char`                 | `kanji-info-json`                      |
-| `POST /v1/ichiran/match-readings` `{word, reading}` | `match-readings-json`            |
+| Endpoint                                             | Ichiran function             |
+| ---------------------------------------------------- | ---------------------------- |
+| `POST /v1/ichiran/segment` `{text, method?, limit?}` | `romanize*` (full JSON)      |
+| `POST /v1/ichiran/romanize` `{text, method?, info?}` | `romanize` with `:with-info` |
+| `GET /v1/ichiran/word?text=&reading=&root=`          | `find-word-info-json`        |
+| `GET /v1/ichiran/kanji/:char`                        | `kanji-info-json`            |
+| `POST /v1/ichiran/match-readings` `{word, reading}`  | `match-readings-json`        |
 
 Scores are Ichiran's heuristic path scores, not probabilities.
 

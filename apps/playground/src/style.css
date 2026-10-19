@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Noto+Sans+JP:wght@400;500;600&display=swap");
 :root {
   font-family: "DM Sans", "Noto Sans JP", system-ui, sans-serif;
   color: #26392f;
@@ -777,5 +777,201 @@ footer a {
   }
   .tool-settings {
     gap: 8px;
+  }
+}
+/* Ichiran results, laid out as on ichi.moe: runs, romanized line, word cards */
+.results.wide {
+  grid-template-columns: minmax(0, 1fr);
+}
+.results.wide .detail {
+  display: none;
+}
+.im {
+  margin-top: 22px;
+}
+.im-sentence {
+  font-size: 26px;
+  line-height: 1.6;
+  color: #29452f;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 0;
+}
+.im-misc {
+  white-space: pre-wrap;
+}
+.im-part {
+  position: relative;
+  display: inline-block;
+}
+.im-part-text {
+  border: 0;
+  border-bottom: 2px dotted #a9bd8c;
+  background: transparent;
+  color: inherit;
+  font-size: inherit;
+  padding: 0 1px;
+}
+.im-part-text:hover,
+.im-part-text[aria-expanded="true"] {
+  background: #f3f7eb;
+}
+.im-picks {
+  position: absolute;
+  z-index: 10;
+  top: 100%;
+  left: 0;
+  list-style: none;
+  margin: 4px 0 0;
+  padding: 6px;
+  min-width: 220px;
+  background: #fff;
+  border: 1px solid #ccd7be;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px #20302020;
+}
+.im-pick {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  border-radius: 6px;
+  padding: 7px 9px;
+  font-size: 13px;
+  font-style: italic;
+  color: #314c30;
+  text-align: left;
+}
+.im-pick:hover,
+.im-pick.active {
+  background: #edf3e6;
+}
+.im-score {
+  font-style: normal;
+  font-size: 11px;
+  color: var(--muted);
+}
+.im-romaji {
+  font-style: italic;
+  font-size: 17px;
+  color: #3c5437;
+  margin: 10px 0 22px;
+}
+.im-word:hover {
+  text-decoration: underline;
+}
+.im-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 14px;
+  align-items: start;
+}
+.im-card {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fafbf7;
+  padding: 14px 16px;
+  max-height: 460px;
+  overflow: auto;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #4b5e43;
+}
+.im-card:target {
+  border-color: #93ad6b;
+  box-shadow: 0 0 0 3px #dae7c9;
+}
+.im-card-title {
+  font-style: italic;
+  font-size: 15px;
+  font-weight: 500;
+  color: #29452f;
+  margin: 0 0 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px dashed #cdd8c0;
+}
+.im-card dl {
+  margin: 0;
+}
+.im-card dd {
+  margin: 0 0 6px 12px;
+}
+.im-reading {
+  font-weight: 600;
+  color: #2f4a33;
+  margin-top: 4px;
+}
+.im-senses {
+  padding-left: 20px;
+  margin: 4px 0;
+}
+.im-pos {
+  color: #4f8a3c;
+}
+.im-note,
+.im-field {
+  color: #8a7a52;
+  font-size: 12px;
+}
+.im-compound,
+.im-suffix,
+.im-counter {
+  margin: 2px 0 4px;
+  color: #5b6f52;
+}
+.im-compound-words {
+  font-weight: 600;
+}
+.im-conj {
+  margin: 6px 0 4px;
+}
+.im-conj-prop {
+  font-weight: 500;
+}
+.im-conj-flag {
+  font-size: 11px;
+  border: 1px solid #d6dfc8;
+  background: #edf2e5;
+  border-radius: 4px;
+  padding: 0 5px;
+  color: #63764e;
+}
+.im-conj-via {
+  margin: 2px 0 0 10px;
+}
+.im-via {
+  font-size: 11px;
+  color: var(--muted);
+}
+.im-conj-root {
+  margin-left: 10px;
+}
+.im-omitted {
+  border: 0;
+  background: transparent;
+  color: var(--green);
+  font-size: 12px;
+  padding: 4px 0 0;
+  text-decoration: underline dotted;
+}
+.im-all-title {
+  font-size: 11px;
+  color: var(--muted);
+  margin: 10px 0 2px;
+  border-top: 1px dashed #cdd8c0;
+  padding-top: 8px;
+}
+@media (max-width: 760px) {
+  .im-sentence {
+    font-size: 22px;
+  }
+  .im-cards {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .im-picks {
+    min-width: 180px;
   }
 }

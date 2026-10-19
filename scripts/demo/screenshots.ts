@@ -35,12 +35,10 @@ async function analyze(page: Page, text: string) {
   await page.locator("#input").fill(text);
   await page.locator("#run").click();
   await page.locator("#output").waitFor();
-  await page.locator(".token").first().waitFor();
+  await page.locator(".im-card").first().waitFor();
 }
-async function open(page: Page, surface: string, expect: string) {
-  await page.locator(".token").filter({ hasText: surface }).first().click();
-  await page.locator("#detail-content").filter({ hasText: expect }).waitFor();
-}
+const card = (page: Page, romanization: string) =>
+  page.locator(".im-card").filter({ has: page.locator(".im-card-title", { hasText: new RegExp(`^${romanization}$`) }) });
 try {
   const errors: string[] = [];
   const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
@@ -50,53 +48,61 @@ try {
   assert.equal(await page.locator("#version").innerText(), "ichiran-260118");
   await shot(page, "01-home");
 
-  // conjugated verb: lemma, conjugation chain and meanings
-  await analyze(page, "猫は魚を食べさせられなかった。");
-  await open(page, "食べさせられなかった", "Causative-Passive");
+  // the example from ichi.moe: runs, romanized line, word cards with a compound
+  await analyze(page, "べんきょう しています");
+  assert.equal(await page.locator(".im-romaji").innerText(), "benkyō shiteimasu");
+  const heading = await page.locator(".im-sentence > .im-misc, .im-sentence .im-part-text").allTextContents();
+  assert.equal(heading.join(""), "べんきょう しています");
+  await card(page, "shiteimasu").filter({ hasText: "Compound word: して + います" }).waitFor();
   assert.match(await page.locator("#alpha-note").innerText(), /TypeScript port of Ichiran/);
-  await shot(page, "02-conjugation-detail");
+  await shot(page, "02-ichimoe-compound");
 
-  // suffix compound and its components
-  await analyze(page, "行きたいけど、もう食べてしまった。");
-  await open(page, "食べてしまった", "しまった");
-  await shot(page, "03-compound-components");
-  await page.locator(".alt-word").filter({ hasText: "しまった" }).click();
-  await page.locator("#detail-content").filter({ hasText: "indicates completion" }).waitFor();
-  await shot(page, "04-suffix-component");
+  // alternatives, compounds, counters and a conjugation via chain
+  await analyze(page, "本を読んでいる学生が3人います。食べさせられなかった");
+  await card(page, "hon/moto").filter({ hasText: "2. 本 【もと】" }).waitFor();
+  await card(page, "sannin").filter({ hasText: "Value: 3" }).waitFor();
+  await card(page, "tabesaserarenakatta").filter({ hasText: "Causative-Passive" }).waitFor();
+  await shot(page, "03-cards");
 
-  // romaji annotation and counters
-  await analyze(page, "ｶﾀｶﾅで書いた手紙が3通あります。");
-  await page.locator("#annotation").selectOption("romaji");
-  await page.locator(".token rt").filter({ hasText: "santsū" }).waitFor();
-  await open(page, "3通", "ctr");
-  await shot(page, "05-romaji-counter");
+  // choosing another segmentation of a run
+  await page.locator(".im-part-text").first().click();
+  await page.locator(".im-picks:not([hidden]) .im-pick").first().waitFor();
+  await shot(page, "04-segmentation-menu", false);
+  await page.locator(".im-picks:not([hidden]) .im-pick").nth(1).click();
+  await shot(page, "05-second-segmentation");
 
-  // alternative candidates
-  await page.locator("#annotation").selectOption("reading");
-  await analyze(page, "東京都に住んでいる");
-  const candidates = await page.locator(".candidate").count();
-  assert.ok(candidates >= 2, "several candidates");
-  await page.locator(".candidate").nth(1).click();
-  await shot(page, "06-second-candidate");
+  // a secondary conjugation reachable through two roots: one "via" block
+  await analyze(page, "キャシィは帽子を吹き飛ばされた。");
+  const fuki = card(page, "fukitobasareta");
+  assert.equal(await fuki.locator(".im-via").count(), 1);
+  assert.equal(await fuki.locator(".im-conj-via .im-conj-root").count(), 2);
+  await fuki.scrollIntoViewIfNeeded();
+  await shot(page, "05b-conjugation-via");
+
+  // omitted entries expand in place
+  await analyze(page, "寿司は美味しい");
+  await card(page, "wa").locator(".im-omitted").click();
+  await card(page, "wa").locator(".im-all").waitFor();
+  await shot(page, "06-omitted-entries");
 
   // Chinese interface
   await page.locator("#locale").selectOption("zh");
   await analyze(page, "日本語を勉強しています");
-  await open(page, "勉強しています", "勉強");
+  await card(page, "benkyō shiteimasu").filter({ hasText: "复合词" }).waitFor();
   assert.match(await page.locator("#alpha-note").innerText(), /Ichiran TypeScript 移植版/);
   await shot(page, "07-chinese-ui");
 
-  // mobile: drawer and no horizontal overflow
+  // mobile: one card per row and no horizontal overflow
   const mobile = await browser.newPage({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2 });
   mobile.on("pageerror", (e) => errors.push(e.message));
   await mobile.goto("http://127.0.0.1:5173");
   await mobile.locator("#status").filter({ hasText: "Dictionary connected" }).waitFor();
   await analyze(mobile, "駅の前で会いましょう。");
-  await shot(mobile, "08-mobile-result", false);
-  await open(mobile, "会いましょう", "Volitional");
-  assert.ok(await mobile.locator("#close").isVisible());
+  await mobile.locator(".im-sentence").scrollIntoViewIfNeeded();
   assert.equal(await mobile.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
-  await shot(mobile, "09-mobile-detail", false);
+  await shot(mobile, "08-mobile-result", false);
+  await card(mobile, "aimashō").scrollIntoViewIfNeeded();
+  await shot(mobile, "09-mobile-card", false);
 
   // API documentation served by the API
   const docs = await browser.newPage({ viewport: { width: 1280, height: 1000 } });

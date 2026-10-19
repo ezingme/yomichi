@@ -173,6 +173,41 @@ const cases: Case[] = [
     show: (r) => r.body.reading,
   },
   {
+    name: "ichi.moe data: runs, paths with scores, word cards",
+    method: "POST",
+    path: "/v1/ichiran/analyze",
+    body: { text: "べんきょう しています" },
+    check: (r) => {
+      assert.equal(r.body.romanization, "benkyō shiteimasu");
+      assert.deepEqual(
+        r.body.parts.map((p: any) => [p.type, p.display]),
+        [
+          ["word", "べんきょう"],
+          ["misc", " "],
+          ["word", "しています"],
+        ],
+      );
+      // as shown on https://ichi.moe/cl/qr/?q=べんきょう+しています&r=htr
+      assert.deepEqual(
+        r.body.parts[0].paths.map((p: any) => [p.romanization, p.score]),
+        [
+          ["benkyō", 208],
+          ["ben kyō", 28],
+          ["be n kyō", -473],
+          ["ben kyō", -984],
+          ["ben kyō", -1488],
+        ],
+      );
+      const card = r.body.parts[2].paths[0].words[0].gloss;
+      assert.deepEqual(card.compound, ["して", "います"]);
+      assert.equal(card.components[1].suffix, "indicates continuing action (to be ...ing)");
+    },
+    show: (r) =>
+      r.body.parts
+        .filter((p: any) => p.type === "word")
+        .map((p: any) => ({ run: p.display, paths: p.paths.map((x: any) => `${x.romanization} (${x.score})`) })),
+  },
+  {
     name: "Ichiran romanize with word info",
     method: "POST",
     path: "/v1/ichiran/romanize",

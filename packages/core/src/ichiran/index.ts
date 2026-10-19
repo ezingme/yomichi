@@ -2,11 +2,11 @@
  * scoring and grammar logic of Ichiran (https://github.com/tshatrov/ichiran,
  * Timofei Shatrov, MIT). The data model mirrors Ichiran's database tables;
  * rows are obtained through an IchiranSource. */
-import { basicSplit, normalizeWithMap } from "./chars.js";
+import { basicSplit, normalizeChars, normalizeWithMap } from "./chars.js";
 import { dictSegment, findWordInfo, type WordInfo } from "./dict.js";
 import { withState } from "./state.js";
 import { resetSuffixState } from "./grammar.js";
-import { DEFAULT_METHOD, type RomanizationMethod } from "./romanize.js";
+import { DEFAULT_METHOD, METHODS, type RomanizationMethod } from "./romanize.js";
 import { joinParts, kanjiInfoJson, matchReadingsJson, romanizeWordInfo, wordInfoGlossJson, wordInfoStr, type Json } from "./output.js";
 import { IchiranStore, runWithStore, type IchiranSource } from "./store.js";
 import { ichiranMethod, projectAnalysis } from "./yomichi.js";
@@ -214,5 +214,87 @@ export async function matchReadingsInfo(engine: IchiranEngine, word: string, rea
         return info && r ? { sample: r.statCommon, total: info.statCommon, grade: info.grade } : null;
       }),
     ),
+  );
+}
+
+export * from "./view.js";
+
+export type IchiranMethodName = keyof typeof METHODS | "kana" | "text";
+export interface IchiranWordResult {
+  text: string;
+  /** Original UTF-16 offsets. */
+  start: number;
+  end: number;
+  romanization: string;
+  /** Dictionary entries for this text left out of the gloss ("omitted"). */
+  skipped: number;
+  /** word-info-gloss-json, as in romanize*. */
+  gloss: Json;
+}
+/** `text` is Ichiran's normalized run and `source` the original input slice.
+ * `display` is what ichi.moe shows: characters normalized, punctuation kept
+ * (see normalizeChars). */
+export type IchiranPart =
+  | { type: "misc"; text: string; source: string; display: string; start: number; end: number }
+  | {
+      type: "word";
+      text: string;
+      source: string;
+      display: string;
+      start: number;
+      end: number;
+      paths: { score: number; romanization: string; words: IchiranWordResult[] }[];
+    };
+export interface IchiranResult {
+  text: string;
+  method: IchiranMethodName;
+  /** ichiran:romanize of the best paths. */
+  romanization: string;
+  /** Japanese runs with their best `limit` segmentations, as ichi.moe shows them. */
+  parts: IchiranPart[];
+}
+
+/** Everything ichi.moe displays for a text: per run, the best paths with
+ * scores, and per word its romanization, omitted-entry count and gloss JSON. */
+export async function ichiranResult(
+  engine: IchiranEngine,
+  input: string,
+  opts: { method?: IchiranMethodName; limit?: number } = {},
+): Promise<IchiranResult> {
+  const name = opts.method ?? "hepburn-traditional";
+  const method = name === "kana" || name === "text" ? name : METHODS[name];
+  engine.store.trim();
+  return runWithStore(engine.store, engine.source, () =>
+    runSync(engine.store, () => {
+      const norm = normalizeWithMap(input);
+      const orig = (a: number, b: number) => [norm.source[a][0], norm.source[b - 1][1]] as const;
+      const best: string[] = [];
+      const parts = basicSplit(norm.text).map((seg): IchiranPart => {
+        const [start, end] = orig(seg.start, seg.end);
+        if (seg.type === "misc") {
+          best.push(seg.text);
+          const source = input.slice(start, end);
+          return { type: "misc", text: seg.text, source, display: normalizeChars(source), start, end };
+        }
+        const paths = dictSegment(seg.text, opts.limit ?? 5).map(([wis, score]) => {
+          const words = wis.map((wi): IchiranWordResult => {
+            const [s, e] = orig(seg.start + (wi.start ?? 0), seg.start + (wi.end ?? seg.text.length));
+            return {
+              text: wi.text,
+              start: s,
+              end: e,
+              romanization: romanizeWordInfo(wi, method),
+              skipped: wi.skipped,
+              gloss: wordInfoGlossJson(wi),
+            };
+          });
+          return { score, romanization: words.map((w) => w.romanization).join(" "), words };
+        });
+        best.push(...(paths[0]?.words.map((w) => w.romanization) ?? []));
+        const source = input.slice(start, end);
+        return { type: "word", text: seg.text, source, display: normalizeChars(source), start, end, paths };
+      });
+      return { text: input, method: name, romanization: joinParts(best), parts };
+    }),
   );
 }

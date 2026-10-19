@@ -174,6 +174,17 @@ export function normalizeWithMap(str: string, kanaContext = false): Normalized {
     kanaContext ? DAKUTEN_JOIN : [...PUNCTUATION, ...DAKUTEN_JOIN],
   );
 }
+/** Character normalization without punctuation replacement: the text
+ * ichi.moe displays for a run (e.g. "３" → "3", "？" → "?", but "、" kept). */
+export function normalizeChars(str: string): string {
+  let text = "";
+  const source: [number, number][] = [];
+  for (let i = 0; i < str.length; i++) {
+    text += toNormalChar(str[i], false) ?? str[i];
+    source.push([i, i + 1]);
+  }
+  return simplifyNgrams({ text, source }, DAKUTEN_JOIN).text;
+}
 export function normalize(str: string, kanaContext = false): string {
   return normalizeWithMap(str, kanaContext).text;
 }

@@ -99,13 +99,19 @@ Engine selection:
 
 ## Demo
 
-The Playground running on Ichiran's release database:
+With the Ichiran engine, the Playground shows what [ichi.moe](https://ichi.moe/) shows:
 
-| Conjugation detail                                                                 | Chinese interface                                                      | Mobile                                                   |
-| ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------- | -------------------------------------------------------- |
-| ![Conjugation chain of 食べさせられなかった](docs/demo/playground-conjugation.png) | ![Chinese interface with a compound](docs/demo/playground-chinese.png) | ![Mobile detail drawer](docs/demo/playground-mobile.png) |
+- the text runs, each with a menu of its best segmentations and their scores;
+- the romanized sentence;
+- one card per word: readings, senses with notes and fields, conjugations (including "via" chains), compounds, suffixes, counters, and omitted entries.
 
-`npm run demo:api` runs 19 live API cases against your server, and `npm run demo:screenshots` captures the Playground. See [docs/demo/API-CASES.md](docs/demo/API-CASES.md) for how to run them and the recorded report.
+The content is Ichiran's own data. A comparison with live ichi.moe pages was identical for 166 of 167 sentences ([details](docs/ICHIRAN-PORT.md#comparison-with-ichimoe)).
+
+| ichi.moe example                                           | Alternatives, counter, via chain              | Mobile                                          |
+| ---------------------------------------------------------- | --------------------------------------------- | ----------------------------------------------- |
+| ![べんきょう しています](docs/demo/playground-ichimoe.png) | ![Word cards](docs/demo/playground-cards.png) | ![Mobile card](docs/demo/playground-mobile.png) |
+
+`npm run demo:api` runs 20 live API cases against your server, and `npm run demo:screenshots` captures the Playground. See [docs/demo/API-CASES.md](docs/demo/API-CASES.md) for how to run them and the recorded report.
 
 ## API
 
@@ -123,6 +129,7 @@ curl http://localhost:3000/v1/analyze \
 | `GET /v1/words/search?q=食&limit=20`                                                               | Prefix search of dictionary spellings/readings, max 50                                                                                                |
 | `GET /v1/words/:seq`                                                                               | JMdict entry with original restrictions and gloss language tags                                                                                       |
 | `GET /v1/kanji/:char`                                                                              | KANJIDIC2 details, requires separate import                                                                                                           |
+| `POST /v1/ichiran/analyze`                                                                         | Everything ichi.moe displays: runs, up to 5 paths with scores, and per word its romanization, omitted-entry count and gloss JSON                      |
 | `POST /v1/ichiran/segment`, `/romanize`, `/match-readings`; `GET /v1/ichiran/word`, `/kanji/:char` | Ichiran's `romanize*`, `romanize`, `match-readings-json`, `find-word-info-json` and `kanji-info-json` output                                          |
 | `GET /healthz`, `GET /readyz`                                                                      | Process liveness and dictionary readiness                                                                                                             |
 | `GET /openapi.json`, `GET /docs`                                                                   | API schema and interactive documentation                                                                                                              |
