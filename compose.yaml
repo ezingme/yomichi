@@ -20,6 +20,8 @@ services:
       HOST: 0.0.0.0
       CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:5173}
       API_KEY: ${API_KEY:-}
+      ICHIRAN_DATABASE_URL: ${ICHIRAN_DATABASE_URL:-}
+      ICHIRAN_DATABASE_VERSION: ${ICHIRAN_DATABASE_VERSION:-}
     depends_on:
       db: {condition: service_healthy}
     volumes: ["./data:/data:ro"]

@@ -251,3 +251,71 @@ test("Ichiran datasets import atomically into PostgreSQL and drive the API", asy
   await app.close();
   await db.close();
 });
+
+test("ICHIRAN_DATABASE_URL mode reads Ichiran's own schema in place", async () => {
+  const { lex, kanji } = await built;
+  // An Ichiran-schema database: upstream table and column names, no dataset
+  // key, rows stored in physical (ctid) order.
+  const ichiranDb = new PGlite();
+  await migrate(ichiranDb as any);
+  const { id } = await importIchiranDataset(
+    ichiranDb as any,
+    { version: "subset", source: "JMdict subset" },
+    (dataset) => writeIchiranDataset(ichiranDb as any, dataset, lex, kanji),
+  );
+  const upstream: [string, string, string][] = [
+    ["entry", "seq,root_p,n_kanji,n_kana,primary_nokanji", "seq"],
+    ["kanji_text", "id,seq,text,ord,common,common_tags,conjugate_p,nokanji,best_kana", "phys"],
+    ["kana_text", "id,seq,text,ord,common,common_tags,conjugate_p,nokanji,best_kanji", "phys"],
+    ["sense", "id,seq,ord", "id"],
+    ["gloss", "id,sense_id,text,ord", "id"],
+    ["sense_prop", "id,tag,sense_id,text,ord,seq", "id"],
+    ["restricted_readings", "id,seq,reading,text", "id"],
+    ["conjugation", 'id,seq,"from",via', "id"],
+    ["conj_prop", "id,conj_id,conj_type,pos,neg,fml", "id"],
+    ["conj_source_reading", "id,conj_id,text,source_text", "id"],
+    ["kanji", "id,text,radical_c,radical_n,grade,strokes,freq,stat_common,stat_irregular", "id"],
+    ["reading", "id,kanji_id,type,text,suffixp,prefixp,stat_common", "phys"],
+    ["okurigana", "id,reading_id,text", "id"],
+    ["meaning", "id,kanji_id,text", "id"],
+  ];
+  for (const [table, cols, order] of upstream)
+    await ichiranDb.query(
+      // id is a generated UUID; CREATE TABLE AS takes no bind parameters
+      `CREATE TABLE ${table} AS SELECT ${cols} FROM yomichi_ij_${table} WHERE dataset_id='${id}' ORDER BY ${order}`,
+    );
+  // The Yomichi database has no Ichiran dataset of its own.
+  const yomichiDb = new PGlite();
+  await migrate(yomichiDb as any);
+  const repo = () =>
+    new PostgresDictionary(yomichiDb as any, {
+      ichiranDatabase: ichiranDb as any,
+      ichiranVersion: "ichiran-subset",
+    });
+  const direct = (await repo().ichiran())!;
+  assert.equal(direct.dictionary.version, "ichiran-subset");
+  assert.equal(direct.dictionary.entryCount, lex.entries.size);
+  assert.ok(direct.dictionary.capabilities.includes("kanji"));
+  const memory = await engine();
+  for (const [text, expected] of RECORDED) {
+    assert.equal((await romanize(direct.store, direct.source, text)).text, expected, text);
+    assert.deepEqual(
+      await romanizeStar(direct.store, direct.source, text),
+      await romanizeStar(memory.store, memory.source, text),
+      text,
+    );
+  }
+  assert.deepEqual(await kanjiInfo(direct, "食"), await kanjiInfo(memory, "食"));
+  const app = await buildApp({ repository: repo });
+  const ready = await app.inject({ method: "GET", url: "/readyz" });
+  assert.equal(ready.json().ichiran.version, "ichiran-subset");
+  const analyzed = await app.inject({
+    method: "POST",
+    url: "/v1/analyze",
+    payload: { text: "食べさせられなかった" },
+  });
+  assert.equal(analyzed.json().candidates[0].tokens[0].lemma, "食べる");
+  await app.close();
+  await ichiranDb.close();
+  await yomichiDb.close();
+});

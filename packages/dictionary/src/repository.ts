@@ -7,7 +7,7 @@ import type {
 } from "../../core/src/types.js";
 import type { Sql } from "./schema.js";
 import { IchiranStore, type IchiranEngine } from "../../core/src/ichiran/index.js";
-import { PgIchiranSource } from "./ichiran-source.js";
+import { ICHIRAN_UPSTREAM_TABLES, PgIchiranSource } from "./ichiran-source.js";
 import { YOMICHI_ICHIRAN_TABLES } from "./ichiran-pg.js";
 
 /** Query stores are shared per connection pool and Ichiran dataset: a dataset
@@ -24,16 +24,60 @@ function sharedStore(db: Sql, dataset: string): IchiranStore {
   }
   return store;
 }
+/** Engines over Ichiran's own databases (ICHIRAN_DATABASE_URL), one per pool.
+ * Such a database has no Yomichi dataset record: it is read in place, in its
+ * physical row order, and must not be modified while in use. */
+const ichiranDatabases = new WeakMap<Sql, Promise<IchiranEngine>>();
+export function ichiranDatabaseEngine(db: Sql, version?: string): Promise<IchiranEngine> {
+  let engine = ichiranDatabases.get(db);
+  if (!engine) {
+    engine = (async () => {
+      const info = (
+        await db.query<{ name: string; entries: number; kanji: boolean }>(
+          `SELECT current_database() AS name, (SELECT count(*) FROM entry)::integer AS entries,
+           EXISTS (SELECT 1 FROM kanji) AS kanji`,
+        )
+      ).rows[0];
+      return {
+        store: sharedStore(db, "ichiran-database"),
+        source: new PgIchiranSource(db, ICHIRAN_UPSTREAM_TABLES, null, `ichiran-database:${info.name}`),
+        dictionary: {
+          version: version || info.name,
+          source: `Ichiran database "${info.name}" (read in place)`,
+          entryCount: info.entries,
+          capabilities: ["words", "ichiran", ...(info.kanji ? ["kanji"] : [])],
+        },
+      };
+    })();
+    ichiranDatabases.set(db, engine);
+    // a failed connection is retried by the next request
+    engine.catch(() => ichiranDatabases.delete(db));
+  }
+  return engine;
+}
+
+export interface PostgresDictionaryOptions {
+  /** Read Ichiran's own PostgreSQL database instead of an imported dataset. */
+  ichiranDatabase?: Sql;
+  ichiranVersion?: string;
+}
+
 /** Each instance pins the first active dataset it reads, ensuring consistent analysis across imports. */
 export class PostgresDictionary implements DictionaryRepository {
   private dataset: string | undefined;
   private kanjiSnapshot: Promise<string> | undefined;
   private snapshot: Promise<DictionaryMetadata | null> | undefined;
   private ichiranSnapshot: Promise<IchiranEngine | null> | undefined;
-  constructor(private db: Sql) {}
-  /** The active Ichiran-model dataset, pinned for this instance, or null. */
+  constructor(
+    private db: Sql,
+    private options: PostgresDictionaryOptions = {},
+  ) {}
+  /** The Ichiran engine: a configured Ichiran database, else the active
+   * Ichiran-model dataset (pinned for this instance), else null. */
   ichiran(): Promise<IchiranEngine | null> {
-    return (this.ichiranSnapshot ??= this.loadIchiran());
+    return (this.ichiranSnapshot ??= this.options.ichiranDatabase
+      ? ichiranDatabaseEngine(this.options.ichiranDatabase, this.options.ichiranVersion)
+      : this.loadIchiran());
   }
   private async loadIchiran(): Promise<IchiranEngine | null> {
     const d = (

@@ -97,6 +97,14 @@ These choices change only the forms listed.
 
 `npm run import:ichiran-db -- postgres://.../ichiran VERSION` copies an existing Ichiran database instead, for example a restored release dump, keeping its heap order.
 
+Alternatively, set `ICHIRAN_DATABASE_URL` (and optionally `ICHIRAN_DATABASE_VERSION`) to read an Ichiran database in place.
+- No import step. The release database is 3.7 GB, against 6.75 GB for an imported copy.
+- Connections use `default_transaction_read_only`.
+- Results tie-break on the database's physical (ctid) order. This is the setup the 5,000-sentence comparison used.
+- The database must stay unmodified while in use. Statements that rewrite the heap, such as `VACUUM FULL` or `CLUSTER`, change tie order.
+- There is no atomic activation or rollback in this mode.
+- With warm caches, latency is comparable to an imported dataset: 40–450 ms for a new sentence, about 10 ms for a repeated one. The first queries after a database restart wait on disk reads (tens of seconds).
+
 Analysis needs no preloading. Each request fetches only the rows it touches into a query store shared per immutable dataset. The store is trimmed once it holds more than 300,000 texts or 200,000 entries.
 
 ## API

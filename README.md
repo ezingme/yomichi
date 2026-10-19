@@ -6,7 +6,7 @@
 
 ## What works
 
-- Ichiran engine: Ichiran's scoring, segmentation, suffix grammar, counters, kana hints, errata and romanization, ported to TypeScript. It runs over an Ichiran-model dataset that `npm run import:ichiran` builds from JMdict (with optional KANJIDIC2), or that `npm run import:ichiran-db` copies from an Ichiran database. Ichiran's own JSON is available under `/v1/ichiran/*`.
+- Ichiran engine: Ichiran's scoring, segmentation, suffix grammar, counters, kana hints, errata and romanization, ported to TypeScript. It runs over an Ichiran-model dataset that `npm run import:ichiran` builds from JMdict (with optional KANJIDIC2), or that `npm run import:ichiran-db` copies from an Ichiran database. Alternatively, `ICHIRAN_DATABASE_URL` points it at an existing Ichiran PostgreSQL database read in place. Ichiran's own JSON is available under `/v1/ichiran/*`.
 - Dictionary-driven segmentation with up to five ranked paths; reading/entry alternatives per token.
 - Original UTF-16 offsets, whitespace preservation, forced boundaries and explicit unknown text.
 - Modern productive verb/adjective/copula paradigms (23 POS labels), secondary conjugations, bounded auxiliary chains and contractions, with nested components.
@@ -46,6 +46,14 @@ npm run dev
 ```
 
 With an `ichiran` dataset active, `/v1/analyze` uses the Ichiran engine. Otherwise it uses the legacy engine over the `import:jmdict` dataset.
+
+You can also use an existing Ichiran database (for example a restored [release dump](https://github.com/tshatrov/ichiran/releases)) without importing it:
+
+```sh
+ICHIRAN_DATABASE_URL=postgresql://user:pass@host/ichiran ICHIRAN_DATABASE_VERSION=ichiran-260118 npm run dev
+```
+
+In this mode the Ichiran engine reads that database in place, over read-only connections, and takes precedence over any imported `ichiran` dataset. `DATABASE_URL` is still required for the other endpoints. Ties between equal-score results follow the database's physical row order, as in Ichiran, so do not run `VACUUM FULL`, `CLUSTER` or updates on it. Switching databases is a configuration change, not an atomic activation; use `import:ichiran-db` when you need versioned snapshots and rollback.
 
 In another terminal:
 
