@@ -39,10 +39,14 @@ export function generateForms(entry: Entry): Lexeme[] {
         lemma: surface,
         entryId: entry.id,
         pos,
-        priority: entry.priority,
+        priority: entry.spellingPriorities
+          ? (surface === r.text
+              ? 0
+              : (entry.spellingPriorities[surface] ?? 0)) + (r.priority ?? 0)
+          : entry.priority,
         senseIndices,
         conjugationSteps: [],
-        cost: 0,
+        cost: ["n-pref", "pref", "n-suf", "suf"].includes(pos[0]) ? 3 : 0,
       };
       output.push(base);
       const add = (w: string, k: string, steps: string[]) =>
@@ -59,6 +63,7 @@ export function generateForms(entry: Entry): Lexeme[] {
         for (const [ending, name] of [
           ["ます", "polite"],
           ["ました", "polite past"],
+          ["ましょう", "polite volitional"],
           ["ません", "polite negative"],
           ["ませんでした", "polite negative past"],
           ["ない", "negative"],
@@ -108,6 +113,7 @@ export function generateForms(entry: Entry): Lexeme[] {
         for (const [ending, name] of [
           [i + "ます", "polite"],
           [i + "ました", "polite past"],
+          [i + "ましょう", "polite volitional"],
           [i + "ません", "polite negative"],
           [i + "ませんでした", "polite negative past"],
           [a + "ない", "negative"],
@@ -155,6 +161,7 @@ export function generateForms(entry: Entry): Lexeme[] {
         for (const [end, read, label] of [
           ["ます", "きます", "polite"],
           ["ました", "きました", "polite past"],
+          ["ましょう", "きましょう", "polite volitional"],
           ["た", "きた", "past"],
           ["て", "きて", "te-form"],
           ["ない", "こない", "negative"],

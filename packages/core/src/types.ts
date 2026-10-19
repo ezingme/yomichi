@@ -8,7 +8,13 @@ export interface Sense {
 export interface Entry {
   id: string;
   spellings: string[];
-  readings: { text: string; restrictions: string[]; noKanji?: boolean }[];
+  spellingPriorities?: Record<string, number>;
+  readings: {
+    text: string;
+    restrictions: string[];
+    priority?: number;
+    noKanji?: boolean;
+  }[];
   senses: Sense[];
   priority: number;
 }

@@ -32,12 +32,19 @@ function word(n: Node): Entry {
     text: first(r, "reb"),
     restrictions: texts(r, "re_restr"),
     noKanji: children(r, "re_nokanji").length > 0,
+    priority: children(r, "re_pri").length ? 2 : 0,
   }));
   if (!/^\d+$/.test(id) || !readings.length || readings.some((r) => !r.text))
     throw new Error("Invalid JMdict entry");
   return {
     id,
     spellings: children(n, "k_ele").map((k) => first(k, "keb")),
+    spellingPriorities: Object.fromEntries(
+      children(n, "k_ele").map((k) => [
+        first(k, "keb"),
+        children(k, "ke_pri").length ? 2 : 0,
+      ]),
+    ),
     readings,
     senses,
     priority: n.children.some((e) =>

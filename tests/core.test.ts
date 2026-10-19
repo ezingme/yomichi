@@ -130,3 +130,32 @@ test("exceptional godan forms do not follow incorrect regular stems", () => {
   assert.ok(tou.some((f) => f.surface === "問うて"));
   assert.ok(!tou.some((f) => f.surface === "問って"));
 });
+test("polite volitional forms support the Playground example", () => {
+  assert.ok(
+    generateForms(entry("20", "会う", "あう", "v5u")).some(
+      (f) => f.surface === "会いましょう" && f.reading === "あいましょう",
+    ),
+  );
+  assert.ok(
+    generateForms(entry("21", "食べる", "たべる", "v1")).some(
+      (f) => f.surface === "食べましょう",
+    ),
+  );
+});
+test("ranks a common standalone spelling ahead of alternate spelling and prefix readings", async () => {
+  const alternate: any = entry("30", "先", "さき", "n");
+  alternate.spellings.push("前");
+  alternate.spellingPriorities = { 先: 2, 前: 0 };
+  alternate.readings[0].priority = 2;
+  const prefix: any = entry("31", "前", "ぜん", "n-pref");
+  prefix.spellingPriorities = { 前: 2 };
+  prefix.readings[0].priority = 2;
+  const standalone: any = entry("32", "前", "まえ", "n");
+  standalone.spellingPriorities = { 前: 2 };
+  standalone.readings[0].priority = 2;
+  const result = await analyze(
+    new MemoryDictionary([alternate, prefix, standalone]),
+    { text: "前" },
+  );
+  assert.equal(result.candidates[0].tokens[0].reading, "まえ");
+});
