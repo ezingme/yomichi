@@ -5,13 +5,16 @@ import type {
   ReadingRow,
   SeqBundle,
 } from "../../../core/src/ichiran/store.js";
+import type { KanjiInfo } from "../../../core/src/ichiran/output.js";
 import type { Lexicon, ReadingTable } from "./lexicon.js";
+import type { KanjiTables } from "./kanji.js";
 
 export class MemoryIchiranSource implements IchiranSource {
   constructor(
     readonly lex: Lexicon,
     private kanji: Map<string, KanjiReadingRow[]> = new Map(),
     private label = "memory",
+    private tables: KanjiTables | null = null,
   ) {}
   async version(): Promise<string> {
     return this.label;
@@ -86,6 +89,15 @@ export class MemoryIchiranSource implements IchiranSource {
   }
   async fetchKanjiReadings(chars: string[]): Promise<Map<string, KanjiReadingRow[]>> {
     return new Map(chars.map((c) => [c, this.kanji.get(c) ?? []]));
+  }
+  async fetchKanjiInfo(char: string): Promise<KanjiInfo | null> {
+    const k = this.tables?.byChar.get(char);
+    if (!k || !this.tables) return null;
+    return {
+      ...k,
+      readings: (this.tables.readingsByKanji.get(k.id) ?? []).map((r) => ({ ...r, okurigana: [...r.okurigana] })),
+      meanings: this.tables.meanings.filter((m) => m.kanjiId === k.id).map((m) => m.text),
+    };
   }
   async fetchCounterSeqs(): Promise<number[]> {
     const out: number[] = [];

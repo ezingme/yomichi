@@ -1,6 +1,7 @@
 /** IchiranSource over PostgreSQL tables with Ichiran's schema. `tables`
  * selects the physical table names; `dataset` adds a dataset_id filter for
  * Yomichi-managed snapshots (null for a plain Ichiran database). */
+import type { KanjiInfo } from "../../core/src/ichiran/output.js";
 import type {
   IchiranSource,
   KanjiReadingRow,
@@ -22,6 +23,8 @@ export interface IchiranTables {
   restricted: string;
   kanjiChar: string;
   kanjiReading: string;
+  okurigana: string;
+  meaning: string;
 }
 export const ICHIRAN_UPSTREAM_TABLES: IchiranTables = {
   entry: "entry",
@@ -36,6 +39,8 @@ export const ICHIRAN_UPSTREAM_TABLES: IchiranTables = {
   restricted: "restricted_readings",
   kanjiChar: "kanji",
   kanjiReading: "reading",
+  okurigana: "okurigana",
+  meaning: "meaning",
 };
 
 /** "(block,offset)" -> sortable number mirroring heap scan order. */
@@ -173,6 +178,48 @@ export class PgIchiranSource implements IchiranSource {
       out.set(row.kanji, list);
     }
     return out;
+  }
+  /** One KANJIDIC character with readings, okurigana and meanings (kanji.lisp). */
+  async fetchKanjiInfo(char: string): Promise<KanjiInfo | null> {
+    const t = this.tables;
+    const ds = (a: string) => (this.dataset === null ? "TRUE" : `${a}.dataset_id=$2`);
+    const k = (
+      await this.db.query(
+        `SELECT id, text, radical_c, radical_n, grade, strokes, freq, stat_common, stat_irregular FROM ${t.kanjiChar} k WHERE text=$1 AND ${ds("k")} LIMIT 1`,
+        this.params(char),
+      )
+    ).rows[0] as any;
+    if (!k) return null;
+    const p = this.params(k.id);
+    // physical order for upstream tables, id order for Yomichi snapshots
+    const ord = (col: string) => (this.dataset === null ? "ctid" : col);
+    const [readings, okuri, meanings] = await Promise.all([
+      this.db.query(`SELECT id, type, text, suffixp, prefixp, stat_common FROM ${t.kanjiReading} r WHERE kanji_id=$1 AND ${ds("r")} ORDER BY ${ord("phys")}`, p),
+      this.db.query(
+        `SELECT o.reading_id, o.text FROM ${t.okurigana} o JOIN ${t.kanjiReading} r ON r.id=o.reading_id${this.dataset === null ? "" : " AND r.dataset_id=o.dataset_id"} WHERE r.kanji_id=$1 AND ${ds("o")} ORDER BY o.${ord("id")}`,
+        p,
+      ),
+      this.db.query(`SELECT text FROM ${t.meaning} m WHERE kanji_id=$1 AND ${ds("m")} ORDER BY ${ord("id")}`, p),
+    ]);
+    return {
+      text: k.text,
+      radicalC: k.radical_c,
+      radicalN: k.radical_n,
+      grade: k.grade,
+      strokes: k.strokes,
+      freq: k.freq,
+      statCommon: k.stat_common,
+      statIrregular: k.stat_irregular,
+      readings: readings.rows.map((r: any) => ({
+        type: r.type,
+        text: r.text,
+        suffixp: r.suffixp,
+        prefixp: r.prefixp,
+        statCommon: r.stat_common,
+        okurigana: okuri.rows.filter((o: any) => o.reading_id === r.id).map((o: any) => o.text),
+      })),
+      meanings: meanings.rows.map((m: any) => m.text),
+    };
   }
   async fetchCounterSeqs(): Promise<number[]> {
     const r = await this.db.query(

@@ -6,12 +6,54 @@ import type {
   Lexeme,
 } from "../../core/src/types.js";
 import type { Sql } from "./schema.js";
+import { IchiranStore, type IchiranEngine } from "../../core/src/ichiran/index.js";
+import { PgIchiranSource } from "./ichiran-source.js";
+import { YOMICHI_ICHIRAN_TABLES } from "./ichiran-pg.js";
+
+/** Query stores are shared per connection pool and Ichiran dataset: a dataset
+ * is immutable, so cached rows stay valid until it is deleted. */
+const ichiranStores = new WeakMap<Sql, Map<string, IchiranStore>>();
+function sharedStore(db: Sql, dataset: string): IchiranStore {
+  let byDataset = ichiranStores.get(db);
+  if (!byDataset) ichiranStores.set(db, (byDataset = new Map()));
+  let store = byDataset.get(dataset);
+  if (!store) {
+    // keep only the most recent dataset's cache
+    byDataset.clear();
+    byDataset.set(dataset, (store = new IchiranStore()));
+  }
+  return store;
+}
 /** Each instance pins the first active dataset it reads, ensuring consistent analysis across imports. */
 export class PostgresDictionary implements DictionaryRepository {
   private dataset: string | undefined;
   private kanjiSnapshot: Promise<string> | undefined;
   private snapshot: Promise<DictionaryMetadata | null> | undefined;
+  private ichiranSnapshot: Promise<IchiranEngine | null> | undefined;
   constructor(private db: Sql) {}
+  /** The active Ichiran-model dataset, pinned for this instance, or null. */
+  ichiran(): Promise<IchiranEngine | null> {
+    return (this.ichiranSnapshot ??= this.loadIchiran());
+  }
+  private async loadIchiran(): Promise<IchiranEngine | null> {
+    const d = (
+      await this.db.query<{ id: string; version: string; source: string; entry_count: number }>(
+        `SELECT d.* FROM yomichi_datasets d JOIN yomichi_active a ON a.dataset_id=d.id WHERE a.kind='ichiran'`,
+      )
+    ).rows[0];
+    if (!d) return null;
+    const kanji = await this.db.query("SELECT 1 FROM yomichi_ij_kanji WHERE dataset_id=$1 LIMIT 1", [d.id]);
+    return {
+      store: sharedStore(this.db, d.id),
+      source: new PgIchiranSource(this.db, YOMICHI_ICHIRAN_TABLES, d.id, "yomichi"),
+      dictionary: {
+        version: d.version,
+        source: d.source,
+        entryCount: d.entry_count,
+        capabilities: ["words", "ichiran", ...(kanji.rows.length ? ["kanji"] : [])],
+      },
+    };
+  }
   metadata(): Promise<DictionaryMetadata | null> {
     return (this.snapshot ??= this.loadMetadata());
   }

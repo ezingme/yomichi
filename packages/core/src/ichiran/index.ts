@@ -3,12 +3,15 @@
  * Timofei Shatrov, MIT). The data model mirrors Ichiran's database tables;
  * rows are obtained through an IchiranSource. */
 import { basicSplit, normalizeWithMap } from "./chars.js";
-import { dictSegment, type WordInfo } from "./dict.js";
+import { dictSegment, findWordInfo, type WordInfo } from "./dict.js";
 import { withState } from "./state.js";
 import { resetSuffixState } from "./grammar.js";
 import { DEFAULT_METHOD, type RomanizationMethod } from "./romanize.js";
-import { joinParts, romanizeWordInfo, wordInfoGlossJson, wordInfoStr, type Json } from "./output.js";
+import { joinParts, kanjiInfoJson, matchReadingsJson, romanizeWordInfo, wordInfoGlossJson, wordInfoStr, type Json } from "./output.js";
 import { IchiranStore, runWithStore, type IchiranSource } from "./store.js";
+import { ichiranMethod, projectAnalysis } from "./yomichi.js";
+import { ENGINE_VERSION, validateOptions } from "../engine.js";
+import type { Analysis, AnalyzeOptions, DictionaryMetadata } from "../types.js";
 
 export * from "./store.js";
 export * as ichiranChars from "./chars.js";
@@ -140,5 +143,76 @@ export async function romanize(
       }
       return { text: joinParts(parts), info };
     }),
+  );
+}
+
+export { ichiranMethod, entrySenses } from "./yomichi.js";
+export { findWordInfo };
+export { kanjiInfoJson, matchReadingsJson, wordInfoReadingStr, type KanjiInfo } from "./output.js";
+
+/** An Ichiran-model dataset ready for analysis: a shared query store over an
+ * immutable snapshot plus its metadata. */
+export interface IchiranEngine {
+  store: IchiranStore;
+  source: IchiranSource;
+  dictionary: DictionaryMetadata;
+}
+
+/** Yomichi /v1/analyze over the Ichiran engine. */
+export async function analyzeIchiran(engine: IchiranEngine, o: AnalyzeOptions): Promise<Analysis> {
+  validateOptions(o);
+  const opts = {
+    limit: o.limit ?? 1,
+    method: ichiranMethod(o.romanization),
+    includeGlosses: o.includeGlosses ?? true,
+    includeConjugation: o.includeConjugation ?? true,
+    hints: o.segmentationHints,
+  };
+  engine.store.trim();
+  const candidates = await runWithStore(engine.store, engine.source, () =>
+    runSync(engine.store, () => projectAnalysis(o.text, opts)),
+  );
+  return {
+    text: o.text,
+    offsetUnit: "utf16",
+    dictionary: engine.dictionary,
+    engineVersion: `${ENGINE_VERSION}+ichiran`,
+    candidates,
+    warnings: [],
+  };
+}
+
+/** ichiran/dict:find-word-info-json — every dictionary reading of a word. */
+export async function findWordInfoJson(
+  engine: IchiranEngine,
+  text: string,
+  opts: { reading?: string; rootOnly?: boolean } = {},
+): Promise<Json[]> {
+  engine.store.trim();
+  return runWithStore(engine.store, engine.source, () =>
+    runSync(engine.store, () => findWordInfo(text, opts).map((wi) => wordInfoGlossJson(wi, opts.rootOnly))),
+  );
+}
+
+/** ichiran/kanji:kanji-info-json, or null when the character is not in KANJIDIC. */
+export async function kanjiInfo(engine: IchiranEngine, char: string): Promise<Json | null> {
+  const info = await engine.source.fetchKanjiInfo?.(char);
+  return info ? kanjiInfoJson(info) : null;
+}
+
+/** ichiran/kanji:match-readings-json — aligns kanji with a word's reading. */
+export async function matchReadingsInfo(engine: IchiranEngine, word: string, reading: string): Promise<Json> {
+  const chars = [...new Set(word)];
+  const infos = new Map(
+    await Promise.all(chars.map(async (c) => [c, (await engine.source.fetchKanjiInfo?.(c)) ?? null] as const)),
+  );
+  return runWithStore(engine.store, engine.source, () =>
+    runSync(engine.store, () =>
+      matchReadingsJson(word, reading, (kanji, text, type) => {
+        const info = infos.get(kanji);
+        const r = info?.readings.find((x) => x.text === text && x.type === type);
+        return info && r ? { sample: r.statCommon, total: info.statCommon, grade: info.grade } : null;
+      }),
+    ),
   );
 }

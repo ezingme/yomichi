@@ -100,6 +100,8 @@ export interface IchiranSource {
   fetchKanjiReadings(chars: string[]): Promise<Map<string, KanjiReadingRow[]>>;
   /** Distinct seqs having a sense-prop pos=ctr (get-counter-ids). */
   fetchCounterSeqs(): Promise<number[]>;
+  /** KANJIDIC character details for kanji-info JSON (optional). */
+  fetchKanjiInfo?(char: string): Promise<import("./output.js").KanjiInfo | null>;
   /** Identifies the immutable data snapshot (cache key). */
   version(): Promise<string>;
 }

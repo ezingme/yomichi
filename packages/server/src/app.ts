@@ -33,14 +33,26 @@ import {
   parseJapaneseNumber,
 } from "../../core/src/numbers.js";
 import { matchKanjiReading } from "../../dictionary/src/kanji.js";
+import {
+  analyzeIchiran,
+  findWordInfoJson,
+  kanjiInfo,
+  matchReadingsInfo,
+  romanize as ichiranRomanize,
+  romanizeStar,
+  ROMANIZATION_METHODS,
+  type IchiranEngine,
+} from "../../core/src/ichiran/index.js";
 import type { KanjiWordStatistics } from "../../dictionary/src/repository.js";
 import type { Entry } from "../../core/src/types.js";
 type ExtendedRepository = DictionaryRepository & {
   kanjiWords?: (character: string, limit?: number) => Promise<Entry[]>;
   kanjiStats?: (character: string) => Promise<KanjiWordStatistics>;
+  /** The active Ichiran-model dataset, when one is imported. */
+  ichiran?: () => Promise<IchiranEngine | null>;
 };
 export interface ServerOptions {
-  repository: () => DictionaryRepository;
+  repository: () => ExtendedRepository;
   apiKey?: string;
   origins?: string[];
   rateMax?: number;
@@ -64,6 +76,7 @@ const fields = {
   },
   includeGlosses: { type: "boolean" },
   includeConjugation: { type: "boolean" },
+  engine: { type: "string", enum: ["auto", "ichiran", "legacy"] },
   segmentationHints: {
     type: "array",
     maxItems: 501,
@@ -76,6 +89,17 @@ const body = {
   required: ["text"],
   additionalProperties: false,
   properties: fields,
+};
+type Engine = "auto" | "ichiran" | "legacy";
+const ichiranNotReady = () =>
+  new YomichiError(
+    "ICHIRAN_NOT_READY",
+    "Import an Ichiran-model dataset first (npm run import:ichiran).",
+    503,
+  );
+const ichiranMethod = {
+  type: "string",
+  enum: Object.keys(ROMANIZATION_METHODS),
 };
 export async function buildApp(options: ServerOptions) {
   const app = Fastify({
@@ -98,7 +122,7 @@ export async function buildApp(options: ServerOptions) {
       info: {
         title: "Yomichi API",
         description:
-          "Japanese text analysis — alpha; not yet Ichiran equivalent.",
+          "Japanese text analysis. With an Ichiran-model dataset active, /v1/analyze and /v1/ichiran/* use a TypeScript port of Ichiran; scores are not probabilities.",
         version: ENGINE_VERSION,
       },
       components: {
@@ -155,7 +179,7 @@ export async function buildApp(options: ServerOptions) {
       );
   });
   let active = 0;
-  async function run(input: AnalyzeOptions) {
+  async function limited<T>(fn: () => Promise<T>): Promise<T> {
     if (active >= 8)
       throw new YomichiError(
         "BUSY",
@@ -164,26 +188,44 @@ export async function buildApp(options: ServerOptions) {
       );
     active++;
     try {
-      return await analyze(options.repository(), input);
+      return await fn();
     } finally {
       active--;
     }
   }
+  /** The Ichiran engine analyzes when its dataset is active ("auto"). */
+  async function run(input: AnalyzeOptions & { engine?: Engine }) {
+    const { engine: choice = "auto", ...rest } = input;
+    const repo = options.repository();
+    const engine = choice === "legacy" ? null : ((await repo.ichiran?.()) ?? null);
+    if (!engine && choice === "ichiran") throw ichiranNotReady();
+    return limited(() => (engine ? analyzeIchiran(engine, rest) : analyze(repo, rest)));
+  }
+  async function ichiranEngine(): Promise<IchiranEngine> {
+    const engine = await options.repository().ichiran?.();
+    if (!engine) throw ichiranNotReady();
+    return engine;
+  }
   app.get("/healthz", async () => ({ status: "ok", version: ENGINE_VERSION }));
   app.get("/readyz", async (_req, reply) => {
-    const d = await options.repository().metadata();
+    const repo = options.repository();
+    const d = await repo.metadata();
+    const ichiran = (await repo.ichiran?.())?.dictionary ?? null;
+    const ready = !!d?.entryCount || !!ichiran?.entryCount;
     return reply
-      .code(d?.entryCount ? 200 : 503)
-      .send({ ready: !!d?.entryCount, dictionary: d });
+      .code(ready ? 200 : 503)
+      .send({ ready, dictionary: d, ...(ichiran ? { ichiran } : {}) });
   });
   app.get("/openapi.json", async () => app.swagger());
-  app.post<{ Body: AnalyzeOptions }>(
+  app.post<{ Body: AnalyzeOptions & { engine?: Engine } }>(
     "/v1/analyze",
     { schema: { body, summary: "Analyze Japanese text", tags: ["analysis"] } },
     async (req) => run(req.body),
   );
   for (const route of ["reading", "romanize"] as const) {
-    app.post<{ Body: AnalyzeOptions & { mode?: "analyze" | "kana" } }>(
+    app.post<{
+      Body: AnalyzeOptions & { mode?: "analyze" | "kana"; engine?: Engine };
+    }>(
       "/v1/" + route,
       {
         schema: {
@@ -549,5 +591,134 @@ export async function buildApp(options: ServerOptions) {
       },
     );
   }
+  app.post<{ Body: { text: string; method?: string; limit?: number } }>(
+    "/v1/ichiran/segment",
+    {
+      schema: {
+        body: conversionBody({
+          text,
+          method: ichiranMethod,
+          limit: { type: "integer", minimum: 1, maximum: 5 },
+        }),
+        summary:
+          "Ichiran romanize* JSON: per chunk, the best paths with word info",
+        tags: ["ichiran"],
+      },
+    },
+    async (req) => {
+      validateOptions({ text: req.body.text });
+      const engine = await ichiranEngine();
+      return {
+        result: await limited(() =>
+          romanizeStar(engine.store, engine.source, req.body.text, {
+            method: ROMANIZATION_METHODS[req.body.method ?? "hepburn-traditional"],
+            limit: req.body.limit ?? 1,
+          }),
+        ),
+      };
+    },
+  );
+  app.post<{ Body: { text: string; method?: string; info?: boolean } }>(
+    "/v1/ichiran/romanize",
+    {
+      schema: {
+        body: conversionBody({
+          text,
+          method: ichiranMethod,
+          info: { type: "boolean" },
+        }),
+        summary: "Ichiran romanize: sentence romanization and word info",
+        tags: ["ichiran"],
+      },
+    },
+    async (req) => {
+      validateOptions({ text: req.body.text });
+      const engine = await ichiranEngine();
+      const r = await limited(() =>
+        ichiranRomanize(engine.store, engine.source, req.body.text, {
+          method: ROMANIZATION_METHODS[req.body.method ?? "hepburn-traditional"],
+          withInfo: req.body.info ?? false,
+        }),
+      );
+      return {
+        romanization: r.text,
+        ...(req.body.info
+          ? { info: r.info.map(([word, gloss]) => ({ word, gloss })) }
+          : {}),
+      };
+    },
+  );
+  app.get<{ Querystring: { text: string; reading?: string; root?: string } }>(
+    "/v1/ichiran/word",
+    {
+      schema: {
+        querystring: {
+          type: "object",
+          additionalProperties: false,
+          required: ["text"],
+          properties: {
+            text: shortText,
+            reading: shortText,
+            root: { type: "string", enum: ["true", "false"] },
+          },
+        },
+        summary: "Ichiran find-word-info-json: all readings of one word",
+        tags: ["ichiran"],
+      },
+    },
+    async (req) => {
+      const engine = await ichiranEngine();
+      return {
+        items: await limited(() =>
+          findWordInfoJson(engine, req.query.text, {
+            reading: req.query.reading,
+            rootOnly: req.query.root === "true",
+          }),
+        ),
+      };
+    },
+  );
+  app.get<{ Params: { char: string } }>(
+    "/v1/ichiran/kanji/:char",
+    {
+      schema: {
+        params: {
+          type: "object",
+          required: ["char"],
+          properties: { char: { type: "string", minLength: 1, maxLength: 2 } },
+        },
+        summary: "Ichiran kanji-info-json with reading statistics",
+        tags: ["ichiran"],
+      },
+    },
+    async (req) => {
+      if (Array.from(req.params.char).length !== 1)
+        throw new YomichiError("INVALID_KANJI", "Supply one kanji character.");
+      const info = await kanjiInfo(await ichiranEngine(), req.params.char);
+      if (!info) throw new YomichiError("NOT_FOUND", "Kanji not found.", 404);
+      return info;
+    },
+  );
+  app.post<{ Body: { word: string; reading: string } }>(
+    "/v1/ichiran/match-readings",
+    {
+      schema: {
+        body: conversionBody({ word: shortText, reading: shortText }, [
+          "word",
+          "reading",
+        ]),
+        summary: "Ichiran match-readings-json: kanji/reading alignment",
+        tags: ["ichiran"],
+      },
+    },
+    async (req) => {
+      const engine = await ichiranEngine();
+      return {
+        items: await limited(() =>
+          matchReadingsInfo(engine, req.body.word, req.body.reading),
+        ),
+      };
+    },
+  );
   return app;
 }

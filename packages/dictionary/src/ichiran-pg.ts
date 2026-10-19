@@ -22,6 +22,8 @@ export const YOMICHI_ICHIRAN_TABLES: IchiranTables = {
   restricted: "yomichi_ij_restricted_readings",
   kanjiChar: "yomichi_ij_kanji",
   kanjiReading: "yomichi_ij_reading",
+  okurigana: "yomichi_ij_okurigana",
+  meaning: "yomichi_ij_meaning",
 };
 
 const DS = "dataset_id text NOT NULL REFERENCES yomichi_datasets(id) ON DELETE CASCADE";

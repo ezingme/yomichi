@@ -137,7 +137,13 @@ function matchSenseRestrictions(seq: number, props: Props, reading: SimpleText):
 
 export function getSensesJson(
   seq: number,
-  opts: { posList?: string[]; reading?: SimpleText | null; readingGetter?: () => SimpleText | null } = {},
+  opts: {
+    posList?: string[];
+    reading?: SimpleText | null;
+    readingGetter?: () => SimpleText | null;
+    /** Receives the indices (in sense order) of the senses kept. */
+    indices?: number[];
+  } = {},
 ): Json[] {
   const out: Json[] = [];
   let reading = opts.reading ?? null;
@@ -165,6 +171,7 @@ export function getSensesJson(
       if (field) js.field = `{${field.join(",")}}`;
       if (inf) js.info = inf.join("; ");
       out.push(js);
+      opts.indices?.push(i);
     }
   });
   return out;
@@ -189,7 +196,7 @@ export function wordInfoReadingStr(wi: WordInfo): string {
   if (wi.type === "kanji" || (wi.counter && wi.seq !== null)) return readingStrStar(wi.text, wi.kana);
   return readingStrStar(null, wi.text);
 }
-function wordInfoReading(wi: WordInfo): SimpleText | null {
+export function wordInfoReading(wi: WordInfo): SimpleText | null {
   if (wi.type === "gap" || !wi.trueText) return null;
   const row = S()
     .store.byTextAnyTable(wi.trueText)
