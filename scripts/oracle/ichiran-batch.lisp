@@ -27,6 +27,12 @@
                  (jsown:new-js ("type" "misc") ("text" split-text)))))
       ("full" (if full
                   (jsown:parse (jsown:to-json (ichiran:romanize* text :limit 1)))
+                  :null))
+      ("info" (if full
+                  (multiple-value-bind (rom info) (ichiran:romanize text :with-info t)
+                    (jsown:new-js
+                      ("text" rom)
+                      ("words" (loop for (r . str) in info collect (list r str)))))
                   :null)))))
 
 (defun suffix-snapshot ()

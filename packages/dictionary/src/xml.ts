@@ -48,7 +48,7 @@ export interface RichKanji extends Kanji {
     onType?: string;
   })[];
 }
-interface Node {
+export interface Node {
   name: string;
   text: string;
   attrs: Record<string, string>;
@@ -187,9 +187,18 @@ export async function* parseEntries(
   source: AsyncIterable<Buffer | string>,
   kind: "jmdict" | "kanji",
 ): AsyncGenerator<Entry | Kanji> {
+  for await (const n of parseNodes(source, kind))
+    yield kind === "jmdict" ? word(n) : kanji(n);
+}
+/** Raw element trees of each <entry> (JMdict) or <character> (KANJIDIC2).
+ * Entity references are replaced by their names, as Ichiran's loader does. */
+export async function* parseNodes(
+  source: AsyncIterable<Buffer | string>,
+  kind: "jmdict" | "kanji",
+): AsyncGenerator<Node> {
   const parser = new SaxesParser({ xmlns: false }),
     stack: Node[] = [],
-    queue: (Entry | Kanji)[] = [];
+    queue: Node[] = [];
   const target = kind === "jmdict" ? "entry" : "character";
   const decoder = new StringDecoder("utf8");
   let failure: Error | undefined;
@@ -232,7 +241,7 @@ export async function* parseEntries(
   parser.on("closetag", () => {
     if (stack.length) {
       const n = stack.pop()!;
-      if (n.name === target) queue.push(kind === "jmdict" ? word(n) : kanji(n));
+      if (n.name === target) queue.push(n);
     }
   });
   for await (const chunk of source) {

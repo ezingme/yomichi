@@ -7,15 +7,11 @@
  *     node --import tsx scripts/ichiran-port-parity.ts [--only N] [--verbose]
  */
 import { readFile } from "node:fs/promises";
-import pg from "pg";
 import { IchiranStore, simpleSegmentText } from "../packages/core/src/ichiran/index.js";
-import { PgIchiranSource } from "../packages/dictionary/src/ichiran-source.js";
+import { sourceFromArgs } from "./ichiran-build/source.js";
 import type { ReferenceCase } from "./extract-ichiran-tests.js";
 
-const url = process.env.ICHIRAN_DATABASE_URL;
-if (!url) throw new Error("ICHIRAN_DATABASE_URL is required");
-const pool = new pg.Pool({ connectionString: url, max: 4 });
-const source = new PgIchiranSource(pool);
+const { source, close } = await sourceFromArgs(process.argv.slice(2));
 const store = new IchiranStore();
 const corpus = JSON.parse(await readFile("tests/fixtures/upstream/ichiran-tests.json", "utf8")) as {
   cases: ReferenceCase[];
@@ -46,7 +42,7 @@ try {
     if (verbose && !ok) console.error(JSON.stringify(failures.at(-1)));
   }
 } finally {
-  await pool.end();
+  await close();
 }
 console.log(
   JSON.stringify(

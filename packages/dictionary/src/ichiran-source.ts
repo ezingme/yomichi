@@ -76,7 +76,7 @@ export class PgIchiranSource implements IchiranSource {
     const t = this.tables;
     const p = this.params(seqs);
     const ds = this.ds();
-    const [entries, kana, kanji, senses, props, conjs, derived, restricted] = await Promise.all([
+    const [entries, kana, kanji, senses, props, conjs, derived, restricted, glosses] = await Promise.all([
       this.db.query(`SELECT seq, root_p, n_kanji, n_kana, primary_nokanji FROM ${t.entry} WHERE seq = ANY($1::int[]) AND ${ds}`, p),
       this.db.query(`SELECT 'kana' AS kind, id, seq, text, ord, common, common_tags, conjugate_p, nokanji, best_kanji AS best, ctid::text AS ctid FROM ${t.kana} WHERE seq = ANY($1::int[]) AND ${ds}`, p),
       this.db.query(`SELECT 'kanji' AS kind, id, seq, text, ord, common, common_tags, conjugate_p, nokanji, best_kana AS best, ctid::text AS ctid FROM ${t.kanji} WHERE seq = ANY($1::int[]) AND ${ds}`, p),
@@ -85,6 +85,10 @@ export class PgIchiranSource implements IchiranSource {
       this.db.query(`SELECT id, seq, "from", via FROM ${t.conjugation} WHERE seq = ANY($1::int[]) AND ${ds} ORDER BY id`, p),
       this.db.query(`SELECT DISTINCT "from", seq FROM ${t.conjugation} WHERE "from" = ANY($1::int[]) AND ${ds}`, p),
       this.db.query(`SELECT seq, reading, text FROM ${t.restricted} WHERE seq = ANY($1::int[]) AND ${ds} ORDER BY id`, p),
+      this.db.query(
+        `SELECT s.seq, g.sense_id, g.text, g.ord FROM ${t.gloss} g JOIN ${t.sense} s ON s.id = g.sense_id${this.dataset === null ? "" : " AND s.dataset_id = g.dataset_id"} WHERE s.seq = ANY($1::int[]) AND ${this.ds("g.")} ORDER BY g.id`,
+        p,
+      ),
     ]);
     const conjIds = conjs.rows.map((c: any) => c.id);
     const cp = this.params(conjIds);
@@ -113,6 +117,7 @@ export class PgIchiranSource implements IchiranSource {
     const csBy = by(conjSources.rows as any[], (r) => conjSeq.get(r.conj_id)!);
     const derivedBy = by(derived.rows as any[], (r) => r.from);
     const restrictedBy = by(restricted.rows as any[], (r) => r.seq);
+    const glossBy = by(glosses.rows as any[], (r) => r.seq);
     return entries.rows.map((e: any): SeqBundle => ({
       entry: {
         seq: e.seq,
@@ -147,6 +152,7 @@ export class PgIchiranSource implements IchiranSource {
         sourceText: c.source_text,
       })),
       restricted: (restrictedBy.get(e.seq) ?? []).map((r: any) => ({ reading: r.reading, text: r.text })),
+      glosses: (glossBy.get(e.seq) ?? []).map((g: any) => ({ senseId: g.sense_id, text: g.text, ord: g.ord })),
       derived: (derivedBy.get(e.seq) ?? []).map((d: any) => d.seq).sort((a: number, b: number) => a - b),
     }));
   }
