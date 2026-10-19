@@ -1,0 +1,37 @@
+{
+  "name": "@yomichi/server",
+  "version": "0.1.0-alpha.1",
+  "description": "Yomichi Japanese analysis HTTP API",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.9"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ezingme/yomichi.git",
+    "directory": "packages/server"
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "NOTICE.md"
+  ],
+  "dependencies": {
+    "fastify": "^5.0.0",
+    "@fastify/cors": "^11.0.0",
+    "@fastify/rate-limit": "^10.0.0",
+    "@fastify/swagger": "^9.0.0",
+    "@fastify/swagger-ui": "^5.0.0",
+    "pg": "^8.13.0",
+    "wanakana": "^5.3.1"
+  },
+  "main": "./dist/app.js",
+  "types": "./dist/app.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/app.d.ts",
+      "import": "./dist/app.js"
+    }
+  }
+}

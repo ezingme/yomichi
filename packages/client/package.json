@@ -1,0 +1,29 @@
+{
+  "name": "@yomichi/client",
+  "version": "0.1.0-alpha.1",
+  "description": "Lightweight typed HTTP client for Yomichi",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.9"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ezingme/yomichi.git",
+    "directory": "packages/client"
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "NOTICE.md"
+  ],
+  "dependencies": {},
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  }
+}

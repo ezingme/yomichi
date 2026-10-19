@@ -1,0 +1,27 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: yomichi
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-yomichi-local}
+      POSTGRES_DB: yomichi
+    ports: ["127.0.0.1:5432:5432"]
+    volumes: ["postgres:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U yomichi"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+  api:
+    build: .
+    ports: ["127.0.0.1:3000:3000"]
+    environment:
+      DATABASE_URL: postgresql://yomichi:${POSTGRES_PASSWORD:-yomichi-local}@db:5432/yomichi
+      HOST: 0.0.0.0
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:5173}
+      API_KEY: ${API_KEY:-}
+    depends_on:
+      db: {condition: service_healthy}
+    volumes: ["./data:/data:ro"]
+volumes:
+  postgres:

@@ -1,0 +1,31 @@
+{
+  "name": "@yomichi/core",
+  "version": "0.1.0-alpha.1",
+  "description": "Japanese text analysis engine for Node.js",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.9"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ezingme/yomichi.git",
+    "directory": "packages/core"
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "NOTICE.md"
+  ],
+  "dependencies": {
+    "wanakana": "^5.3.1"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "name": "@yomichi/cli",
+  "version": "0.1.0-alpha.1",
+  "description": "Yomichi command-line HTTP client",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.9"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ezingme/yomichi.git",
+    "directory": "packages/cli"
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "NOTICE.md"
+  ],
+  "dependencies": {},
+  "bin": {
+    "yomichi": "./dist/main.js"
+  }
+}

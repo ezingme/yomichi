@@ -1,0 +1,33 @@
+{
+  "name": "@yomichi/dictionary",
+  "version": "0.1.0-alpha.1",
+  "description": "PostgreSQL dictionary repository and streaming JMdict importer",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.9"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ezingme/yomichi.git",
+    "directory": "packages/dictionary"
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "NOTICE.md"
+  ],
+  "dependencies": {
+    "pg": "^8.13.0",
+    "saxes": "^6.0.0",
+    "wanakana": "^5.3.1"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  }
+}

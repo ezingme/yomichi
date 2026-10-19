@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<!DOCTYPE JMdict [<!ENTITY n "noun (common)"><!ENTITY v1 "Ichidan verb">]>
+<JMdict>
+<entry><ent_seq>100</ent_seq><k_ele><keb>食べる</keb><ke_pri>ichi1</ke_pri></k_ele><r_ele><reb>たべる</reb></r_ele><sense><pos>&v1;</pos><gloss>to eat</gloss><gloss xml:lang="dut">eten</gloss></sense></entry>
+<entry><ent_seq>101</ent_seq><k_ele><keb>明日</keb></k_ele><k_ele><keb>朝</keb></k_ele><r_ele><reb>あした</reb><re_restr>明日</re_restr></r_ele><r_ele><reb>あさ</reb><re_restr>朝</re_restr></r_ele><sense><pos>&n;</pos><stagk>明日</stagk><gloss>tomorrow</gloss></sense><sense><stagk>朝</stagk><gloss>morning</gloss></sense></entry>
+<entry><ent_seq>102</ent_seq><k_ele><keb>猫</keb></k_ele><r_ele><reb>ねこ</reb></r_ele><sense><pos>n</pos><gloss>cat</gloss></sense></entry>
+<entry><ent_seq>103</ent_seq><k_ele><keb>魚</keb></k_ele><r_ele><reb>さかな</reb></r_ele><sense><pos>n</pos><gloss>fish</gloss></sense></entry>
+<entry><ent_seq>104</ent_seq><k_ele><keb>は</keb></k_ele><r_ele><reb>は</reb></r_ele><sense><pos>prt</pos><gloss>topic marker</gloss></sense></entry>
+<entry><ent_seq>105</ent_seq><k_ele><keb>を</keb></k_ele><r_ele><reb>を</reb></r_ele><sense><pos>prt</pos><gloss>object marker</gloss></sense></entry>
+</JMdict>
