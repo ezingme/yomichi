@@ -25,7 +25,9 @@
     "parity": "node --env-file-if-exists=.env --import tsx scripts/parity.ts",
     "parity:jmdict": "node --import tsx scripts/evaluate-jmdict.ts",
     "import:ichiran": "node --max-old-space-size=6144 --env-file-if-exists=.env --import tsx packages/dictionary/src/ichiran-import-cli.ts jmdict",
-    "import:ichiran-db": "node --env-file-if-exists=.env --import tsx packages/dictionary/src/ichiran-import-cli.ts database"
+    "import:ichiran-db": "node --env-file-if-exists=.env --import tsx packages/dictionary/src/ichiran-import-cli.ts database",
+    "demo:api": "node --env-file-if-exists=.env --import tsx scripts/demo/api-cases.ts",
+    "demo:screenshots": "node --import tsx scripts/demo/screenshots.ts"
   },
   "dependencies": {
     "@fastify/cors": "^11.0.0",

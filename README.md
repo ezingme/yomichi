@@ -97,6 +97,16 @@ Engine selection:
 
 `"engine": "legacy"` in a request forces the legacy engine.
 
+## Demo
+
+The Playground running on Ichiran's release database:
+
+| Conjugation detail                                                                 | Chinese interface                                                      | Mobile                                                   |
+| ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------- | -------------------------------------------------------- |
+| ![Conjugation chain of 食べさせられなかった](docs/demo/playground-conjugation.png) | ![Chinese interface with a compound](docs/demo/playground-chinese.png) | ![Mobile detail drawer](docs/demo/playground-mobile.png) |
+
+`npm run demo:api` runs 19 live API cases against your server, and `npm run demo:screenshots` captures the Playground. See [docs/demo/API-CASES.md](docs/demo/API-CASES.md) for how to run them and the recorded report.
+
 ## API
 
 ```sh

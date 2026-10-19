@@ -123,8 +123,10 @@ function plainToken(input: string, start: number, end: number, kind?: Token["kin
   };
 }
 
+/** Ichiran joins the kana of compound parts with spaces; a token reading is
+ * the continuous kana of its surface. */
 function firstKana(kana: string | string[]): string {
-  return stripHints(Array.isArray(kana) ? (kana[0] ?? "") : kana);
+  return stripHints(Array.isArray(kana) ? (kana[0] ?? "") : kana).replaceAll(" ", "");
 }
 
 /** Every sense of an entry in Yomichi's format (sense order, all languages as "en"). */
@@ -248,7 +250,8 @@ function tokenFacts(f: WordFacts, o: ProjectOptions): Partial<Token> {
     lemma: f.lemma,
     entryId: f.entryId,
     pos: f.pos,
-    senses: o.includeGlosses ? f.senses : [],
+    // like the legacy engine: the senses Ichiran shows, indices into the entry
+    senses: o.includeGlosses ? f.senseIndices.map((i) => f.senses[i]).filter(Boolean) : [],
     senseIndices: o.includeGlosses ? f.senseIndices : [],
     conjugationSteps: o.includeConjugation ? f.steps : [],
   };

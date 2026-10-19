@@ -128,7 +128,8 @@ test("conjugation chains report the root entry and each step", async () => {
     "Causative-Passive",
     "Past (~ta), negative",
   ]);
-  assert.ok(t.senses[t.senseIndices[0]].glosses.some((g) => g.text === "to eat"));
+  assert.equal(t.senses.length, t.senseIndices.length);
+  assert.ok(t.senses[0].glosses.some((g) => g.text === "to eat"));
 });
 
 test("suffix compounds expose components with spans and suffix roles", async () => {
@@ -138,6 +139,8 @@ test("suffix compounds expose components with spans and suffix roles", async () 
   covers(input, tokens);
   const comp = tokens.find((t) => t.surface === "食べてしまった")!;
   assert.equal(comp.lemma, "食べる");
+  // Ichiran's compound kana is space-separated; the token reading is not
+  assert.equal(comp.reading, "たべてしまった");
   assert.deepEqual(
     comp.components.map((c) => [c.surface, c.start, c.end, c.lemma]),
     [

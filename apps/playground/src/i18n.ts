@@ -45,6 +45,8 @@ export const messages = {
     alpha: "Early alpha",
     alphaNote:
       "Selected morphology and heuristic scoring. Full Ichiran parity is in progress.",
+    ichiranNote:
+      "Analyzed by Yomichi's TypeScript port of Ichiran. Scores rank paths; they are not probabilities.",
     docs: "API docs",
     source: "Source",
     close: "Close details",
@@ -109,6 +111,7 @@ export const messages = {
     error: "请求未能完成。",
     alpha: "早期 Alpha",
     alphaNote: "已支持部分活用与启发式评分，仍在完善与 Ichiran 的一致性。",
+    ichiranNote: "由 Yomichi 的 Ichiran TypeScript 移植版分析。分数用于排序路径，不是概率。",
     docs: "API 文档",
     source: "源代码",
     close: "关闭详情",
@@ -175,6 +178,8 @@ export const messages = {
     alpha: "初期アルファ",
     alphaNote:
       "一部の活用とヒューリスティックな評価に対応。Ichiranとの互換性は開発中です。",
+    ichiranNote:
+      "Yomichi の Ichiran TypeScript 移植版で解析しています。スコアは経路の順位付けであり、確率ではありません。",
     docs: "API ドキュメント",
     source: "ソース",
     close: "詳細を閉じる",

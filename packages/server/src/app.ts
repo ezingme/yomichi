@@ -121,7 +121,7 @@ export async function buildApp(options: ServerOptions) {
       info: {
         title: "Yomichi API",
         description:
-          "Japanese text analysis. With an Ichiran-model dataset active, /v1/analyze and /v1/ichiran/* use a TypeScript port of Ichiran; scores are not probabilities.",
+          "Japanese text analysis. With an Ichiran database (ICHIRAN_DATABASE_URL) or an imported Ichiran dataset, /v1/analyze and /v1/ichiran/* use a TypeScript port of Ichiran; scores are not probabilities.",
         version: ENGINE_VERSION,
       },
       components: {

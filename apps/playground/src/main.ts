@@ -56,7 +56,6 @@ function translate() {
     "developer-title": "developer",
     "request-title": "request",
     "response-title": "response",
-    "alpha-note": "alphaNote",
     copy: "copy",
   }))
     $(id).textContent = t()[key as keyof typeof messages.en];
@@ -97,6 +96,13 @@ function translate() {
   $<HTMLSelectElement>("annotation").options[0].text = t().reading;
   $<HTMLSelectElement>("annotation").options[1].text = t().romaji;
   if (!result) $("detail-content").textContent = t().select;
+  engineNote();
+}
+/** The note names the engine that produced the shown analysis. */
+function engineNote() {
+  $("alpha-note").textContent = result?.engineVersion.endsWith("+ichiran")
+    ? t().ichiranNote
+    : t().alphaNote;
 }
 function reset() {
   result = null;
@@ -115,7 +121,8 @@ async function status() {
     const d = await r.json();
     $("status").textContent = d.ready ? t().ready : t().offline;
     $("dot").classList.toggle("online", !!d.ready);
-    $("version").textContent = d.dictionary?.version ?? "";
+    $("version").textContent =
+      d.ichiran?.version ?? d.dictionary?.version ?? "";
   } catch {
     $("status").textContent = t().offline;
   }
@@ -171,7 +178,8 @@ function showDetail(token: Token, opener: HTMLElement) {
         const button = el("button", "alt-word", `${a.lemma} · ${a.reading}`);
         button.addEventListener("click", async () => {
           try {
-            const e = await client.word(a.entryId);
+            // /v1/words needs import:jmdict; without it, show the lexeme alone
+            const e = await client.word(a.entryId).catch(() => null);
             showDetail(
               {
                 ...token,
@@ -180,7 +188,9 @@ function showDetail(token: Token, opener: HTMLElement) {
                 entryId: a.entryId,
                 pos: a.pos,
                 conjugationSteps: a.conjugationSteps,
-                senses: a.senseIndices.map((i) => e.senses[i]).filter(Boolean),
+                senses: e
+                  ? a.senseIndices.map((i) => e.senses[i]).filter(Boolean)
+                  : [],
                 alternatives: [],
               },
               opener,
@@ -248,7 +258,7 @@ function renderAnalysis() {
     };
     $("tokens").append(b);
   }
-  $("alpha-note").textContent = t().alphaNote;
+  engineNote();
 }
 function wordCard(e: Entry) {
   const card = el("article", "word-card");
