@@ -53,6 +53,7 @@ try {
   await page.screenshot({
     path: "docs/screenshots/playground-desktop-empty.png",
     fullPage: true,
+    animations: "disabled",
   });
   await page.locator('[data-example="猫は魚を食べました。"]').click();
   await page.locator(".token").first().waitFor();
@@ -66,6 +67,7 @@ try {
   await page.screenshot({
     path: "docs/screenshots/playground-desktop.png",
     fullPage: true,
+    animations: "disabled",
   });
   await page.locator("#locale").selectOption("zh");
   assert.equal(await page.locator("h1").innerText(), "从每个词，读懂日语。");
@@ -75,7 +77,8 @@ try {
   assert.ok(await page.locator("#close").isVisible());
   await page.screenshot({
     path: "docs/screenshots/playground-mobile.png",
-    fullPage: true,
+    fullPage: false,
+    animations: "disabled",
   });
   await page.locator("#close").click();
   assert.ok(!(await page.locator("#detail").isVisible()));
