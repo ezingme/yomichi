@@ -1,3 +1,4 @@
+import { ICHIRAN_SCHEMA } from "./ichiran-pg.js";
 export interface Sql {
   query<T = any>(sql: string, params?: any[]): Promise<{ rows: T[] }>;
 }
@@ -10,5 +11,5 @@ export async function migrate(db: Sql): Promise<void> {
     `CREATE INDEX IF NOT EXISTS yomichi_forms_lookup ON yomichi_forms(dataset_id,surface text_pattern_ops)`,
     `CREATE TABLE IF NOT EXISTS yomichi_kanji(dataset_id text NOT NULL REFERENCES yomichi_datasets(id) ON DELETE CASCADE,character text NOT NULL,data jsonb NOT NULL,PRIMARY KEY(dataset_id,character))`,
   ];
-  for (const sql of statements) await db.query(sql);
+  for (const sql of [...statements, ...ICHIRAN_SCHEMA]) await db.query(sql);
 }

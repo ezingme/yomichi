@@ -8,6 +8,7 @@ import { createGunzip } from "node:zlib";
 import pg from "pg";
 import type { IchiranSource } from "../../packages/core/src/ichiran/store.js";
 import { PgIchiranSource } from "../../packages/dictionary/src/ichiran-source.js";
+import { YOMICHI_ICHIRAN_TABLES } from "../../packages/dictionary/src/ichiran-pg.js";
 import { buildLexicon, loadJmdictdbRules, readCustomSources } from "../../packages/dictionary/src/ichiran-build/build.js";
 import { MemoryIchiranSource } from "../../packages/dictionary/src/ichiran-build/memory-source.js";
 import { parseNodes } from "../../packages/dictionary/src/xml.js";
@@ -16,6 +17,16 @@ export async function sourceFromArgs(args: string[]): Promise<{ source: IchiranS
   const opt = (name: string) => (args.includes(name) ? args[args.indexOf(name) + 1] : undefined);
   const url = process.env.ICHIRAN_DATABASE_URL;
   const build = opt("--build");
+  if (args.includes("--yomichi")) {
+    const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL, max: 4 });
+    const active = await pool.query("SELECT dataset_id FROM yomichi_active WHERE kind='ichiran'");
+    if (!active.rows[0]) throw new Error("No active ichiran dataset");
+    return {
+      source: new PgIchiranSource(pool, YOMICHI_ICHIRAN_TABLES, active.rows[0].dataset_id),
+      close: () => pool.end(),
+      label: `yomichi:${active.rows[0].dataset_id}`,
+    };
+  }
   if (!build) {
     if (!url) throw new Error("ICHIRAN_DATABASE_URL or --build is required");
     const pool = new pg.Pool({ connectionString: url, max: 4 });

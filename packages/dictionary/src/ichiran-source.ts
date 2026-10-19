@@ -45,12 +45,16 @@ function ctidOrder(ctid: string): number {
 }
 
 export class PgIchiranSource implements IchiranSource {
+  /** Row order column: heap order of an upstream database, or `phys`. */
+  private order: string;
   constructor(
     private db: Sql,
     private tables: IchiranTables = ICHIRAN_UPSTREAM_TABLES,
     private dataset: string | null = null,
     private label = "ichiran-database",
-  ) {}
+  ) {
+    this.order = dataset === null ? "ctid" : "phys";
+  }
   private ds(alias = ""): string {
     return this.dataset === null ? "TRUE" : `${alias}dataset_id=$2`;
   }
@@ -64,7 +68,7 @@ export class PgIchiranSource implements IchiranSource {
     if (!texts.length) return [];
     const t = this.tables;
     const q = (table: string, kind: string, best: string) =>
-      `SELECT '${kind}' AS kind, id, seq, text, ord, common, common_tags, conjugate_p, nokanji, ${best} AS best, ctid::text AS ctid FROM ${table} WHERE text = ANY($1::text[]) AND ${this.ds()}`;
+      `SELECT '${kind}' AS kind, id, seq, text, ord, common, common_tags, conjugate_p, nokanji, ${best} AS best, ${this.order === "ctid" ? "ctid::text" : "phys"} AS ctid FROM ${table} WHERE text = ANY($1::text[]) AND ${this.ds()}`;
     const r = await this.db.query(
       `${q(t.kana, "kana", "best_kanji")} UNION ALL ${q(t.kanji, "kanji", "best_kana")}`,
       this.params(texts),
@@ -78,8 +82,8 @@ export class PgIchiranSource implements IchiranSource {
     const ds = this.ds();
     const [entries, kana, kanji, senses, props, conjs, derived, restricted, glosses] = await Promise.all([
       this.db.query(`SELECT seq, root_p, n_kanji, n_kana, primary_nokanji FROM ${t.entry} WHERE seq = ANY($1::int[]) AND ${ds}`, p),
-      this.db.query(`SELECT 'kana' AS kind, id, seq, text, ord, common, common_tags, conjugate_p, nokanji, best_kanji AS best, ctid::text AS ctid FROM ${t.kana} WHERE seq = ANY($1::int[]) AND ${ds}`, p),
-      this.db.query(`SELECT 'kanji' AS kind, id, seq, text, ord, common, common_tags, conjugate_p, nokanji, best_kana AS best, ctid::text AS ctid FROM ${t.kanji} WHERE seq = ANY($1::int[]) AND ${ds}`, p),
+      this.db.query(`SELECT 'kana' AS kind, id, seq, text, ord, common, common_tags, conjugate_p, nokanji, best_kanji AS best, ${this.order === "ctid" ? "ctid::text" : "phys"} AS ctid FROM ${t.kana} WHERE seq = ANY($1::int[]) AND ${ds}`, p),
+      this.db.query(`SELECT 'kanji' AS kind, id, seq, text, ord, common, common_tags, conjugate_p, nokanji, best_kana AS best, ${this.order === "ctid" ? "ctid::text" : "phys"} AS ctid FROM ${t.kanji} WHERE seq = ANY($1::int[]) AND ${ds}`, p),
       this.db.query(`SELECT id, seq, ord FROM ${t.sense} WHERE seq = ANY($1::int[]) AND ${ds} ORDER BY id`, p),
       this.db.query(`SELECT id, sense_id, seq, tag, text, ord FROM ${t.senseProp} WHERE seq = ANY($1::int[]) AND ${ds} ORDER BY id`, p),
       this.db.query(`SELECT id, seq, "from", via FROM ${t.conjugation} WHERE seq = ANY($1::int[]) AND ${ds} ORDER BY id`, p),
@@ -160,7 +164,7 @@ export class PgIchiranSource implements IchiranSource {
     const out = new Map<string, KanjiReadingRow[]>();
     if (!chars.length) return out;
     const r = await this.db.query(
-      `SELECT k.text AS kanji, r.text, r.type FROM ${this.tables.kanjiChar} k JOIN ${this.tables.kanjiReading} r ON r.kanji_id = k.id WHERE k.text = ANY($1::text[]) AND ${this.dataset === null ? "TRUE" : "k.dataset_id=$2 AND r.dataset_id=$2"} ORDER BY r.ctid`,
+      `SELECT k.text AS kanji, r.text, r.type FROM ${this.tables.kanjiChar} k JOIN ${this.tables.kanjiReading} r ON r.kanji_id = k.id WHERE k.text = ANY($1::text[]) AND ${this.dataset === null ? "TRUE" : "k.dataset_id=$2 AND r.dataset_id=$2"} ORDER BY r.${this.order}`,
       this.params(chars),
     );
     for (const row of r.rows as any[]) {
@@ -191,6 +195,6 @@ function toReading(r: any): ReadingRow {
     conjugateP: r.conjugate_p,
     nokanji: r.nokanji,
     best: r.best,
-    phys: r.ctid ? ctidOrder(r.ctid) : r.id,
+    phys: typeof r.ctid === "number" ? r.ctid : r.ctid ? ctidOrder(r.ctid) : r.id,
   };
 }

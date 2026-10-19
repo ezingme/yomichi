@@ -223,23 +223,45 @@ export class IchiranStore {
     return { texts: this.texts.size, seqs: this.seqs.size };
   }
 
-  /** Fetch every recorded miss from the source. */
-  async fill(source: IchiranSource): Promise<void> {
-    if (this.missingCounters) this.setCounterSeqs(await source.fetchCounterSeqs());
-    if (this.missingTexts.size) {
-      const texts = [...this.missingTexts];
-      this.addTextRows(texts, await source.fetchTexts(texts));
-    }
-    if (this.missingSeqs.size) {
-      const seqs = [...this.missingSeqs];
-      this.addSeqs(seqs, await source.fetchSeqs(seqs));
-    }
-    if (this.missingKanji.size) {
-      const chars = [...this.missingKanji];
-      this.addKanji(chars, await source.fetchKanjiReadings(chars));
-    }
+  /** Take (and clear) the recorded misses synchronously. Concurrent analyses
+   * share one store, so misses must be captured before any await. */
+  takeMisses(): Misses {
+    const m: Misses = {
+      texts: [...this.missingTexts],
+      seqs: [...this.missingSeqs],
+      kanji: [...this.missingKanji],
+      counters: this.missingCounters,
+    };
     this.clearMisses();
+    return m;
   }
+  /** Fetch the given misses from the source. */
+  async fill(source: IchiranSource, m: Misses = this.takeMisses()): Promise<void> {
+    const [counters, rows, bundles, kanji] = await Promise.all([
+      m.counters ? source.fetchCounterSeqs() : null,
+      m.texts.length ? source.fetchTexts(m.texts) : null,
+      m.seqs.length ? source.fetchSeqs(m.seqs) : null,
+      m.kanji.length ? source.fetchKanjiReadings(m.kanji) : null,
+    ]);
+    if (counters) this.setCounterSeqs(counters);
+    if (rows) this.addTextRows(m.texts, rows);
+    if (bundles) this.addSeqs(m.seqs, bundles);
+    if (kanji) this.addKanji(m.kanji, kanji);
+  }
+  /** Drop cached rows (keeping derived caches) once the cache grows large. */
+  trim(maxTexts = 300000, maxSeqs = 200000): void {
+    if (this.texts.size > maxTexts || this.seqs.size > maxSeqs) {
+      this.texts.clear();
+      this.seqs.clear();
+      this.conjById.clear();
+    }
+  }
+}
+export interface Misses {
+  texts: string[];
+  seqs: number[];
+  kanji: string[];
+  counters: boolean;
 }
 
 /** Run a synchronous computation, fetching missing rows until it completes. */
@@ -262,7 +284,7 @@ export async function runWithStore<T>(
       if (error !== undefined) throw error;
       return result as T;
     }
-    await store.fill(source);
+    await store.fill(source, store.takeMisses());
   }
   throw new Error("Ichiran store did not converge");
 }

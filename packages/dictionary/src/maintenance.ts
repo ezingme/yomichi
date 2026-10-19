@@ -28,7 +28,7 @@ export async function activateDataset(
       [datasetId],
     );
     const d = result.rows[0];
-    if (!d || !["jmdict", "kanji"].includes(d.kind) || d.entry_count < 1)
+    if (!d || !["jmdict", "kanji", "ichiran"].includes(d.kind) || d.entry_count < 1)
       throw new Error("Dataset is missing, unsupported or empty");
     await db.query(
       "INSERT INTO yomichi_active(kind,dataset_id) VALUES($1,$2) ON CONFLICT(kind) DO UPDATE SET dataset_id=excluded.dataset_id",

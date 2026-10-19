@@ -8,6 +8,11 @@ import { Errata } from "./errata.js";
 import { CustomLoader, type CustomSources } from "./custom.js";
 import { applyIchiranRuleErrata, builtinRuleTable, loadJmdictdbRules, type RuleTable } from "./conj-rules.js";
 import { parseNodes, type Node } from "../xml.js";
+import { KanjiTables, loadKanjiStats } from "./kanji.js";
+import { IchiranStore } from "../../../core/src/ichiran/store.js";
+import { runSync } from "../../../core/src/ichiran/index.js";
+import { matchReadings } from "../../../core/src/ichiran/kanji.js";
+import { unrendaku } from "../../../core/src/ichiran/chars.js";
 
 export interface BuildOptions {
   /** Conjugation rules before Ichiran's adjustments; built-in when omitted. */
@@ -63,3 +68,20 @@ export async function readCustomSources(dir: string): Promise<CustomSources> {
 }
 
 export { loadJmdictdbRules, builtinRuleTable };
+
+/** load-kanjidic + load-kanji-stats over a built lexicon. */
+export async function buildKanji(lex: Lexicon, characters: AsyncIterable<Node>): Promise<KanjiTables> {
+  const tables = new KanjiTables();
+  for await (const n of characters) tables.load(n);
+  const store = new IchiranStore();
+  const readings = tables.matcherReadings();
+  store.addKanji([...readings.keys()], readings);
+  runSync(store, () =>
+    loadKanjiStats(lex, tables, matchReadings, (rtext, rendaku, gem) => {
+      let t = rendaku ? unrendaku(rtext) : rtext;
+      if (gem) t = t.slice(0, -1) + gem[0];
+      return t;
+    }),
+  );
+  return tables;
+}

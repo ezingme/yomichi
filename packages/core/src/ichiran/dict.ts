@@ -1156,7 +1156,7 @@ export interface WordInfo {
   word?: Word;
 }
 
-function wordInfoFromSegment(segment: Segment): WordInfo {
+export function wordInfoFromSegment(segment: Segment): WordInfo {
   const word = segment.word;
   return {
     type: wordType(word),
@@ -1294,4 +1294,32 @@ export function dictSegment(str: string, limit = 5): [WordInfo[], number][] {
 }
 export function simpleSegment(str: string, limit = 5): WordInfo[] {
   return dictSegment(str, limit)[0]?.[0] ?? [];
+}
+
+/** find-word-info: all readings of `text` as a single word, best first. */
+export function findWordInfo(text: string, opts: { reading?: string; rootOnly?: boolean } = {}): WordInfo[] {
+  const end = text.length;
+  const words = bind({ suffixMapTemp: getSuffixMap(text), suffixNextEnd: end }, () =>
+    opts.rootOnly
+      ? findWord(text, true)
+      : findWordFull(text, { asHiragana: testWord(text, "katakana"), counter: "auto" }),
+  );
+  const segments = stableSort(
+    words.map((word) => genScore({ start: 0, end, word, score: null, info: null, text }, false, null)),
+    (a, b) => a.score! > b.score!,
+  );
+  let wis = segments.map(wordInfoFromSegment);
+  if (opts.reading !== undefined) {
+    const reading = opts.reading;
+    wis = wis.flatMap((wi) => {
+      if (wi.kana === reading) return [wi];
+      const seq = typeof wi.seq === "number" ? wi.seq : null;
+      if (seq !== null && (bundle(seq)?.readings ?? []).some((r) => r.table === "kana" && r.text === reading)) {
+        wi.kana = reading;
+        return [wi];
+      }
+      return [];
+    });
+  }
+  return wis;
 }

@@ -17,7 +17,9 @@ import {
   type WordInfo,
 } from "./dict.js";
 import { getSuffixDescription } from "./grammar.js";
-import { DEFAULT_METHOD, romanizeWord, stripHints, type RomanizationMethod } from "./romanize.js";
+import { DEFAULT_METHOD, METHODS, romanizeWord, stripHints, type RomanizationMethod } from "./romanize.js";
+import { matchReadings } from "./kanji.js";
+import { unrendaku } from "./chars.js";
 import type { ConjPropRow, ReadingRow } from "./store.js";
 
 export type Json = null | boolean | number | string | Json[] | { [k: string]: Json };
@@ -481,4 +483,112 @@ export function wordInfoStr(wi: WordInfo): string {
     });
   else inner(wi);
   return s;
+}
+
+// ---------------------------------------------------------------------------
+// Kanji (kanji.lisp to-json, match-readings-json)
+
+export interface KanjiInfo {
+  text: string;
+  radicalC: number | null;
+  radicalN: number | null;
+  grade: number | null;
+  strokes: number | null;
+  freq: number | null;
+  statCommon: number;
+  statIrregular: number;
+  readings: { type: string; text: string; suffixp: boolean; prefixp: boolean; statCommon: number; okurigana: string[] }[];
+  meanings: string[];
+}
+/** calculate-perc: "~,2,,,'0F%" of sample/total */
+export function calculatePerc(sample: number, total: number): string {
+  if (total === 0) return "--.--%";
+  return `${((100 * sample) / total).toFixed(2)}%`;
+}
+export function kanjiInfoJson(k: KanjiInfo): Json {
+  const total = k.statCommon;
+  const readings = k.readings
+    .map((r, i) => [r, i] as const)
+    .filter(([r]) => r.type !== "ja_na")
+    .sort(([a, i], [b, j]) => (a.type < b.type ? 1 : a.type > b.type ? -1 : 0) || b.statCommon - a.statCommon || i - j)
+    .map(([r]) => {
+      const js: { [key: string]: Json } = {
+        text: r.text,
+        rtext: romanizeWord(r.text, { method: METHODS["hepburn-basic"], originalSpelling: "" }),
+        type: r.type,
+        okuri: [...new Set(r.okurigana)].sort(),
+        sample: r.statCommon,
+        perc: calculatePerc(r.statCommon, total),
+      };
+      if (r.prefixp) js.prefixp = true;
+      if (r.suffixp) js.suffixp = true;
+      return js;
+    });
+  const js: { [key: string]: Json } = {
+    text: k.text,
+    rc: k.radicalC,
+    rn: k.radicalN,
+    strokes: k.strokes,
+    total: k.statCommon,
+    irr: k.statIrregular,
+    irr_perc: calculatePerc(k.statIrregular, total),
+    readings,
+    meanings: k.meanings,
+  };
+  if (k.freq !== null) js.freq = k.freq;
+  if (k.grade !== null) js.grade = k.grade;
+  return js;
+}
+const KANJI_CHAR = /[一-龯]/;
+/** match-readings-json; `stats(kanji, reading, type)` returns usage statistics. */
+export function matchReadingsJson(
+  str: string,
+  reading: string,
+  stats: (kanji: string, reading: string, type: string) => { sample: number; total: number; grade: number | null } | null,
+): Json {
+  if (!/[々ヶ〆一-龯]/.test(str)) return [];
+  const match = matchReadings(str, reading);
+  if (!match) return [];
+  const result: Json[] = [];
+  let irr: [string, string][] = [];
+  const flush = () => {
+    const js: { [k: string]: Json } = {
+      kanji: irr.map((x) => x[0]).join(""),
+      reading: irr.map((x) => x[1]).join(""),
+      type: "irr",
+    };
+    if (KANJI_CHAR.test(js.kanji as string)) js.link = true;
+    result.push(js);
+    irr = [];
+  };
+  for (const item of match) {
+    if (typeof item === "string") {
+      if (irr.length) flush();
+      result.push({ text: item });
+      continue;
+    }
+    const [kanji, rtext, type, rendaku, gem] = item as [string, string, string, boolean?, (string | null)?];
+    if (type === "irr") {
+      irr.push([kanji, rtext]);
+      continue;
+    }
+    if (irr.length) flush();
+    const js: { [k: string]: Json } = { kanji, reading: rtext, type };
+    if (KANJI_CHAR.test(kanji)) js.link = true;
+    if (rendaku) js.rendaku = "rendaku";
+    if (gem) js.geminated = gem;
+    let orig = rendaku ? unrendaku(rtext) : rtext;
+    if (gem) orig = orig.slice(0, -1) + gem[0];
+    const st = stats(kanji, orig, type);
+    if (st) {
+      js.stats = true;
+      js.sample = st.sample;
+      js.total = st.total;
+      js.perc = calculatePerc(st.sample, st.total);
+      if (st.grade !== null) js.grade = st.grade;
+    }
+    result.push(js);
+  }
+  if (irr.length) flush();
+  return result;
 }
