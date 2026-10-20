@@ -33,6 +33,7 @@ import {
   parseJapaneseNumber,
 } from "../../core/src/numbers.js";
 import { matchKanjiReading } from "../../dictionary/src/kanji.js";
+import { databaseError } from "./db-errors.js";
 import {
   analyzeIchiran,
   findWordInfoJson,
@@ -135,14 +136,18 @@ export async function buildApp(options: ServerOptions) {
     },
   });
   await app.register(swaggerUI, { routePrefix: "/docs" });
-  app.setErrorHandler((e, _req, reply) => {
-    const error = e as Error & { validation?: unknown; statusCode?: number };
+  app.setErrorHandler((e, req, reply) => {
+    // configuration problems (database down, schema missing) get a clear message
+    const error = (databaseError(e) ?? e) as Error & { validation?: unknown; statusCode?: number };
     const status =
       error instanceof YomichiError
         ? error.status
         : error.validation
           ? 400
           : (error.statusCode ?? 500);
+    // log server-side failures; the path only, since queries and bodies carry user text
+    if (status >= 500)
+      console.error(`[yomichi] ${req.method} ${req.url.split("?")[0]} failed: ${(e as Error).message}`);
     reply.status(status).send({
       error: {
         code:
@@ -208,14 +213,31 @@ export async function buildApp(options: ServerOptions) {
     return engine;
   }
   app.get("/healthz", async () => ({ status: "ok", version: ENGINE_VERSION }));
+  /** Each data source is checked on its own; the service is ready when either can analyze. */
   app.get("/readyz", async (_req, reply) => {
     const repo = options.repository();
-    const d = await repo.metadata();
-    const ichiran = (await repo.ichiran?.())?.dictionary ?? null;
-    const ready = !!d?.entryCount || !!ichiran?.entryCount;
-    return reply
-      .code(ready ? 200 : 503)
-      .send({ ready, dictionary: d, ...(ichiran ? { ichiran } : {}) });
+    const [d, i] = await Promise.allSettled([
+      repo.metadata(),
+      repo.ichiran?.() ?? Promise.resolve(null),
+    ]);
+    const dictionary = d.status === "fulfilled" ? d.value : null;
+    const ichiran = i.status === "fulfilled" ? (i.value?.dictionary ?? null) : null;
+    const errors: Record<string, { code: string; message: string }> = {};
+    for (const [name, r] of [["dictionary", d], ["ichiran", i]] as const)
+      if (r.status === "rejected") {
+        const known = databaseError(r.reason);
+        errors[name] = known
+          ? { code: known.code, message: known.message }
+          : { code: "INTERNAL_ERROR", message: "Check the server log." };
+        console.error(`[yomichi] readiness: ${name}: ${(r.reason as Error)?.message}`);
+      }
+    const ready = !!dictionary?.entryCount || !!ichiran?.entryCount;
+    return reply.code(ready ? 200 : 503).send({
+      ready,
+      dictionary,
+      ...(ichiran ? { ichiran } : {}),
+      ...(Object.keys(errors).length ? { errors } : {}),
+    });
   });
   app.get("/openapi.json", async () => app.swagger());
   app.post<{ Body: AnalyzeOptions }>(

@@ -32,19 +32,25 @@ export function ichiranDatabaseEngine(db: Sql, version?: string): Promise<Ichira
   let engine = ichiranDatabases.get(db);
   if (!engine) {
     engine = (async () => {
+      // the planner's row estimate avoids counting millions of rows (slow on a
+      // remote database); an exact count only when no estimate exists yet
       const info = (
-        await db.query<{ name: string; entries: number; kanji: boolean }>(
-          `SELECT current_database() AS name, (SELECT count(*) FROM entry)::integer AS entries,
+        await db.query<{ name: string; estimate: number; kanji: boolean }>(
+          `SELECT current_database() AS name, (SELECT reltuples FROM pg_class WHERE oid = 'entry'::regclass)::bigint::integer AS estimate,
            EXISTS (SELECT 1 FROM kanji) AS kanji`,
         )
       ).rows[0];
+      const entries =
+        info.estimate > 0
+          ? info.estimate
+          : (await db.query<{ n: number }>("SELECT count(*)::integer AS n FROM entry")).rows[0].n;
       return {
         store: sharedStore(db, "ichiran-database"),
         source: new PgIchiranSource(db, ICHIRAN_UPSTREAM_TABLES, null, `ichiran-database:${info.name}`),
         dictionary: {
           version: version || info.name,
           source: `Ichiran database "${info.name}" (read in place)`,
-          entryCount: info.entries,
+          entryCount: entries,
           capabilities: ["words", "ichiran", ...(info.kanji ? ["kanji"] : [])],
         },
       };

@@ -77,6 +77,19 @@ curl http://localhost:3000/readyz
 
 Open **http://localhost:5173**. API docs are at **http://localhost:3000/docs**. The dev frontend proxies API requests to port 3000. The root scripts load `.env`. Change the example database password before exposing any service.
 
+### Troubleshooting
+
+On startup, `npm run dev` prints what each database provides. `/readyz` reports each source separately under `errors`, and the Playground shows the reason next to "Dictionary unavailable". Common causes:
+
+| Message                                        | Fix                                                                                                                  |
+| ---------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `SCHEMA_MISSING`: Yomichi's tables are missing | Run `npm run db:migrate` against `DATABASE_URL`.                                                                     |
+| `ICHIRAN_SCHEMA_MISSING`                       | `ICHIRAN_DATABASE_URL` names a database without Ichiran's tables. Point it at the restored `ichiran` database.       |
+| `DATABASE_UNAVAILABLE`                         | PostgreSQL is not reachable at the host and port in the URL (server down, firewall, or cloud security group).        |
+| `DATABASE_AUTH`                                | Wrong user or password, or `pg_hba.conf` rules. Cloud databases often need `?sslmode=require` at the end of the URL. |
+
+With `ICHIRAN_DATABASE_URL` set, analysis works even if `DATABASE_URL` has no imported dataset. Word search and the legacy engine still need `npm run import:jmdict`.
+
 ### Other ways to provide data
 
 All of these use the PostgreSQL database configured by `DATABASE_URL`. Imports run in a transaction and activate atomically; old versions remain available for rollback.

@@ -132,7 +132,9 @@ async function status() {
       signal: AbortSignal.timeout(5000),
     });
     const d = await r.json();
-    $("status").textContent = d.ready ? t().ready : t().offline;
+    // when nothing can analyze, say why (e.g. "run npm run db:migrate")
+    const reason = d.ready ? "" : Object.values(d.errors ?? {}).map((e: any) => e.message)[0];
+    $("status").textContent = d.ready ? t().ready : t().offline + (reason ? ` — ${reason}` : "");
     $("dot").classList.toggle("online", !!d.ready);
     $("version").textContent =
       d.ichiran?.version ?? d.dictionary?.version ?? "";
