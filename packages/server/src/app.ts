@@ -205,7 +205,21 @@ export async function buildApp(options: ServerOptions) {
     const repo = options.repository();
     const engine = choice === "legacy" ? null : ((await repo.ichiran?.()) ?? null);
     if (!engine && choice === "ichiran") throw ichiranNotReady();
-    return limited(() => (engine ? analyzeIchiran(engine, rest) : analyze(repo, rest)));
+    return limited(async () => {
+      if (engine) return analyzeIchiran(engine, rest);
+      try {
+        return await analyze(repo, rest);
+      } catch (e) {
+        // neither engine has data: name both ways to provide it
+        if (choice === "auto" && e instanceof YomichiError && e.code === "DICTIONARY_NOT_READY")
+          throw new YomichiError(
+            "DICTIONARY_NOT_READY",
+            "No dictionary is configured. Set ICHIRAN_DATABASE_URL to an Ichiran database (README, Quick start) and restart, or import JMdict with npm run import:jmdict.",
+            503,
+          );
+        throw e;
+      }
+    });
   }
   async function ichiranEngine(): Promise<IchiranEngine> {
     const engine = await options.repository().ichiran?.();

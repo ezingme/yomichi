@@ -68,3 +68,17 @@ test("ICHIRAN_DATABASE_URL pointing at a database without Ichiran's tables is ex
   await yomichi.close();
   await notIchiran.close();
 });
+
+test("with no dictionary at all, analysis names both ways to configure one", async () => {
+  const db = new PGlite();
+  const { migrate } = await import("../packages/dictionary/src/schema.js");
+  await migrate(db as any);
+  const app = await buildApp({ repository: () => new PostgresDictionary(db as any) });
+  const res = await app.inject({ method: "POST", url: "/v1/analyze", payload: { text: "猫" } });
+  assert.equal(res.statusCode, 503);
+  assert.equal(res.json().error.code, "DICTIONARY_NOT_READY");
+  assert.match(res.json().error.message, /ICHIRAN_DATABASE_URL/);
+  assert.match(res.json().error.message, /import:jmdict/);
+  await app.close();
+  await db.close();
+});
