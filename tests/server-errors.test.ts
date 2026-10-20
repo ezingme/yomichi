@@ -3,7 +3,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { PGlite } from "@electric-sql/pglite";
 import { buildApp } from "../packages/server/src/app.js";
-import { databaseError } from "../packages/server/src/db-errors.js";
+import { databaseError } from "../packages/dictionary/src/db-errors.js";
 import { PostgresDictionary } from "../packages/dictionary/src/repository.js";
 import { replayEngine } from "./helpers-ichiran.js";
 

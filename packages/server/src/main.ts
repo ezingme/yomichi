@@ -1,7 +1,7 @@
 import { buildApp } from "./app.js";
 import { createPool } from "../../dictionary/src/connection.js";
 import { PostgresDictionary } from "../../dictionary/src/repository.js";
-import { describeError } from "./db-errors.js";
+import { describeError } from "../../dictionary/src/db-errors.js";
 const pool = createPool();
 // Optional: analyze with an Ichiran database directly (read-only) instead of
 // an imported Ichiran-model dataset.

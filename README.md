@@ -90,6 +90,8 @@ On startup, `npm run dev` prints what each database provides. `/readyz` reports 
 
 With `ICHIRAN_DATABASE_URL` set, analysis works even if `DATABASE_URL` has no imported dataset. Word search and the legacy engine still need `npm run import:jmdict`.
 
+`npm run import:jmdict` writes about 220,000 entries and nearly 10 million generated forms in a single transaction. On a local database this takes minutes. Against a remote database it can take hours. If the connection drops or the import is interrupted, the transaction is rolled back and nothing is imported; the script reports this when it ends. If you only need sentence analysis, an Ichiran database is enough.
+
 ### Other ways to provide data
 
 All of these use the PostgreSQL database configured by `DATABASE_URL`. Imports run in a transaction and activate atomically; old versions remain available for rollback.

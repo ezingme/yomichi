@@ -33,7 +33,7 @@ import {
   parseJapaneseNumber,
 } from "../../core/src/numbers.js";
 import { matchKanjiReading } from "../../dictionary/src/kanji.js";
-import { databaseError } from "./db-errors.js";
+import { databaseError } from "../../dictionary/src/db-errors.js";
 import {
   analyzeIchiran,
   findWordInfoJson,
