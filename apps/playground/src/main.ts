@@ -1,6 +1,7 @@
 import "./style.css";
 import { messages, type Locale } from "./i18n.js";
 import { YomichiClient } from "../../../packages/client/src/index.js";
+import { loadVerbInflections } from "./verb-inflections-view.js";
 import { renderIchiran } from "./ichiran-view.js";
 import type { IchiranResult } from "../../../packages/core/src/ichiran/index.js";
 import type {
@@ -38,7 +39,7 @@ const el = (tag: string, className = "", text = "") => {
 $("app").innerHTML =
   `<header class="header"><a class="brand" href="/" aria-label="Yomichi home"><span class="mark">よ</span><span>yomichi<span class="brand-sub">PLAYGROUND</span></span></a><nav><a id="docs" target="_blank" rel="noreferrer"></a><a href="https://github.com/ezingme/yomichi" id="source" target="_blank" rel="noreferrer"></a><select id="locale" aria-label="Interface language"><option value="en">EN</option><option value="zh">中文</option><option value="ja">日本語</option></select></nav></header>
 <main><section class="hero"><div><p class="eyebrow" id="eyebrow"></p><h1 id="title"></h1><p id="intro" class="intro"></p></div><div class="hero-art" aria-hidden="true"><span>読</span><small>よむ · to read</small></div></section>
-<section class="input-card"><div class="tabs" role="tablist" aria-label="Tools"><button id="tab-analyze" role="tab" data-mode="analyze"></button><button id="tab-words" role="tab" data-mode="words"></button><button id="tab-kanji" role="tab" data-mode="kanji"></button><button id="tab-tools" role="tab" data-mode="tools"></button></div><form id="form"><div class="tool-settings"><select id="tool" hidden aria-label="Language tool"><option value="romanize"></option><option value="deromanize"></option><option value="numbers"></option><option value="characters"></option></select><label id="scheme-label" for="scheme"></label><select id="scheme"><option value="hepburn">Hepburn</option><option value="kunrei">Kunrei</option><option value="hepburn-basic">Hepburn · basic</option><option value="hepburn-simple">Hepburn · simple</option><option value="hepburn-passport">Hepburn · passport</option><option value="hepburn-traditional">Hepburn · traditional</option><option value="hepburn-modified">Hepburn · modified</option><option value="kunrei-shiki">Kunrei-shiki</option></select></div><label for="input" id="label"></label><textarea id="input" rows="3" lang="ja" spellcheck="false"></textarea><div class="input-meta"><span id="hint"></span><span id="count">0 / 500</span></div><div class="input-actions"><div class="examples"><span id="examples-label"></span><button type="button" data-example="駅の前で会いましょう。">駅の前で会いましょう。</button><button type="button" data-example="猫は魚を食べました。">猫は魚を食べました。</button></div><button class="primary" id="run" type="submit"></button></div></form></section>
+<section class="input-card"><div class="tabs" role="tablist" aria-label="Tools"><button id="tab-analyze" role="tab" data-mode="analyze"></button><button id="tab-words" role="tab" data-mode="words"></button><button id="tab-kanji" role="tab" data-mode="kanji"></button><button id="tab-tools" role="tab" data-mode="tools"></button></div><form id="form"><div class="tool-settings"><select id="tool" hidden aria-label="Language tool"><option value="romanize"></option><option value="deromanize"></option><option value="numbers"></option><option value="characters"></option><option value="verbs/inflections"></option></select><label id="verb-reading-label" hidden><span id="verb-reading-text"></span><input id="verb-reading" type="text" lang="ja" maxlength="100" /></label><label id="scheme-label" for="scheme"></label><select id="scheme"><option value="hepburn">Hepburn</option><option value="kunrei">Kunrei</option><option value="hepburn-basic">Hepburn · basic</option><option value="hepburn-simple">Hepburn · simple</option><option value="hepburn-passport">Hepburn · passport</option><option value="hepburn-traditional">Hepburn · traditional</option><option value="hepburn-modified">Hepburn · modified</option><option value="kunrei-shiki">Kunrei-shiki</option></select></div><label for="input" id="label"></label><textarea id="input" rows="3" lang="ja" spellcheck="false"></textarea><div class="input-meta"><span id="hint"></span><span id="count">0 / 500</span></div><div class="input-actions"><div class="examples"><span id="examples-label"></span><button type="button" data-example="駅の前で会いましょう。">駅の前で会いましょう。</button><button type="button" data-example="猫は魚を食べました。">猫は魚を食べました。</button></div><button class="primary" id="run" type="submit"></button></div></form></section>
 <div id="error" class="error" role="alert" hidden></div><div class="connection"><span class="dot" id="dot"></span><span id="status"></span><span id="version"></span></div>
 <section class="results"><div class="result-main"><div class="section-heading"><h2 id="result-title"></h2><span class="badge" id="alpha"></span></div><div id="empty" class="empty"><span class="empty-symbol" aria-hidden="true">文</span><h3 id="empty-title"></h3><p id="empty-note"></p></div><div id="output" hidden><div class="result-controls"><div id="candidates" class="candidate-list" aria-label="Candidates"></div><select id="annotation" aria-label="Annotation"><option value="reading">Reading</option><option value="romaji">Romaji</option></select></div><div id="ichiran" class="im" hidden></div><div id="tokens" class="tokens" lang="ja"></div><div id="lookup"></div><p class="alpha-note" id="alpha-note"></p></div></div><aside id="detail" class="detail"><div class="section-heading"><h2 id="detail-title"></h2><button type="button" id="close" class="close" aria-label="Close details">×</button></div><div id="detail-content"></div></aside></section>
 <details class="developer" id="developer"><summary id="developer-title"></summary><div class="developer-header"><code id="endpoint"></code><button id="copy" type="button"></button></div><div class="code-grid"><div><h3 id="request-title"></h3><pre id="request"></pre></div><div><h3 id="response-title"></h3><pre id="response"></pre></div></div></details>
@@ -78,9 +79,11 @@ function translate() {
   document.querySelector<HTMLElement>(".examples")!.hidden = mode === "tools";
   $("scheme-label").hidden = $("scheme").hidden;
   $("scheme-label").textContent = t().scheme;
-  [t().romanizeTool, t().kanaTool, t().numberTool, t().characterTool].forEach(
+  [t().romanizeTool, t().kanaTool, t().numberTool, t().characterTool, ({ en: "Verb inflections", zh: "动词活用", ja: "動詞の活用" })[locale]].forEach(
     (label, i) => ($<HTMLSelectElement>("tool").options[i].text = label),
   );
+  $("verb-reading-label").hidden = mode !== "tools" || $<HTMLSelectElement>("tool").value !== "verbs/inflections";
+  $("verb-reading-text").textContent = ({ en: "Reading (optional)", zh: "读音（可选）", ja: "読み（任意）" })[locale];
   $("result-title").textContent =
     mode === "analyze"
       ? t().result
@@ -112,6 +115,7 @@ function engineNote() {
     : t().alphaNote;
 }
 function reset() {
+  $("lookup").replaceChildren();
   result = null;
   ichiranData = null;
   picks = [];
@@ -363,6 +367,8 @@ $("form").addEventListener("submit", async (event) => {
         ? { text, limit: 5, method: ichiranMethod(scheme) }
         : mode === "analyze"
         ? { text, limit: 5, romanization: scheme }
+        : mode === "tools" && tool === "verbs/inflections"
+          ? { word: text.trim(), ...($<HTMLInputElement>("verb-reading").value.trim() ? { reading: $<HTMLInputElement>("verb-reading").value.trim() } : {}) }
         : mode === "tools"
           ? {
               text,
@@ -387,7 +393,16 @@ $("form").addEventListener("submit", async (event) => {
       $("tokens").replaceChildren();
       $("candidates").replaceChildren();
       $("lookup").replaceChildren();
-      if (mode === "tools") {
+      if (mode === "tools" && tool === "verbs/inflections") {
+        const card = el("article", "verb-inflections");
+        $("lookup").append(card);
+        await loadVerbInflections(card, client, lastRequest as { word: string; reading?: string }, locale, (request, response) => {
+          if (!card.isConnected) return;
+          lastRequest = request; lastResponse = response;
+          $("request").textContent = JSON.stringify(request, null, 2);
+          $("response").textContent = JSON.stringify(response, null, 2);
+        });
+      } else if (mode === "tools") {
         const response =
           tool === "romanize"
             ? await client.romanize(text, scheme, "kana")

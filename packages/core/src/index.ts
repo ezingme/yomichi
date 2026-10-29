@@ -8,3 +8,5 @@ export * from "./characters.js";
 export * from "./numbers.js";
 export * from "./counters.js";
 export * from "./grammar.js";
+
+export * from "./verb-inflection-lookup.js";

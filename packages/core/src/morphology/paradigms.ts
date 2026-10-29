@@ -50,6 +50,21 @@ interface Verb {
   negativeStem?: Pair;
   derivatives: { pair: Pair; name: string; pos?: string }[];
 }
+const GODAN_ENDINGS: Record<string, string> = {
+  v5u: "う",
+  v5k: "く",
+  v5g: "ぐ",
+  v5s: "す",
+  v5t: "つ",
+  v5n: "ぬ",
+  v5b: "ぶ",
+  v5m: "む",
+  v5r: "る",
+  "v5k-s": "く",
+  "v5u-s": "う",
+  "v5r-i": "る",
+  v5aru: "る",
+};
 const GODAN: Record<string, readonly string[]> = {
   う: ["わ", "い", "え", "お", "って", "った"],
   く: ["か", "き", "け", "こ", "いて", "いた"],
@@ -91,6 +106,7 @@ function verb(pair: Pair, pos: string): Verb | undefined {
   }
   if (
     pos.startsWith("v5") &&
+    GODAN_ENDINGS[pos] === k.slice(-1) &&
     GODAN[k.slice(-1)] &&
     w.slice(-1) === k.slice(-1)
   ) {
@@ -100,7 +116,7 @@ function verb(pair: Pair, pos: string): Verb | undefined {
     const neg: Pair = aru
       ? [w.replace(/(?:ある|有る|在る)$/u, ""), k.slice(0, -2)]
       : suffix(root, a);
-    derive(suffix(root, e + "る"), "potential");
+    if (!aru) derive(suffix(root, e + "る"), "potential");
     derive(suffix(root, a + "れる"), "passive");
     derive(suffix(root, a + "せる"), "causative");
     derive(suffix(root, a + "せられる"), "causative passive");
@@ -171,7 +187,7 @@ function verb(pair: Pair, pos: string): Verb | undefined {
       kanji ? w.slice(0, -1) + s.slice(1) : p[0] + s,
       p[1] + s,
     ];
-    if (pos === "vs-i" && !kanji) derive(suffix(p, "できる"), "potential");
+    if (pos === "vs-i") derive(suffix(p, "できる"), "potential");
     if (z) derive(suffix(p, "じられる"), "potential");
     derive(make(sa + "れる"), "passive");
     derive(make((z ? "じさ" : "さ") + "せる"), "causative");

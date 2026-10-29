@@ -975,3 +975,24 @@ footer a {
     min-width: 180px;
   }
 }
+
+/* Keep Japanese words intact; stack polarities on narrow phones. */
+.verb-inflections { min-width: 0; width: 100%; }
+.verb-row { border-bottom: 1px solid var(--line, #dce1df); padding: .7rem 0; }
+.verb-row > summary { display: grid; grid-template-columns: minmax(7rem, 1fr) repeat(2, minmax(0, 1.6fr)); gap: .65rem; cursor: pointer; align-items: center; }
+.verb-label { font-weight: 600; }
+.verb-cell { display: flex; flex-direction: column; min-width: 0; overflow-x: auto; }
+.verb-cell small { opacity: .65; font-size: .7rem; }
+.verb-surface, .verb-reading { white-space: nowrap; word-break: keep-all; }
+.verb-variant { display: flex; gap: .6rem; align-items: center; flex-wrap: wrap; }
+.verb-variant button { padding: .2rem .5rem; font-size: .75rem; }
+.verb-choice { display: block; width: 100%; margin: .6rem 0; text-align: left; white-space: normal; }
+#verb-reading-label { display: flex; flex-direction: column; gap: .3rem; font-size: .8rem; }
+#verb-reading-label[hidden] { display: none; }
+#verb-reading { max-width: 12rem; padding: .4rem; border: 1px solid #bfc8c4; border-radius: .3rem; }
+@media (max-width: 600px) {
+  .verb-row > summary { grid-template-columns: minmax(0, 1fr); }
+  .verb-cell { flex-direction: row; align-items: baseline; gap: .5rem; }
+  .verb-cell small { flex-shrink: 0; }
+  .verb-row { padding: 1rem 0; }
+}

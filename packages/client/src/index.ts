@@ -1,3 +1,17 @@
+import type {
+  VerbInflectionRequest,
+  DictionaryVerbInflections,
+  VerbInflectionCandidate,
+} from "../../core/src/verb-inflection-lookup.js";
+export type {
+  VerbInflectionRequest,
+  DictionaryVerbInflections,
+  VerbInflectionCandidate,
+};
+export type {
+  VerbInflectionDetail,
+  VerbVariant,
+} from "../../core/src/verb-inflections.js";
 import type { KanjiAlignment } from "../../dictionary/src/alignment.js";
 import type { KanaRepresentation } from "../../core/src/kana.js";
 import type { TextSegment } from "../../core/src/characters.js";
@@ -10,13 +24,17 @@ import type {
   Kanji,
   Romanization,
 } from "../../core/src/types.js";
-import type { IchiranMethodName, IchiranResult } from "../../core/src/ichiran/index.js";
+import type {
+  IchiranMethodName,
+  IchiranResult,
+} from "../../core/src/ichiran/index.js";
 export type { Analysis, AnalyzeOptions, Entry, Kanji, IchiranResult };
 export class YomichiClientError extends Error {
   constructor(
     public status: number,
     public code: string,
     message: string,
+    public candidates: VerbInflectionCandidate[] = [],
   ) {
     super(message);
   }
@@ -49,8 +67,15 @@ export class YomichiClient {
         response.status,
         data.error?.code ?? "HTTP_ERROR",
         data.error?.message ?? `HTTP ${response.status}`,
+        data.candidates ?? [],
       );
     return data as T;
+  }
+  verbInflections(options: VerbInflectionRequest) {
+    return this.request<DictionaryVerbInflections>(
+      "/v1/verbs/inflections",
+      options,
+    );
   }
   analyze(options: AnalyzeOptions) {
     return this.request<Analysis>("/v1/analyze", options);
@@ -127,29 +152,52 @@ export class YomichiClient {
     });
   }
   /** Everything ichi.moe shows for a text (requires the Ichiran engine). */
-  ichiranAnalyze(text: string, options: { method?: IchiranMethodName; limit?: number } = {}) {
-    return this.request<IchiranResult>("/v1/ichiran/analyze", { text, ...options });
+  ichiranAnalyze(
+    text: string,
+    options: { method?: IchiranMethodName; limit?: number } = {},
+  ) {
+    return this.request<IchiranResult>("/v1/ichiran/analyze", {
+      text,
+      ...options,
+    });
   }
   /** Ichiran romanize* JSON (requires an Ichiran-model dataset). */
-  ichiranSegment(text: string, options: { method?: string; limit?: number } = {}) {
-    return this.request<{ result: unknown }>("/v1/ichiran/segment", { text, ...options });
+  ichiranSegment(
+    text: string,
+    options: { method?: string; limit?: number } = {},
+  ) {
+    return this.request<{ result: unknown }>("/v1/ichiran/segment", {
+      text,
+      ...options,
+    });
   }
-  ichiranRomanize(text: string, options: { method?: string; info?: boolean } = {}) {
-    return this.request<{ romanization: string; info?: { word: string; gloss: string }[] }>(
-      "/v1/ichiran/romanize",
-      { text, ...options },
-    );
+  ichiranRomanize(
+    text: string,
+    options: { method?: string; info?: boolean } = {},
+  ) {
+    return this.request<{
+      romanization: string;
+      info?: { word: string; gloss: string }[];
+    }>("/v1/ichiran/romanize", { text, ...options });
   }
-  ichiranWord(text: string, options: { reading?: string; root?: boolean } = {}) {
+  ichiranWord(
+    text: string,
+    options: { reading?: string; root?: boolean } = {},
+  ) {
     const q = new URLSearchParams({ text });
     if (options.reading !== undefined) q.set("reading", options.reading);
     if (options.root !== undefined) q.set("root", String(options.root));
     return this.request<{ items: unknown[] }>(`/v1/ichiran/word?${q}`);
   }
   ichiranKanji(char: string) {
-    return this.request<Record<string, unknown>>(`/v1/ichiran/kanji/${encodeURIComponent(char)}`);
+    return this.request<Record<string, unknown>>(
+      `/v1/ichiran/kanji/${encodeURIComponent(char)}`,
+    );
   }
   ichiranMatchReadings(word: string, reading: string) {
-    return this.request<{ items: unknown[] }>("/v1/ichiran/match-readings", { word, reading });
+    return this.request<{ items: unknown[] }>("/v1/ichiran/match-readings", {
+      word,
+      reading,
+    });
   }
 }
