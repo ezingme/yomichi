@@ -33,6 +33,7 @@ import {
   parseJapaneseNumber,
 } from "../../core/src/numbers.js";
 import { matchKanjiReading } from "../../dictionary/src/kanji.js";
+import { generateVerbInflections } from "../../core/src/verb-inflections.js";
 import { databaseError } from "../../dictionary/src/db-errors.js";
 import {
   analyzeIchiran,
@@ -405,6 +406,86 @@ export async function buildApp(options: ServerOptions) {
     properties,
   });
   const shortText = { type: "string", minLength: 1, maxLength: 100 };
+
+  app.post<{ Body: { word: string; reading?: string } }>(
+    "/v1/verbs/inflections",
+    {
+      schema: {
+        body: conversionBody(
+          {
+            word: { type: "string", minLength: 1, maxLength: 100 },
+            reading: { type: "string", minLength: 1, maxLength: 100 },
+          },
+          ["word"],
+        ),
+        summary: "Generate a Jisho-style Japanese verb paradigm",
+        tags: ["dictionary"],
+      },
+    },
+    async (req) => {
+      const engine = await ichiranEngine();
+      const word = req.body.word;
+      const rows = await engine.source.fetchTexts([word]);
+      if (!rows.length)
+        throw new YomichiError("NOT_FOUND", "Dictionary entry not found.", 404);
+
+      const bundles = await engine.source.fetchSeqs([
+        ...new Set(rows.map((item) => item.seq)),
+      ]);
+      const candidates = bundles
+        .filter((bundle) => bundle.readings.some((item) => item.text === word))
+        .sort((a, b) => Number(b.entry.rootP) - Number(a.entry.rootP));
+      if (!candidates.length)
+        throw new YomichiError("NOT_FOUND", "Dictionary entry not found.", 404);
+
+      const requestedReading = req.body.reading
+        ? toHiragana(req.body.reading)
+        : null;
+      let readingMismatch = false;
+      for (const bundle of candidates) {
+        const matchingRows = bundle.readings.filter((item) => item.text === word);
+        const kanaReadings = bundle.readings
+          .filter((item) => item.table === "kana")
+          .sort((a, b) => a.ord - b.ord);
+        let reading: string | undefined;
+        if (requestedReading) {
+          const match = kanaReadings.find(
+            (item) => toHiragana(item.text) === requestedReading,
+          );
+          if (!match) {
+            readingMismatch = true;
+            continue;
+          }
+          reading = match.text;
+        } else {
+          reading =
+            matchingRows.find((item) => item.table === "kana")?.text ??
+            matchingRows.find((item) => item.table === "kanji")?.best ??
+            kanaReadings[0]?.text;
+        }
+        if (!reading) continue;
+
+        // POS comes from sense_prop.text for rows whose tag is "pos".
+        const sensePropPosTexts = bundle.props
+          .filter((prop) => prop.tag === "pos")
+          .map((prop) => prop.text);
+        const result = generateVerbInflections(word, reading, sensePropPosTexts);
+        if (result)
+          return { ...result, entryId: String(bundle.entry.seq) };
+      }
+
+      if (readingMismatch)
+        throw new YomichiError(
+          "INVALID_READING",
+          "The supplied reading does not match this dictionary entry.",
+        );
+      throw new YomichiError(
+        "NOT_A_VERB",
+        "No supported verb POS was found in sense_prop.text for this entry.",
+        422,
+      );
+    },
+  );
   app.post<{ Body: { text: string } }>(
     "/v1/deromanize",
     {
