@@ -155,6 +155,21 @@ export function verbInflectionCandidates(
       "No supported verb POS for the selected spelling, reading, sense and POS.",
       422,
     );
+  // Preserve the ordinary shorthand query for the irregular verb する. Its
+  // godan homophones (刷る, 剃る, etc.) must remain explicitly selectable, but
+  // must not block this established default. POS still comes from the selected
+  // dictionary sense; never infer it from spelling or hard-code an entry ID.
+  if (
+    word === "する" &&
+    !selectors.entryId &&
+    !selectors.senseId &&
+    !selectors.pos
+  ) {
+    const suru = results.filter(
+      (r) => r.reading === "する" && r.pos === "vs-i",
+    );
+    if (suru.length === 1) return suru;
+  }
   return results;
 }
 export function summarizeVerbCandidate(

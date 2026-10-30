@@ -229,3 +229,57 @@ test("re_nokanji and derived entries are not used as kanji dictionary roots", as
     assert.equal((await post({ word: "いる", entryId: "1" })).statusCode, 200);
   });
 });
+
+test("plain する defaults to the unique dictionary-backed vs-i paradigm despite godan homophones", async () => {
+  const entries = [
+    bundle(1157170, "為る", "する", "vs-i"),
+    bundle(1298670, "刷る", "する", "v5r"),
+    bundle(1567440, "掏る", "する", "v5r"),
+    bundle(1581900, "剃る", "する", "v5r"),
+    bundle(1595910, "擦る", "する", "v5r"),
+  ];
+  await withApp(entries.reverse(), async (post) => {
+    for (const body of [{ word: "する" }, { word: "する", reading: "スル" }]) {
+      const response = await post(body);
+      assert.equal(response.statusCode, 200);
+      const result = response.json();
+      assert.equal(result.entryId, "1157170");
+      assert.equal(result.pos, "vs-i");
+      assert.equal(
+        result.forms.find((f: any) => f.form === "现在（普通体）").negative,
+        "しない",
+      );
+      assert.equal(
+        result.forms.find((f: any) => f.form === "过去（普通体）").positive,
+        "した",
+      );
+      assert.equal(
+        result.forms.find((f: any) => f.form === "可能形").positive,
+        "できる",
+      );
+    }
+    const exact = await post({ word: "する", entryId: "1298670" });
+    assert.equal(exact.statusCode, 200);
+    assert.equal(exact.json().forms[0].negative, "すらない");
+    assert.equal(
+      (await post({ word: "する", senseId: "1298670" })).json().pos,
+      "v5r",
+    );
+    assert.equal((await post({ word: "する", pos: "v5r" })).statusCode, 409);
+  });
+});
+
+test("する default never invents a missing vs-i entry or picks among multiple vs-i entries", async () => {
+  await withApp(
+    [bundle(1, "刷る", "する", "v5r"), bundle(2, "擦る", "する", "v5r")],
+    async (post) => {
+      assert.equal((await post({ word: "する" })).statusCode, 409);
+    },
+  );
+  await withApp(
+    [bundle(1, "為る", "する", "vs-i"), bundle(2, "する", "する", "vs-i")],
+    async (post) => {
+      assert.equal((await post({ word: "する" })).statusCode, 409);
+    },
+  );
+});

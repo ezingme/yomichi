@@ -18,7 +18,7 @@ in sense order, following JMdict convention.
 
 Selection respects root entries, spelling/reading restrictions (`re_restr`,
 `re_nokanji`), and sense spelling/reading restrictions (`stagk`, `stagr`). A
-request with multiple distinct entry/reading/POS candidates returns **409**:
+request with multiple distinct entry/reading/POS candidates normally returns **409**:
 
 ```json
 {
@@ -34,6 +34,14 @@ These are illustrative IDs, not bundled dictionary records. Send the chosen
 entryId/reading/pos and, optionally, one senseId back to resolve it. Senses with
 the same entry, reading and class share a paradigm and are listed in `senseIds`.
 No class is selected by the number of generated rows.
+
+Compatibility default: `{ "word": "する" }` (also with `reading: "する"` or
+`"スル"`) returns the irregular `vs-i` paradigm when exactly one such
+candidate exists in the dictionary. The godan homophones 刷る/剃る/擦る do not
+block this ordinary query. An explicit `entryId`, `senseId` or `pos` disables
+this default, so those homophones remain selectable. No dictionary entry IDs
+are hard-coded, no absent entry is fabricated, and multiple `vs-i` candidates
+still require disambiguation. Other homographs, such as いる, retain 409.
 
 Other responses: 404 `NOT_FOUND` for absent root entries or a sense outside the
 selected entries; 400 `INVALID_READING` for an incompatible reading; 422
